@@ -80,15 +80,20 @@ p.subtitle {
 }
 
 .cta {
-    background-color: #09bbe9;
+    background-color: #4B70E2;
     padding: 1em;
     color: #fff;
-    font-weight: bold;
+    font-weight: 700;
     margin-top: 2em;
     display: inline-block;
-    border-radius: 5px;
+    border-radius: 25px;
     text-decoration: none;
     box-shadow: 0 0 0 0 rgba(9, 187, 233, .2);
+    width: 180px;
+    height: 50px;
+    font-size: 14px;
+    letter-spacing: 1.15px;
+    text-align: center;
 }
 
 .cta:hover,
