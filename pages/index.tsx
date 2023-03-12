@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
 // import styles1 from '../styles/'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -16,15 +17,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className='body'>
+      <div className='body1'>
             <div id="home-container">
             
                 <div id="inner">
                 
                     <h1>EtherCast</h1>
                     <p className="subtitle">A Block-chain Based E-voting System</p>
-                    <a href="#" className="cta cta--white ig" >Login</a>
-                    <a href="#" className="cta cta--white ">Guest User</a>
+                    <Link href='/regi' className="cta cta--white ig" >Login</Link>
+                    {/* <a href="/regi" className="cta cta--white ig" >Login</a> */}
+                    <Link href='#' className="cta cta--white ig" >Guest User</Link>
+                    {/* <a href="#" className="cta cta--white ">Guest User</a> */}
                 </div>
 
                 <div id="illustration">

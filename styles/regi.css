@@ -48,7 +48,7 @@ label {
     transition: .5s ease-in-out;
 }
 
-input {
+.inputStyle {
     width: 60%;
     height: 20px;
     background: #e0dede;
@@ -81,7 +81,7 @@ button {
 }
 
 button:hover {
-    background: #6d44b8;
+    background: #54529d;
 }
 
 #ap {
