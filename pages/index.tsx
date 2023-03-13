@@ -22,7 +22,7 @@ export default function Home() {
             
                 <div id="inner">
                 
-                    <h1>EtherCast</h1>
+                    <h1 className='head text-4xl'>EtherCast</h1>
                     <p className="subtitle">A Block-chain Based E-voting System</p>
                     <Link href='/regi' className="cta cta--white ig" >Login</Link>
                     {/* <a href="/regi" className="cta cta--white ig" >Login</a> */}

@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-.body,
+.body1,
 html {
     font-family: "Montserrat", sans-serif;
     min-height: 100vh;
@@ -67,7 +67,7 @@ img#logo {
     margin-bottom: 1.6em;
 }
 
-h1 {
+.head {
     text-transform: uppercase;
     color: #535353;
     margin-bottom: 0.2em;
