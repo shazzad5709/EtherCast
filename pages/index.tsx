@@ -15,11 +15,11 @@ export default function Home() {
       </Head>
       
       <div className='body1 font-poppins'>
-            <div id="home-container">
+            <div id="home-container" className='font-poppins'>
             
                 <div id="inner">
                 
-                    <h1 className='head text-4xl tracking-[10px] font-poppins'>EtherCast</h1>
+                    <h1 className='head text-4xl tracking-[10px] font-poppins font-bold text-gray-600'><span className='text-5xl'>E</span>ther<span className='text-5xl'>C</span>ast</h1>
                     <p className="subtitle font-poppins">A Blockchain based E-Voting System</p>
                     <Link href='/Login' className="cta cta--white ig font-poppins text-center items-center text-lg px-12 py-2 w-[200px] h-[50px]">Login</Link>
                     {/* <a href="/regi" className="cta cta--white ig" >Login</a> */}
