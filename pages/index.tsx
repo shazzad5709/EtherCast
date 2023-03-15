@@ -1,11 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 // import styles1 from '../styles/'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
@@ -17,16 +14,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className='body1'>
+      <div className='body1 font-poppins'>
             <div id="home-container">
             
                 <div id="inner">
                 
-                    <h1 className='head text-4xl'>EtherCast</h1>
-                    <p className="subtitle">A Block-chain Based E-voting System</p>
-                    <Link href='/regi' className="cta cta--white ig" >Login</Link>
+                    <h1 className='head text-4xl tracking-[10px] font-poppins'>EtherCast</h1>
+                    <p className="subtitle font-poppins">A Blockchain based E-Voting System</p>
+                    <Link href='/Login' className="cta cta--white ig font-poppins text-center items-center text-lg px-12 py-2 w-[200px] h-[50px]">Login</Link>
                     {/* <a href="/regi" className="cta cta--white ig" >Login</a> */}
-                    <Link href='#' className="cta cta--white ig" >Guest User</Link>
+                    <Link href='#' className="cta cta--white ig font-poppins text-lg text-center items-center px-12 py-2 w-[200px] h-[50px]">Guest User</Link>
                     {/* <a href="#" className="cta cta--white ">Guest User</a> */}
                 </div>
 

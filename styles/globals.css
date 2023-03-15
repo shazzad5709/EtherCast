@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* > * {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* :root {
     --max-width: 1100px;
     --border-radius: 12px;
     --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
@@ -109,4 +115,4 @@
       color-scheme: dark;
     }
   }
-  
+   */

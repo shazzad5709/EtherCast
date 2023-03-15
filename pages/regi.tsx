@@ -11,7 +11,7 @@ const validAdmin = {
 
 const Registration = () => {
 
-    const [uname, setUsername] = useState<any>();
+  const [uname, setUsername] = useState<any>();
   const [pswd, setPassword] = useState<any>();
   const [code, setCode] = useState<number>();
   const [error, setError] = useState<any>();
