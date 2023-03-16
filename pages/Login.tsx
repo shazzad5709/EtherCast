@@ -31,7 +31,7 @@ function Login({}: Props) {
                                 Sign In
                             </button>
                             <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
-                            <Link href='#ForgotPass' className='font-poppins hover:text-cyan-800'>
+                            <Link href='/ForgotPass' className='font-poppins hover:text-cyan-800'>
                                 - Forgot Password? -
                             </Link>
                         </div>
@@ -44,7 +44,7 @@ function Login({}: Props) {
                 <h2 className='text-3xl font-poppins mb-2'>Apply as a Voter</h2>
                 <div className='border-2 w-10 border-white inline-block mb-2'></div>
                 <p className='mb-10'>Fill up personal information to apply as a voter.</p>
-                <Link href="#Application" className='border-2 border-white rounded-full px-12 py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
+                <Link href="/application" className='border-2 border-white rounded-full px-12 py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
                     Apply
                 </Link>
             </div>
