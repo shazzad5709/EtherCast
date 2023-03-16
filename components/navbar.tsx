@@ -3,7 +3,6 @@ import { BiLogOutCircle } from 'react-icons/bi';
 import { FiUserPlus } from 'react-icons/fi';
 import { FaUserCircle } from 'react-icons/fa';
 import { MdOutlineSettings } from 'react-icons/md';
-import AddElecOff from './addElecOff';
 
 const Navbar = () => {
   return (

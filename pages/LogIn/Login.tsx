@@ -68,11 +68,8 @@ function Login({}: Props) {
                             {error && <div>{error}</div>}
                             <br />
                             <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
-<<<<<<< HEAD
-                            <Link href='/ForgotPass' className='font-poppins hover:text-cyan-800'>
-=======
+                            <Link href='/ForgotPass' className='font-poppins hover:text-cyan-800' />
                             <Link href='/ForgotPass' className='hover:text-cyan-800'>
->>>>>>> a94d7ce348cce1a8ec17b5477b0ae7632a58f778
                                 - Forgot Password? -
                             </Link>
                         </div>

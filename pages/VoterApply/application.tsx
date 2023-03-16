@@ -2,9 +2,9 @@ import React, { FormEvent } from 'react'
 import Link from 'next/link'
 import { MdKeyboardBackspace } from 'react-icons/md'
 import { useState } from 'react'
-import OrgInfoForm from '../components/OrgInfoForm'
+import OrgInfoForm from '../../components/OrgInfoForm'
 import useMultiStepForm from './useMultiStepForm'
-import AccountInfoForm from '../components/AccountInfoForm'
+import AccountInfoForm from '../../components/AccountInfoForm'
 
 type Props = {}
 
