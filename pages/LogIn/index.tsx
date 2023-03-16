@@ -23,7 +23,7 @@ function Login({}: Props) {
     event.preventDefault();
     if (username === validAdmin.username && password === validAdmin.password ) {
       // Navigate to admin dashboard
-      router.push("/dashboard");
+      router.push("/Dashboard");
       
     } else {
       setError(

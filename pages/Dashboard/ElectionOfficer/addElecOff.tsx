@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiUserPlus } from "react-icons/bi";
 import Navbar from "../../../components/navbar";
 import Table from "../../../components/table";
-import Form from "../../../components/Form";
+import Form from "../../../components/Form/index";
 type Props = {};
 
 const AddElecOff = (props: Props) => {
+  const [visible, setVisible] = useState(false);
+  const handler = ()=>{
+    setVisible(!visible );
+  }
   return (
     <>
       <div>
@@ -24,14 +28,14 @@ const AddElecOff = (props: Props) => {
                   <div className="left flex gap-3">
                     <div className="flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                       <BiUserPlus className="text-2xl text-gray-600 group-hover:text-white " />
-                      <button className="text-base text-gray-800 group-hover:text-white font-semibold ">
+                      <button onClick={handler} className="text-base text-gray-800 group-hover:text-white font-semibold ">
                         Add Election Officers
                       </button>
                     </div>
                   </div>
                 </div>
                 <div className="container mx-auto py-5">
-                  <Form />
+                  {visible ? <Form /> : <></>}
                 </div>
                 <br />
                 <div className="container mx-auto">

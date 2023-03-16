@@ -34,7 +34,7 @@ const Navbar = () => {
               data-te-sidenav-menu-ref
             >
               <li className='relative '>
-                <a href='/addElecOff'>
+                <a href='/Dashboard/ElectionOfficer/addElecOff'>
                   <div className='flex mx-4 my-10 mb-2 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
                     <FiUserPlus className='text-2xl text-gray-600 group-hover:text-white ' />
                     <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
