@@ -1,8 +1,8 @@
 import React from "react";
 import { BiUserPlus } from "react-icons/bi";
-import Navbar from "../../components/navbar";
-import Table from "../../components/table";
-import Form from "../../components/Form";
+import Navbar from "../../../components/navbar";
+import Table from "../../../components/table";
+import Form from "../../../components/Form";
 type Props = {};
 
 const AddElecOff = (props: Props) => {
