@@ -12,7 +12,7 @@ function Login({}: Props) {
             {/* Sign in */}
             <div className='w-3/5 p-5'>
                 <div className='text-left font-bold font-poppins tracking-[7px] uppercase'>
-                    Ethercast
+                    <Link href='/'>Ethercast</Link>
                 </div>
                 <div className='py-10'>
                     <h2 className='text-3xl font-poppins mb-2 text-cyan-800'>Sign In</h2>
@@ -27,7 +27,7 @@ function Login({}: Props) {
                             <input className='bg-gray-100 flex-1 outline-none' type="password" name='password' placeholder='password'/>
                         </div>
                         <div className='flex flex-col items-center w-64 mb-5'>
-                            <button type='submit' className='border-2 border-cyan-800 mb-4 mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
+                            <button type='submit' className='border-2 border-cyan-800 tracking-[2px] mb-4 mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
                                 Sign In
                             </button>
                             <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
@@ -44,7 +44,7 @@ function Login({}: Props) {
                 <h2 className='text-3xl font-poppins mb-2'>Apply as a Voter</h2>
                 <div className='border-2 w-10 border-white inline-block mb-2'></div>
                 <p className='mb-10'>Fill up personal information to apply as a voter.</p>
-                <Link href="/application" className='border-2 border-white rounded-full px-12 py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
+                <Link href="/application" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
                     Apply
                 </Link>
             </div>
