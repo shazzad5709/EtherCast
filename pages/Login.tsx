@@ -2,10 +2,41 @@ import Link from 'next/link'
 import React from 'react'
 import { BiUser } from 'react-icons/bi'
 import { MdLockOutline } from 'react-icons/md'
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 type Props = {}
-
+const validAdmin = {
+    username: "admin",
+    password: "admin12@3",
+    // code: 1245
+  };
+  
 function Login({}: Props) {
+    const [username, setUsername] = useState<any>();
+  const [password, setPassword] = useState<any>();
+//   const [code, setCode] = useState<number>();
+  const [error, setError] = useState<any>();
+  const router = useRouter();
+
+  const handleLogin = (event:any) => {
+    event.preventDefault();
+    if (username === validAdmin.username && password === validAdmin.password ) {
+      // Navigate to admin dashboard
+      router.push("/dashboard");
+      
+    } else {
+      setError(
+        <div>
+          <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+            <strong className="font-bold text-center">Invalid Credentials !!!</strong>
+            
+          </div>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className='bg-[#f4f4f4] font-poppins h-screen flex flex-col items-center justify-center w-full flex-1 px-20 text-center'>
         <div className='bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl'>
@@ -17,21 +48,27 @@ function Login({}: Props) {
                 <div className='py-10'>
                     <h2 className='text-3xl font-poppins mb-2 text-cyan-800'>Sign In</h2>
                     <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
-                    <form className='flex flex-col items-center'>
+                    <form className='flex flex-col items-center' method='POST' action='/api/login' onSubmit={handleLogin}>
                         <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
                             <BiUser className='text-gray-400 m-2' />
-                            <input className='bg-gray-100 flex-1 outline-none' type="text" name='username' placeholder='username'/>
+                            <input className='bg-gray-100 flex-1 outline-none' type="text" name='username' placeholder='username'
+                             value={username}
+                             onChange={(e) => setUsername(e.target.value)} required/>
                         </div>
                         <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
                             <MdLockOutline className='text-gray-400 m-2' />
-                            <input className='bg-gray-100 flex-1 outline-none' type="password" name='password' placeholder='password'/>
+                            <input className='bg-gray-100 flex-1 outline-none' type="password" name='password' placeholder='password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)} required/>
                         </div>
                         <div className='flex flex-col items-center w-64 mb-5'>
                             <button type='submit' className='border-2 border-cyan-800 mb-4 mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
                                 Sign In
                             </button>
+                            {error && <div>{error}</div>}
+                            <br />
                             <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
-                            <Link href='#ForgotPass' className='font-poppins hover:text-cyan-800'>
+                            <Link href='/ForgotPass' className='font-poppins hover:text-cyan-800'>
                                 - Forgot Password? -
                             </Link>
                         </div>
