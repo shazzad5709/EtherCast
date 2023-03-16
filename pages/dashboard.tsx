@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "../styles/dashboard.module.css";
-import Navbar from "./navbar";
+import Navbar from "../components/navbar";
 
 const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState("home");
