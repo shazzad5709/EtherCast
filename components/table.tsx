@@ -3,7 +3,7 @@ import { getUsers } from "../lib/helper";
 import { BiTrashAlt,BiEdit } from 'react-icons/bi'
 import { useQuery } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleChangeAction, updateAction } from '../redux/reducer'
+import { toggleChangeAction, updateAction,  deleteAction } from '../redux/reducer'
 
 
 export default function Table(){
@@ -50,11 +50,18 @@ function Tr(props:any){
     const dispatch = useDispatch()
 
     const onUpdate = () => {
-        dispatch(toggleChangeAction())
+        dispatch(toggleChangeAction(props.id))
         if(visible){
             dispatch(updateAction(props.id))
         }
     }
+
+    const onDelete = () => {
+        if(!visible){
+            dispatch(deleteAction(props.id))
+        }
+    }
+
     return (
         <>
             <tr className="bg-gray-50 text-center ">
@@ -72,7 +79,7 @@ function Tr(props:any){
                     </td>
                     <td className="px-16 py-2 flex justify-around gap-5">
                         <button className="cursor" onClick={onUpdate}><BiEdit size={25} color={"rgb(0, 131, 143)"}></BiEdit></button>
-                        <button className="cursor"><BiTrashAlt size={25} color={"rgb(244,63,94)"}></BiTrashAlt></button>
+                        <button className="cursor" onClick={onDelete}><BiTrashAlt size={25} color={"rgb(244,63,94)"}></BiTrashAlt></button>
                     </td>
                 </tr>
         </>

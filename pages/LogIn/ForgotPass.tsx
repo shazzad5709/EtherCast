@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { AiOutlineMail } from 'react-icons/ai'
+import { useRouter } from 'next/router'
 
 const ForgotPass = () => {
+
+    const router = useRouter()
+    useEffect(()=>{
+        if(localStorage.getItem(`username`)){
+            router.push('/')
+        }
+    })
     return (
         <div className='bg-[#f4f4f4] font-poppins h-screen flex flex-col items-center justify-center w-full flex-1 px-20 text-center'>
             <div className='bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl'>
