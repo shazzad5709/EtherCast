@@ -1,6 +1,8 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { compare } from 'bcrypt'
+import connectMongo from '../../../database/conn'
+import Accounts from "../../../model/account"
 
 const validAdmin = {
   username: "admin",
@@ -22,20 +24,36 @@ export default NextAuth({
           type: "password",
         },
       },
-      authorize: (credentials) => {
-        if(credentials.username != validAdmin.username) {
-          throw new Error("Invalid username");
-        }
-        if(!compare(credentials.password, validAdmin.password)) {
-          throw new Error("Invalid password");
-        }
+      async authorize(credentials) {
+        connectMongo()
+
+        const user = await Accounts.findOne({ 
+          username: credentials?.username 
+        })
+
+        if(!user)
+          throw new Error("No user found")
+        
+        const isPasswordCorrect = await compare(
+          credentials!.password, user.password)
+
+        console.log(credentials!.password, " ", user.password, " ", isPasswordCorrect)
+        
+        if (!isPasswordCorrect) {
+            throw new Error("Password is incorrect");
+          }
+        
+        return user
       }
     }),
   ],
-
-  callbacks: {
-    session({ session, token, user }) {
-      return session // The return type will match the one returned in `useSession()`
-    },
+  pages: {
+    signIn: "/Login",
   },
+
+  session: { strategy: "jwt" },
+  jwt: {
+    secret: process.env.NEXTAUTH_JWT_SECRET,
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 })

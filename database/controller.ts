@@ -12,11 +12,31 @@ export async function getUsers(
     if(!users) return res.status(404).json({ error: "No users found" })
     res.status(200).json({ users });
   } catch (error) {
+    res.status(404).json({error: "boos"});
+  }
+}
+
+
+export async function getUser(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    const { userId } = req.query
+    if(userId) {
+      const users = await Accounts.findById(userId)
+
+      if(!users) return res.status(404).json({ error: "No users found" })
+      res.status(200).json(users);
+    }
+    res.status(404).json({error: "No userid provided."});
+    
+  } catch (error) {
     res.status(404).json({error: "boo"});
   }
 }
 
-export async function postUsers(
+export async function postUser(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -30,7 +50,8 @@ export async function postUsers(
   }
 }
 
-export async function putUsers(
+
+export async function putUser(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -42,13 +63,13 @@ export async function putUsers(
       await Accounts.findByIdAndUpdate(userId, formData)
       res.status(200).json(formData)
     }
-    res.status(404).json({error: "No username or form data provided."})
+    res.status(404).json({error: "No userid or form data provided."})
   } catch (error) {
     res.status(404).json({error});
   }
 }
 
-export async function deleteUsers(
+export async function deleteUser(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -59,6 +80,8 @@ export async function deleteUsers(
       await Accounts.findByIdAndDelete(userId)
       res.status(200).json({message: "User deleted."})
     }
+
+    res.status(404).json({error: "No userid provided."})
   } catch (error) {
     res.status(404).json({error});
   }

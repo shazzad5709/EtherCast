@@ -2,9 +2,10 @@ import Link from 'next/link'
 import React from 'react'
 import { BiUser } from 'react-icons/bi'
 import { MdLockOutline } from 'react-icons/md'
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
 import { signIn, getProviders, useSession } from 'next-auth/react';
+
 
 type Props = {}
 const validAdmin = {
@@ -21,21 +22,22 @@ function Login({}: Props) {
 
   const loginUser = async () => {
     const res: any = 
-      signIn("credentials", {
-        username: username,
-        password: password,
-        redirect: false,
-        callbackUrl: `${window.location.origin}`
-      })
-
-    if (res.status === 200) {
+    signIn("credentials", {
+      redirect: false,
+      username: username,
+      password: password,
+      callbackUrl: `${window.location.origin}`
+    })
+    
+    const { pathname } = Router
+    if (!res.error && pathname === '/Login') {
       router.push("/admin")
     }
     else {
       setError(
         <div>
           <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
-            <strong className="font-bold text-center">Invalid Credentials !!!</strong>
+            <strong className="font-bold text-center">Invalid Credentials</strong>
           </div>
         </div>
       )
@@ -77,7 +79,7 @@ function Login({}: Props) {
                 <div className='py-10'>
                     <h2 className='text-3xl mb-2 text-cyan-800'>Sign In</h2>
                     <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
-                    <form className='flex flex-col items-center' method='POST' action='/api/login' onSubmit={handleLogin}>
+                    <form className='flex flex-col items-center' method='POST' onSubmit={handleLogin}>
                         <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
                             <BiUser className='text-gray-400 m-2' />
                             <input className='bg-gray-100 flex-1 outline-none' type="text" name='username' placeholder='username'
