@@ -2,8 +2,20 @@ import '../styles/globals.css'
 // import '../styles/regi.css'
 import type { AppProps } from 'next/app'
 import '../styles/welcome.css'
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { store } from '../redux/store';
+import { Provider } from 'react-redux';
 // import '../styles/dashboard.css'
 
+// create a client
+const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
+    </QueryClientProvider>
+    )
 }
+

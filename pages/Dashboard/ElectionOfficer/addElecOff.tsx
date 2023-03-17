@@ -3,12 +3,17 @@ import { BiUserPlus } from "react-icons/bi";
 import Navbar from "../../../components/navbar";
 import Table from "../../../components/table";
 import Form from "../../../components/Form/index";
+import { useSelector, useDispatch  } from 'react-redux';
+import { toggleChangeAction } from '../../../redux/reducer';
+
 type Props = {};
 
 const AddElecOff = (props: Props) => {
-  const [visible, setVisible] = useState(false);
-  const handler = ()=>{
-    setVisible(!visible );
+  const visible = useSelector((state:any) => state.app.client.toggleForm)
+  const dispatch = useDispatch()
+
+  const handler = () => {
+    dispatch(toggleChangeAction())
   }
   return (
     <>
@@ -17,18 +22,18 @@ const AddElecOff = (props: Props) => {
           <Navbar />
           <div
             className="min-h-screen w-full bg-gray-50 !pl-0 text-center sm:!pl-60"
-            id="content"
-          >
+            id="content">
             <div className="py-12 text-center">
               <div
                 className="min-h-screen w-full bg-gray-50 !pl-0 text-center sm:!pl-24"
-                id="content"
-              >
+                id="content">
                 <div className="container mx-auto flex justify-between py-5 border-b">
                   <div className="left flex gap-3">
                     <div className="flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                       <BiUserPlus className="text-2xl text-gray-600 group-hover:text-white " />
-                      <button onClick={handler} className="text-base text-gray-800 group-hover:text-white font-semibold ">
+                      <button
+                        onClick={handler}
+                        className="text-base text-gray-800 group-hover:text-white font-semibold ">
                         Add Election Officers
                       </button>
                     </div>

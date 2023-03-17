@@ -3,45 +3,51 @@ import { useReducer } from "react"
 import { BiPlus } from 'react-icons/bi'
 import Success from "../success"
 import Bug from "../bug"
+import { useQueryClient, useMutation } from 'react-query'
+import { addUser, getUsers } from '../../lib/helper'
 
-type Props = {}
+export default function AddUserForm(props:any){
 
-const formReducer = (state:any, event:any) => {
-    return {
-        ...state,
-        [event.target.name]: event.target.value
-    }
-}
-
-const AddUserForm = (props: Props) => {
-
-    const [formData, setFormData] = useReducer(formReducer, {})
+    const queryClient = useQueryClient()
+    const addMutation:any = useMutation(addUser, {
+        onSuccess : () => {
+            queryClient.prefetchQuery('users', getUsers)
+        }
+    })
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
-        if(Object.keys(formData).length == 0) return console.log("Don't have Form Data");
-        console.log(formData)
+        if(Object.keys(props.formData).length == 0) return console.log("Don't have Form Data");
+        let { firstname, lastname, email,electioncode, officertype } = props.formData;
+
+        const model = {
+            name : `${firstname} ${lastname}`,
+            email, electioncode, officertype
+        }
+
+        addMutation.mutate(model)
     }
 
-    // if(Object.keys(formData).length > 0) return <Bug message={"Error"}></Bug>
-
+    if(addMutation.isLoading) return <div>Loading!</div>
+    if(addMutation.isError) return <Bug message={addMutation.error.message}></Bug>
+    if(addMutation.isSuccess) return <Success message={"Added Successfully"}></Success>
   return (
     <>
         <form className="grid lg:grid-cols-2 w-4/6 gap-4" onSubmit={handleSubmit}>
             <div className="input-type">
-                <input type="text" onChange={setFormData} name="firstname" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="FirstName" />
+                <input type="text" onChange={props.setFormData} name="firstname" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="FirstName" />
             </div>
             <div className="input-type">
-                <input type="text" onChange={setFormData} name="lastname" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="LastName" />
+                <input type="text" onChange={props.setFormData} name="lastname" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="LastName" />
             </div>
             <div className="input-type">
-                <input type="email" onChange={setFormData} name="email" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Email" />
+                <input type="email" onChange={props.setFormData} name="email" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Email" />
             </div>
             <div className="input-type">
-                <input type="number" onChange={setFormData} name="electioncode" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Election Code" />
+                <input type="number" onChange={props.setFormData} name="electioncode" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Election Code" />
             </div>
             <div className="input-type">
-                <input type="text" onChange={setFormData} name="officertype" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Officer Type" />
+                <input type="text" onChange={props.setFormData} name="officertype" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Officer Type" />
             </div>
             <div></div>
 
@@ -53,5 +59,3 @@ const AddUserForm = (props: Props) => {
     </>
   )
 }
-
-export default AddUserForm

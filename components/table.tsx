@@ -1,10 +1,18 @@
 import React from 'react'
-import { BiEdit, BiTrashAlt } from "react-icons/bi";
-import data from '../database/data.json'
+import { getUsers } from "../lib/helper";
+import { BiTrashAlt,BiEdit } from 'react-icons/bi'
+import { useQuery } from 'react-query';
+import { useSelector, useDispatch } from 'react-redux'
+import { toggleChangeAction, updateAction } from '../redux/reducer'
 
-type Props = {}
 
-const table = (props: Props) => {
+export default function Table(){
+
+    const { isLoading, isError, data, error } = useQuery('users', getUsers)
+
+    if(isLoading) return <div>Employee is Loading...</div>;
+    if(isError) return <div>Got an Error...</div>
+
   return (
     <>
         <table className="min-w-full table-auto">
@@ -22,11 +30,14 @@ const table = (props: Props) => {
                     <th className="px-16 py-2">
                         <span className="text-gray-200">Officer Type</span>
                     </th>
+                    <th className="px-16 py-2">
+                        <span className="text-gray-200">Update</span>
+                    </th>
                 </tr>
             </thead>
             <tbody className="bg-gray-200">
                 {
-                    data.map((obj, i) => <Tr {...obj} key={i} />)
+                    data.map((obj:any, i:any) => <Tr {...obj} key={i} />)
                 }
             </tbody>
         </table>
@@ -35,6 +46,15 @@ const table = (props: Props) => {
 }
 
 function Tr(props:any){
+    const visible = useSelector((state:any) => state.app.client.toggleForm)
+    const dispatch = useDispatch()
+
+    const onUpdate = () => {
+        dispatch(toggleChangeAction())
+        if(visible){
+            dispatch(updateAction(props.id))
+        }
+    }
     return (
         <>
             <tr className="bg-gray-50 text-center ">
@@ -50,13 +70,13 @@ function Tr(props:any){
                     <td className="px-16 py-2">
                         <span>{props.officertype}</span>
                     </td>
-                    {/* <td className="px-16 py-2 flex justify-around gap-5">
-                        <button className="cursor"><BiEdit size={25} color={"rgb(0, 131, 143)"}></BiEdit></button>
+                    <td className="px-16 py-2 flex justify-around gap-5">
+                        <button className="cursor" onClick={onUpdate}><BiEdit size={25} color={"rgb(0, 131, 143)"}></BiEdit></button>
                         <button className="cursor"><BiTrashAlt size={25} color={"rgb(244,63,94)"}></BiTrashAlt></button>
-                    </td> */}
+                    </td>
                 </tr>
         </>
     )
 }
 
-export default table
+// export default table
