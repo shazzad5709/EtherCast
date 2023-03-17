@@ -1,6 +1,5 @@
 import React from 'react';
 import { BiLogOutCircle } from 'react-icons/bi';
-import { FiUserPlus } from 'react-icons/fi';
 import { FaUserCircle } from 'react-icons/fa';
 import { MdOutlineSettings } from 'react-icons/md';
 
@@ -21,7 +20,7 @@ const Navbar = () => {
         >
           <div className='pt-6 bg-cyan-800 text-white'>
             <div id='header-content' className='pl-8'>
-              <h4 className='mb-2 text-3xl font-medium leading-[1.2] text-white'>
+              <h4 className='mb-2 text-3xl font-medium leading-[1.2] text-white uppercase tracking-[7px]'>
                 EtherCast
               </h4>
               <p className='mb-4 text-xl text-white'>Dashboard</p>
@@ -29,22 +28,7 @@ const Navbar = () => {
             <hr className='border-gray-300 my-12' />
           </div>
           <div id='scrollContainer'>
-            <ul
-              className='relative m-0 list-none px-[0.2rem]'
-              data-te-sidenav-menu-ref
-            >
-              <li className='relative '>
-                <a href='/addElecOff'>
-                  <div className='flex mx-4 my-10 mb-2 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
-                    <FiUserPlus className='text-2xl text-gray-600 group-hover:text-white ' />
-                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
-                      Add Users
-                    </h3>
-                  </div>
-                </a>
-              </li>
-            </ul>
-            <hr className='border-gray-300 my-12' />
+            
             <ul className='relative m-0 list-none px-[0.2rem] '>
               <li className='relative '>
                 <a>

@@ -4,6 +4,7 @@ import { BiUser } from 'react-icons/bi'
 import { MdLockOutline } from 'react-icons/md'
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { signIn, getProviders, useSession } from 'next-auth/react';
 
 type Props = {}
 const validAdmin = {
@@ -13,29 +14,57 @@ const validAdmin = {
   };
   
 function Login({}: Props) {
-    const [username, setUsername] = useState<any>();
+  const [username, setUsername] = useState<any>();
   const [password, setPassword] = useState<any>();
-//   const [code, setCode] = useState<number>();
   const [error, setError] = useState<any>();
   const router = useRouter();
 
-  const handleLogin = (event:any) => {
-    event.preventDefault();
-    if (username === validAdmin.username && password === validAdmin.password ) {
-      // Navigate to admin dashboard
-      router.push("/dashboard");
-      
-    } else {
+  const loginUser = async () => {
+    const res: any = 
+      signIn("credentials", {
+        username: username,
+        password: password,
+        redirect: false,
+        callbackUrl: `${window.location.origin}`
+      })
+
+    if (res.status === 200) {
+      router.push("/admin")
+    }
+    else {
       setError(
         <div>
           <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
             <strong className="font-bold text-center">Invalid Credentials !!!</strong>
-            
           </div>
         </div>
-      );
+      )
     }
-  };
+  }
+
+  const handleLogin = (event:any) => {
+    event.preventDefault()
+    loginUser()
+
+
+
+
+
+    // if (username === validAdmin.username && password === validAdmin.password ) {
+    //   // Navigate to admin dashboard
+    //   router.push("/Dashboard");
+      
+    // } else {
+    //   setError(
+    //     <div>
+    //       <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+    //         <strong className="font-bold text-center">Invalid Credentials !!!</strong>
+            
+    //       </div>
+    //     </div>
+    //   );
+    // }
+  }
 
   return (
     <div className='bg-[#f4f4f4] font-poppins h-screen flex flex-col items-center justify-center w-full flex-1 px-20 text-center'>
@@ -62,13 +91,12 @@ function Login({}: Props) {
                             onChange={(e) => setPassword(e.target.value)} required/>
                         </div>
                         <div className='flex flex-col items-center w-64 mb-5'>
-                            <button type='submit' className='border-2 border-cyan-800 tracking-[2px] mb-4 mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
+                            <button type='submit' className='border-2 border-cyan-800 tracking-[2px] mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
                                 Sign In
                             </button>
                             {error && <div>{error}</div>}
                             <br />
                             <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
-                            <Link href='/ForgotPass' className='font-poppins hover:text-cyan-800' />
                             <Link href='/ForgotPass' className='hover:text-cyan-800'>
                                 - Forgot Password? -
                             </Link>
@@ -82,7 +110,7 @@ function Login({}: Props) {
                 <h2 className='text-3xl mb-2'>Apply as a Voter</h2>
                 <div className='border-2 w-10 border-white inline-block mb-2'></div>
                 <p className='mb-10'>Fill up personal information to apply as a voter.</p>
-                <Link href="/application" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
+                <Link href="/VoterApply" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
                     Apply
                 </Link>
             </div>

@@ -9,7 +9,7 @@ export default function handler(
     let email = '';
     email = `We have sent this email in response to your request to reset your password on Ethercast.com. 
     
-    To rest your password, please follow the link below:
+    To reset your password, please follow the link below:
     
     <a href="https://EtherCast.com">Click here to rest your password</a>
     <br/><br/>
