@@ -42,6 +42,8 @@ export default NextAuth({
         if (!isPasswordCorrect) {
             throw new Error("Password is incorrect");
           }
+
+        user.password = ''
         
         return user
       }

@@ -19,6 +19,7 @@ function Login({}: Props) {
   const [password, setPassword] = useState<any>();
   const [error, setError] = useState<any>();
   const router = useRouter();
+  const { data: session, status } = useSession()
 
   const loginUser = async () => {
     const res: any = 
@@ -31,7 +32,16 @@ function Login({}: Props) {
     
     const { pathname } = Router
     if (!res.error && pathname === '/Login') {
-      router.push("/admin")
+      
+      const user = session?.user
+      // router.push("/api/signin")
+      if(status === "authenticated") {
+        const data = JSON.stringify(user)
+        let parsedMap = JSON.parse(data)
+        
+        router.push(`/${parsedMap._doc.usertype}`)
+        
+      }
     }
     else {
       setError(

@@ -5,19 +5,21 @@ import { BiUserPlus } from "react-icons/bi"
 import Navbar from "../../components/navbar"
 import Table from "../../components/table"
 import Form from "../../components/Form"
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
 type Props = {};
 
 const Admin = (props: Props) => {
   const { data: session, status } = useSession()
   const user = session?.user
 
-  const data = JSON.stringify(user)
-  let parsedMap = JSON.parse(data)
-  // console.log(parsedMap._doc.usertype)
+  
+  // console.log(parsedMap)
 
   if (status === "authenticated") {
-    if(parsedMap._doc.usertype==='admin') {
+    const data = JSON.stringify(user)
+    let parsedMap = JSON.parse(data)
+    if(parsedMap._doc.usertype === 'admin') {
       return (
         <>
           <div>
@@ -58,18 +60,26 @@ const Admin = (props: Props) => {
       )
     }
     return (
-      <div className="bg-black font-poppins h-screen flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1>403</h1>
-        <div className='border-l-2 h-10 border-slate-500 inline-block'></div>
-          <h2>You do not have access to this page!</h2>
+      <div className="bg-[#f4f4f4] h-screen flex items-center justify-center w-full flex-1 px-20 text-center space-x-4">
+        <h1 className="text-3xl">403</h1>
+        <div className='border-l-2 h-10 border-black inline-block'></div>
+        <h2 className="text-xl">You do not have access to this page.</h2>
+        <div className='border-l-2 h-10 border-black inline-block'></div>
+        <Link href={`/${parsedMap._doc.usertype}`} className='border-2 border-black tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-black hover:text-white hover:font-normal'>
+          Home
+        </Link>
       </div>
     )    
   }
   return (
-    <div className="bg-black font-poppins h-screen flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-      <h1>403</h1>
-      <div className='border-l-2 h-10 border-slate-500 inline-block'></div>
-        <h2>Please Sign In!</h2>
+    <div className="bg-[#f4f4f4] h-screen flex items-center justify-center w-full flex-1 px-20 text-center space-x-6">
+      <h1 className="text-3xl">403</h1>
+      <div className='border-l-2 h-10 border-slate-800 inline-block'></div>
+      <h2 className="text-xl">Please Sign In.</h2>
+      <div className='border-l-2 h-10 border-black inline-block'></div>
+      <Link href="/Login" className='border-2 border-black tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-black hover:text-white hover:font-normal'>
+        Sign In
+      </Link>
     </div>
   )
   
