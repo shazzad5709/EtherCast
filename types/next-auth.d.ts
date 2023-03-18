@@ -1,4 +1,9 @@
 import { JWT } from "next-auth/jwt"
+import { User } from "./interfaces"
+
+declare module "next-auth" {
+  user:User
+}
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
