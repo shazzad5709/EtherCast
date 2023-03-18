@@ -47,25 +47,6 @@ function Login({}: Props) {
   const handleLogin = (event:any) => {
     event.preventDefault()
     loginUser()
-
-
-
-
-
-    // if (username === validAdmin.username && password === validAdmin.password ) {
-    //   // Navigate to admin dashboard
-    //   router.push("/Dashboard");
-      
-    // } else {
-    //   setError(
-    //     <div>
-    //       <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
-    //         <strong className="font-bold text-center">Invalid Credentials !!!</strong>
-            
-    //       </div>
-    //     </div>
-    //   );
-    // }
   }
 
   return (

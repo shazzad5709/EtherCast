@@ -47,13 +47,24 @@ export default NextAuth({
       }
     }),
   ],
-  pages: {
-    signIn: "/Login",
-  },
-
   session: { strategy: "jwt" },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+        return { ...token, ...user };
+    },
+    async session({ session, token, user }) {
+        // Send properties to the client, like an access_token from a provider.
+        session.user = token;
+        return session;
+    },
+  },
+  pages: {
+      signIn: '/Login',
+  }
+
+  
 })
