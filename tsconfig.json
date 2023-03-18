@@ -20,6 +20,6 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/mongodb.ts", ".next/types/**/*.ts",
-    "types/next-auth.d.ts"],
+    "types/next-auth.d.ts", "mongodb.ts"],
   "exclude": ["node_modules"]
 }

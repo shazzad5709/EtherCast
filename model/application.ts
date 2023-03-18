@@ -1,6 +1,6 @@
 import { Schema, models, model} from 'mongoose'
 
-const accountSchema = new Schema({
+const applicationSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -10,7 +10,11 @@ const accountSchema = new Schema({
     type: String,
     required: true,
   },
-  password: {
+  hashpassword: {
+    type: String,
+    required: true,
+  },
+  electionCode: {
     type: String,
     required: true,
   },
@@ -24,8 +28,14 @@ const accountSchema = new Schema({
     unique: true,
   },
   phone: String,
+  employeeID: {
+    type: String,
+    required: true,
+  },
+  orgName: String,
+  
 })
 
-const Accounts = models.account || model('account', accountSchema)
+const Application = models.application || model('application', applicationSchema)
 
-export default Accounts
+export default Application

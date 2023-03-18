@@ -21,6 +21,16 @@ function Login({}: Props) {
   const router = useRouter();
   const { data: session, status } = useSession()
 
+  const user = session?.user
+  // router.push("/api/signin")
+  if(status === "authenticated") {
+    const data = JSON.stringify(user)
+    let parsedMap = JSON.parse(data)
+    
+    router.push(`${parsedMap._doc.usertype}`)
+    
+  }
+      
   const loginUser = async () => {
     const res: any = 
     signIn("credentials", {
@@ -29,6 +39,16 @@ function Login({}: Props) {
       password: password,
       callbackUrl: `${window.location.origin}`
     })
+
+    if(!user) {
+      setError(
+        <div>
+          <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+            <strong className="font-bold text-center">Invalid Credentials</strong>
+          </div>
+        </div>
+      )
+    }
     
     const { pathname } = Router
     if (!res.error && pathname === '/Login') {
@@ -39,7 +59,7 @@ function Login({}: Props) {
         const data = JSON.stringify(user)
         let parsedMap = JSON.parse(data)
         
-        router.push(`/${parsedMap._doc.usertype}`)
+        router.push(`${parsedMap._doc.usertype}`)
         
       }
     }
@@ -47,7 +67,7 @@ function Login({}: Props) {
       setError(
         <div>
           <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
-            <strong className="font-bold text-center">Invalid Credentials</strong>
+            <strong className="font-bold text-center">{res.error}</strong>
           </div>
         </div>
       )
@@ -58,6 +78,8 @@ function Login({}: Props) {
     event.preventDefault()
     loginUser()
   }
+
+  
 
   return (
     <div className='bg-[#f4f4f4] font-poppins h-screen flex flex-col items-center justify-center w-full flex-1 px-20 text-center'>
@@ -83,11 +105,12 @@ function Login({}: Props) {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)} required/>
                         </div>
+                        {error && <div>{error}</div>}
                         <div className='flex flex-col items-center w-64 mb-5'>
                             <button type='submit' className='border-2 border-cyan-800 tracking-[2px] mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
                                 Sign In
                             </button>
-                            {error && <div>{error}</div>}
+                            
                             <br />
                             <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
                             <Link href='/ForgotPass' className='hover:text-cyan-800'>
