@@ -1,61 +1,119 @@
 import React from 'react'
-import { useReducer } from "react"
-import { BiPlus } from 'react-icons/bi'
+import { BiIdCard, BiPlus, BiUser } from 'react-icons/bi'
 import Success from "../success"
 import Bug from "../bug"
 import { useQueryClient, useMutation } from 'react-query'
 import { addUser, getUsers } from '../../lib/helper'
+import { FormEvent, useState } from 'react'
+import Link from 'next/link'
+import { MdKeyboardBackspace } from 'react-icons/md'
+import AddElecOffiForm from '../../components/AddElecOffiForm'
+import useMultiStepForm from '../../pages/VoterApply/useMultiStepForm'
+import axios from 'axios'
+import Router from 'next/router'
+import { FaVoteYea } from 'react-icons/fa'
 
-export default function AddUserForm(props:any){
 
-    const queryClient = useQueryClient()
-    const addMutation:any = useMutation(addUser, {
-        onSuccess : () => {
-            queryClient.prefetchQuery('users', getUsers)
-        }
+type FormData = {
+  firstname: string
+  lastname: string
+  email: string
+  elCode: string
+  role: string
+}
+
+const INITIAL_DATA: FormData = {
+  firstname: '',
+  lastname: '',
+  email: '',
+  elCode: '',
+  role: '',
+}
+
+export default function AddUserForm(props:any) {
+  const [data, setData] = useState(INITIAL_DATA)
+  const [error, setError] = useState<any>();
+
+  function updateFields(fields: Partial<FormData>) {
+    setData(prev => {
+      return { ...prev, ...fields }
     })
+  } 
 
-    const handleSubmit = (e:any) => {
-        e.preventDefault();
-        if(Object.keys(props.formData).length == 0) return console.log("Don't have Form Data");
-        let { firstname, lastname, email,electioncode, officertype } = props.formData;
-
-        const model = {
-            name : `${firstname} ${lastname}`,
-            email, electioncode, officertype
+  const addUser = async () => {
+    try{
+      const res = await axios.post(
+        '/api/users/addOfficer',
+        {
+          data
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          }
         }
+      ).then(
+         () => {
+          Router.reload()
+        }
+      ).catch(err => 
+        setError(
+          <div>
+            <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+              <strong className="font-bold text-center">{err}</strong>
+            </div>
+          </div>
+        )
+      )
+    } catch (error) {
+      console.log(error)
+   }
+  }
 
-        addMutation.mutate(model)
-    }
+  function onSubmit(e: FormEvent) {
+    e.preventDefault()
 
-    if(addMutation.isLoading) return <div>Loading!</div>
-    if(addMutation.isError) return <Bug message={addMutation.error.message}></Bug>
-    if(addMutation.isSuccess) return <Success message={"Added Successfully"}></Success>
+    return addUser()
+  }
+
   return (
-    <>
-        <form className="grid lg:grid-cols-2 w-4/6 gap-4" onSubmit={handleSubmit}>
-            <div className="input-type">
-                <input type="text" onChange={props.setFormData} name="firstname" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="FirstName" />
-            </div>
-            <div className="input-type">
-                <input type="text" onChange={props.setFormData} name="lastname" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="LastName" />
-            </div>
-            <div className="input-type">
-                <input type="email" onChange={props.setFormData} name="email" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Email" />
-            </div>
-            <div className="input-type">
-                <input type="number" onChange={props.setFormData} name="electioncode" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Election Code" />
-            </div>
-            <div className="input-type">
-                <input type="text" onChange={props.setFormData} name="officertype" className="border w-full px-5 py-3 focus:outline-none rounded-md" placeholder="Officer Type" />
-            </div>
-            <div></div>
+    <form onSubmit={onSubmit}>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <BiUser className='text-gray-400 m-2' />
+        <input required className='bg-gray-100 flex-1 outline-none' 
+        type="text" name='firstname' placeholder='First Name' 
+        value={data.firstname} onChange={e => updateFields({firstname: e.target.value})} />
+    </div>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <BiUser className='text-gray-400 m-2' />
+        <input required className='bg-gray-100 flex-1 outline-none' 
+        type="text" name='lastname' placeholder='Last Name' 
+        value={data.lastname} onChange={e => updateFields({lastname: e.target.value})} />
+    </div>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <BiUser className='text-gray-400 m-2' />
+        <input required className='bg-gray-100 flex-1 outline-none' type="email" 
+        name='email' placeholder='Email' value={data.email} 
+        onChange={e => updateFields({email: e.target.value})} />
+    </div>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <BiIdCard className='text-gray-400 m-2' />
+      <input required className='bg-gray-100 flex-1 outline-none' 
+      type="text" name='role' placeholder='Role' 
+      value={data.role} onChange={e => updateFields({role: e.target.value})} />
+    </div>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <FaVoteYea className='text-gray-400 m-2' />
+      <input required className='bg-gray-100 flex-1 outline-none' type="number" 
+      name='elCode' placeholder='Election Code' value={data.elCode} onChange={e => updateFields({elCode: e.target.value})} />
+    </div>
 
-            <button className="flex justify-center text-md w-2/6 bg-cyan-800 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-cyan-800 hover:text-cyan-800">
-             Add <span className="px-1"><BiPlus size={24}></BiPlus></span>
-            </button>
-
-        </form>
-    </>
+    <button type='submit' className='border-2 tracking-[2px] border-cyan-800 mb-4 mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
+                    Add Officers
+                  </button>
+    
+  </form>
   )
 }
+

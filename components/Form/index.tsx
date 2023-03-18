@@ -15,11 +15,11 @@ type Props = {}
 
 const index = (props: Props) => {
   const [formData, setFormData] = useReducer(formReducer, {})
-  const formId = useSelector((state:any) => state.app.client.formId)
+//   const formId = useSelector((state:any) => state.app.client.formId)
 
   return (
       <div className="container mx-auto py-5">
-          { formId ? UpdateUserForm({ formId, formData, setFormData }) : AddUserForm( { formData, setFormData }) }
+          <AddUserForm />
       </div>
   )
 }
