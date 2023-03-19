@@ -1,18 +1,10 @@
 import React from 'react'
-import { BiIdCard, BiPlus, BiUser } from 'react-icons/bi'
-import Success from "../success"
-import Bug from "../bug"
-import { useQueryClient, useMutation } from 'react-query'
-import { addUser, getUsers } from '../../lib/helper'
+import { BiIdCard, BiUser} from 'react-icons/bi'
+import { AiOutlineMail,AiFillCodeSandboxCircle } from 'react-icons/ai'
 import { FormEvent, useState } from 'react'
-import Link from 'next/link'
-import { MdKeyboardBackspace } from 'react-icons/md'
-import AddElecOffiForm from '../../components/AddElecOffiForm'
-import useMultiStepForm from '../../pages/VoterApply/useMultiStepForm'
 import axios from 'axios'
 import Router from 'next/router'
-import { FaVoteYea } from 'react-icons/fa'
-
+import Popup from 'reactjs-popup'
 
 type FormData = {
   firstname: string
@@ -79,20 +71,24 @@ export default function AddUserForm(props:any) {
 
   return (
     <form onSubmit={onSubmit}>
+    <div className='inline-flex space-x-4'>
+      <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+    <BiUser className='text-gray-400 m-2' />
+    <input required className='bg-gray-100 flex-1 outline-none' 
+      type="text" name='firstname' placeholder='First Name' 
+      value={data.firstname} onChange={e => updateFields({firstname: e.target.value})} />
+  </div>
+  <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+    <BiUser className='text-gray-400 m-2' />
+    <input required className='bg-gray-100 flex-1 outline-none' 
+      type="text" name='lastname' placeholder='Last Name' 
+      value={data.lastname} onChange={e => updateFields({lastname: e.target.value})} />
+  </div>
+</div>
+    <br />
+    <div className='inline-flex space-x-4'>
     <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
-      <BiUser className='text-gray-400 m-2' />
-        <input required className='bg-gray-100 flex-1 outline-none' 
-        type="text" name='firstname' placeholder='First Name' 
-        value={data.firstname} onChange={e => updateFields({firstname: e.target.value})} />
-    </div>
-    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
-      <BiUser className='text-gray-400 m-2' />
-        <input required className='bg-gray-100 flex-1 outline-none' 
-        type="text" name='lastname' placeholder='Last Name' 
-        value={data.lastname} onChange={e => updateFields({lastname: e.target.value})} />
-    </div>
-    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
-      <BiUser className='text-gray-400 m-2' />
+      <AiOutlineMail className='text-gray-400 m-2' />
         <input required className='bg-gray-100 flex-1 outline-none' type="email" 
         name='email' placeholder='Email' value={data.email} 
         onChange={e => updateFields({email: e.target.value})} />
@@ -103,15 +99,22 @@ export default function AddUserForm(props:any) {
       type="text" name='role' placeholder='Role' 
       value={data.role} onChange={e => updateFields({role: e.target.value})} />
     </div>
+    </div>
+    <br />
+    <div className='inline-flex space-x-4'>
     <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
-      <FaVoteYea className='text-gray-400 m-2' />
+      <AiFillCodeSandboxCircle className='text-gray-400 m-2' />
       <input required className='bg-gray-100 flex-1 outline-none' type="number" 
       name='elCode' placeholder='Election Code' value={data.elCode} onChange={e => updateFields({elCode: e.target.value})} />
     </div>
-
-    <button type='submit' className='border-2 tracking-[2px] border-cyan-800 mb-4 mt-4 rounded-full px-12 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
+    </div>
+    <br />
+    <div className='inline-flex space-x-4'>
+      
+    <button type='submit' className='border-2 tracking-[2px] border-cyan-800 mb-2 mt-4 rounded-full px-5 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
                     Add Officers
                   </button>
+                  </div>
     
   </form>
   )

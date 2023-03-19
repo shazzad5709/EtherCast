@@ -69,7 +69,7 @@ const Navbar = () => {
               </li>
 
               <li className='relative '>
-                <a href='/Login'>
+                <a href='/LogIn'>
                   <div className='flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
                     <BiLogOutCircle className='text-2xl text-gray-600 group-hover:text-white ' />
                     <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
