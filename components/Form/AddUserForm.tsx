@@ -7,16 +7,16 @@ import Router from 'next/router'
 import Popup from 'reactjs-popup'
 
 type FormData = {
-  firstname: string
-  lastname: string
+  firstName: string
+  lastName: string
   email: string
   elCode: string
   role: string
 }
 
 const INITIAL_DATA: FormData = {
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
   email: '',
   elCode: '',
   role: '',
@@ -75,14 +75,14 @@ export default function AddUserForm(props:any) {
       <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
     <BiUser className='text-gray-400 m-2' />
     <input required className='bg-gray-100 flex-1 outline-none' 
-      type="text" name='firstname' placeholder='First Name' 
-      value={data.firstname} onChange={e => updateFields({firstname: e.target.value})} />
+      type="text" name='firstName' placeholder='First Name' 
+      value={data.firstName} onChange={e => updateFields({firstName: e.target.value})} />
   </div>
   <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
     <BiUser className='text-gray-400 m-2' />
     <input required className='bg-gray-100 flex-1 outline-none' 
-      type="text" name='lastname' placeholder='Last Name' 
-      value={data.lastname} onChange={e => updateFields({lastname: e.target.value})} />
+      type="text" name='lastName' placeholder='Last Name' 
+      value={data.lastName} onChange={e => updateFields({lastName: e.target.value})} />
   </div>
 </div>
     <br />

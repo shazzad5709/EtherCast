@@ -32,6 +32,8 @@ const ForgotPass = () => {
                   </div>
                 </div>
               )
+
+              
         }
         }
 

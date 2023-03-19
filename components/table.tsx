@@ -48,13 +48,16 @@ export default function Table(){
 function Tr(props:any){
     const visible = useSelector((state:any) => state.app.client.toggleForm)
     const dispatch = useDispatch()
+    
 
     const onUpdate = () => {
-        dispatch(toggleChangeAction(props.id))
-        if(visible){
-            dispatch(updateAction(props.id))
+        const updatedProps = { ...props, id: 1 };
+        dispatch(toggleChangeAction(updatedProps.id));
+        if (visible) {
+          dispatch(updateAction(1));
         }
-    }
+      };
+      
 
     const onDelete = () => {
         if(!visible){
@@ -66,7 +69,9 @@ function Tr(props:any){
         <>
             <tr className="bg-gray-50 text-center ">
                     <td className="px-16 py-2 flex flex-row  items-center">
-                        <span className="text-center ml-2 font-semibold">{props.name || 'Unknown'}</span>
+                    <span className="text-center ml-2 font-semibold">{props.firstName || 'Unknown'}</span>
+                        <br />
+                        <span className="text-center ml-2 font-semibold">{props.lastName || 'Unknown'}</span>
                     </td>
                     <td className="px-16 py-2">
                         <span>{props.email || "Unknown"}</span>
