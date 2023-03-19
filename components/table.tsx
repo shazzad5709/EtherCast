@@ -69,9 +69,7 @@ function Tr(props:any){
         <>
             <tr className="bg-gray-50 text-center ">
                     <td className="px-16 py-2 flex flex-row  items-center">
-                    <span className="text-center ml-2 font-semibold">{props.firstName || 'Unknown'}</span>
-                        <br />
-                        <span className="text-center ml-2 font-semibold">{props.lastName || 'Unknown'}</span>
+                        <span className="text-center ml-2 font-semibold">{props.name || 'Unknown'}</span>
                     </td>
                     <td className="px-16 py-2">
                         <span>{props.email || "Unknown"}</span>
