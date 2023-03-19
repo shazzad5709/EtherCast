@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectMongo from "../../../Database/conn";
-import Users from "../../../model/user";
+import Voter from "../../../model/voter";
 
 
 interface ResponseData {
@@ -14,13 +14,12 @@ const validateForm = async (
   email: string,
   firstname: string,
   lastname: string,
-  role: string,
   electionCode: string,
 ) => {
 
   connectMongo()
   
-  const emailUser = await Users.findOne({ email: email });
+  const emailUser = await Voter.findOne({ email: email });
 
   if (emailUser) {
     return { error: "Email already exists" };
@@ -48,8 +47,7 @@ export default async function handler(
     data.email, 
     data.firstname,
     data.lastname, 
-    data.elCode,
-    data.role
+    data.elCode
   );
   if (errorMessage) {
     console.log(errorMessage)
@@ -58,15 +56,14 @@ export default async function handler(
   console.log(data)
   const number = Math.floor(Math.random() * 100)
   // create new User on MongoDB
-  await Users.create({
+  await Voter.create({
     id: number,
     name: data.firstname+" "+data.lastname,
     email: data.email,
     electioncode:(data.elCode as Number),
-    officertype: data.role
   })
   .then(() =>
-    res.status(200).json({ msg: "Successfuly created new User: " + Users })
+    res.status(200).json({ msg: "Successfuly created new User: " + Voter })
   )
   .catch((err: string) =>
     res.status(400).json({ error: "Error on '/api/register': " + err })

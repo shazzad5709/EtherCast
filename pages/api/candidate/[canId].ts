@@ -6,10 +6,12 @@ export default async function handler(req:any, res:any) {
         connectMongo().catch(() => res.status(405).json({ error: "Error in the Connection"}))
 
         // type of request
+       
         const { method } = req
 
         switch (method){
-            case "GET":
+
+            case "GET":      
                 getUser(req, res);
                 break;
             case 'PUT':

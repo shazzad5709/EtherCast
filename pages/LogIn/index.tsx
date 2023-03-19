@@ -8,7 +8,7 @@ import { useState } from 'react';
 type Props = {}
 const validAdmin = {
     username: "admin",
-    password: "admin12@3",
+    password: "123",
     // code: 1245
   };
   
@@ -23,7 +23,7 @@ function Login({}: Props) {
     event.preventDefault();
     if (username === validAdmin.username && password === validAdmin.password ) {
       // Navigate to admin dashboard
-      router.push("/Dashboard");
+      router.push("/Dashboard/officerDash");
       
     } else {
       setError(

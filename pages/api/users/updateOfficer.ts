@@ -3,28 +3,38 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import connectMongo from "../../../Database/conn";
 import Users from "../../../model/user";
 
-
 interface ResponseData {
   error?: string;
   msg?: string;
 }
 
-const validateForm = async (
- 
+const updateUserData = async (
   email: string,
   firstname: string,
   lastname: string,
   role: string,
   electionCode: string,
 ) => {
-
-  connectMongo()
+  connectMongo();
   
-  const emailUser = await Users.findOne({ email: email });
-
-  if (emailUser) {
-    return { error: "Email already exists" };
+  // find user with the given email
+  const user = await Users.findOne({ email: email });
+  if (!user) {
+    return { error: "User not found" };
   }
+
+  else{
+    
+  }
+
+  // update user data
+  user.firstname = firstname;
+  user.lastname = lastname;
+  user.role = role;
+  user.electionCode = electionCode;
+
+  // save updated user data
+  await user.save();
 
   return null;
 };
@@ -42,34 +52,19 @@ export default async function handler(
 
   // get body variables
   const { data } = req.body;
-  // console.log(data)
 
-  const errorMessage = await validateForm(
-    data.email, 
+  const errorMessage = await updateUserData(
+    data.email,
     data.firstname,
-    data.lastname, 
-    data.elCode,
-    data.role
+    data.lastname,
+    data.role,
+    data.elCode
   );
+
   if (errorMessage) {
-    console.log(errorMessage)
+    console.log(errorMessage);
     return res.status(400).json(errorMessage as ResponseData);
   }
-  console.log(data)
-  const number = Math.floor(Math.random() * 100)
-  // create new User on MongoDB
-  await Users.create({
-    id: number,
-    name: data.firstname+" "+data.lastname,
-    email: data.email,
-    electioncode:(data.elCode as Number),
-    officertype: data.role
-  })
-  .then(() =>
-    res.status(200).json({ msg: "Successfuly created new User: " + Users })
-  )
-  .catch((err: string) =>
-    res.status(400).json({ error: "Error on '/api/register': " + err })
-  );
 
+  return res.status(200).json({ msg: "Successfully updated user data" });
 }

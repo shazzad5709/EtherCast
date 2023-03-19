@@ -9,13 +9,14 @@ export const ReducerSlice = createSlice({
     initialState,
     reducers : {
         toggleChangeAction : (state) => {
-            console.log("TOGGLLE ACTION KI CALL HOCCHE?")
+            // console.log("TOGGLLE ACTION KI CALL HOCCHE?")
             state.client.toggleForm = !state.client.toggleForm
         },
         updateAction : (state, action) => {
-            console.log("TOGGLLE UPDATE KI CALL HOCCHE?")
+            // console.log("TOGGLLE UPDATE KI CALL HOCCHE?")
             state.client.formId = action.payload
-            console.log("**********"+action.payload)
+            // console.log("**********"+action.payload)
+            // console.log("hocche kichu")
             console.log(state.client.formId)
         },
         deleteAction : (state, action) => {

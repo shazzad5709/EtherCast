@@ -1,5 +1,5 @@
 import React from 'react'
-import { getUsers } from "../lib/helper";
+import { getUsers } from "../lib/helpervote";
 import { BiTrashAlt,BiEdit } from 'react-icons/bi'
 import { useQuery } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,7 +8,7 @@ import { toggleChangeAction, updateAction,  deleteAction } from '../redux/reduce
 
 export default function Table(){
 
-    const { isLoading, isError, data, error } = useQuery('user', getUsers)
+    const { isLoading, isError, data, error } = useQuery('voter', getUsers)
 
     if(isLoading) return <div>Employee is Loading...</div>;
     if(isError) return <div>Got an Error...</div>
@@ -26,9 +26,6 @@ export default function Table(){
                     </th>
                     <th className="px-16 py-2">
                         <span className="text-gray-200">Election Code</span>
-                    </th>
-                    <th className="px-16 py-2">
-                        <span className="text-gray-200">Officer Type</span>
                     </th>
                     <th className="px-16 py-2">
                         <span className="text-gray-200">Update</span>
@@ -79,9 +76,6 @@ function Tr(props:any){
                     </td>
                     <td className="px-16 py-2">
                         <span>{props.electioncode || "Unknown"}</span>
-                    </td>
-                    <td className="px-16 py-2">
-                        <span>{props.officertype}</span>
                     </td>
                     <td className="px-16 py-2 flex justify-around gap-5">
                         <button className="cursor" onClick={onUpdate}><BiEdit size={25} color={"rgb(0, 131, 143)"}></BiEdit></button>

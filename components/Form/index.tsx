@@ -3,6 +3,7 @@ import AddUserForm from './AddUserForm';
 import UpdateUserForm from './UpdateUserForm';
 import { useSelector } from "react-redux";
 import { useReducer } from "react";
+import axios from 'axios';
 
 const formReducer = (state:any, event:any) => {
     return {
@@ -16,12 +17,12 @@ type Props = {}
 const index = (props: Props) => {
   const [formData, setFormData] = useReducer(formReducer, {})
   const formId = useSelector((state:any) => state.app.client.formId)
-  // console.log
+  // const data = await getUsers()
+  console.log(formId)
 
   return (
       <div className="container mx-auto py-5">
-        { formId ? <UpdateUserForm  /> : 
-  <AddUserForm />}
+        { formId ? <UpdateUserForm formId={formId} formData={formData} setFormData={setFormData} /> :  <AddUserForm />}
 
       </div>
   )
