@@ -12,7 +12,7 @@ const Candidate = (props: Props) => {
   if (status === "authenticated") {
     const data = JSON.stringify(user)
     let parsedMap = JSON.parse(data)
-    if(parsedMap._doc.usertype === 'admin') {
+    if(parsedMap._doc.usertype === 'officer') {
       return (
         <div>
           <Navbar />

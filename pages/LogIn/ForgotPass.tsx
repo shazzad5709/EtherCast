@@ -55,13 +55,14 @@ const ForgotPass = () => {
       }).then((msg) => {
         return redirectToReset(msg.data);
       }).catch(err => 
-          setError(
-            <div>
-              <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
-                <strong className="font-bold text-center">{err}</strong>
-              </div>
-            </div>
-          )
+        alert(err)
+          // setError(
+          //   <div>
+          //     <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+          //       <strong className="font-bold text-center">{err}</strong>
+          //     </div>
+          //   </div>
+          // )
       )
   }
 
@@ -72,13 +73,14 @@ const ForgotPass = () => {
       ).then(() => {
         sendMail()
       }).catch(err => 
-        setError(
-          <div>
-            <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
-              <strong className="font-bold text-center">{err}</strong>
-            </div>
-          </div>
-        )
+        alert("User not found")
+        // setError(
+        //   <div>
+        //     <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+        //       <strong className="font-bold text-center">{err}</strong>
+        //     </div>
+        //   </div>
+        // )
       )
     }
 

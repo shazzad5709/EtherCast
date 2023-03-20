@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import AddUserForm from './AddVoter';
 import { useSelector } from "react-redux";
-import { useReducer } from "react";
 import axios from 'axios';
 
 const formReducer = (state:any, event:any) => {

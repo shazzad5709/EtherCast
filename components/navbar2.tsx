@@ -7,6 +7,7 @@ import { signOut } from 'next-auth/react';
 
 const Navbar = () => {
   return (
+    <>
     <div>
       <div className='dark:bg-zinc-800 [&>*]:leading-[1.6]'>
         <nav
@@ -88,12 +89,14 @@ const Navbar = () => {
                     </h3>
                   </button>
                 </div>
+              </div>
             </ul>
           </div>
         </nav>
         
       </div>
     </div>
+    </>
   );
 };
 

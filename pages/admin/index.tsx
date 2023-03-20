@@ -1,6 +1,6 @@
 'use Client'
 
-import React from "react"
+import React, { useState } from "react"
 import Navbar from "../../components/navbar"
 import Table from "../../components/table"
 import Form from "../../components/Form"
@@ -11,6 +11,12 @@ type Props = {};
 const Admin = (props: Props) => {
   const { data: session, status } = useSession()
   const user = session?.user
+
+  const [selectedTab, setSelectedTab] = useState("home");
+
+  const handleTabClick = (tabName: string) => {
+    setSelectedTab(tabName);
+  };
 
   if (status === "authenticated") {
     const data = JSON.stringify(user)

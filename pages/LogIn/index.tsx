@@ -25,22 +25,22 @@ function Login({}: Props) {
       
   const loginUser = async () => {
     const res: any = 
-    signIn("credentials", {
+    await signIn("credentials", {
       redirect: false,
       username: username,
       password: password,
       callbackUrl: `${window.location.origin}`
     })
 
-    if(!user) {
-      setError(
-        <div>
-          <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
-            <strong className="font-bold text-center">Invalid Credentials</strong>
-          </div>
-        </div>
-      )
-    }
+    // if(!user) {
+    //   setError(
+    //     <div>
+    //       <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
+    //         <strong className="font-bold text-center">Invalid Credentials</strong>
+    //       </div>
+    //     </div>
+    //   )
+    // }
     
     const { pathname } = Router
     if (!res.error && pathname === '/Login') {
