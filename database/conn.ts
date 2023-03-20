@@ -1,20 +1,33 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+
+const { MONGODB_URI } = process.env;
 
 if (!process.env.MONGODB_URI) {
   throw new Error("Please add your Mongo URI to .env.local");
 }
 
 const uri: string = process.env.MONGODB_URI;
+let cached = global.mongoose
 
-const connectMongo = async () => {
-  try {
-    const {connection} = await mongoose.connect(uri)
-
-    if(connection.readyState == 1)
-      return mongoose.connection.asPromise()
-  } catch (error) {
-    return Promise.reject(error)
-  }
+if (!cached) {
+  cached = global.mongoose = {conn: null, promise: null}
 }
 
-export default connectMongo
+async function connectMongo() {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    }
+
+    cached.promise = mongoose.connect(uri, opts).then(mongoose => {
+      return mongoose
+    })
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn
+}
+
+export default connectMongo;
