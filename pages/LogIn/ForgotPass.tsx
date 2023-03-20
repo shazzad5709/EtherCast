@@ -28,7 +28,7 @@ const ForgotPass = () => {
             setError(
                 <div>
                   <div className="bg-blue-100 border text-center border-blue-400 text-red-700 px-4 py-2 rounded relative" role="alert">
-                    <strong className="font-bold text-center">Email Not Found MOira ja</strong>
+                    <strong className="font-bold text-center">Email Not Found</strong>
                   </div>
                 </div>
               )
@@ -49,6 +49,7 @@ const ForgotPass = () => {
                         Ethercast
                     </div>
                     <div className='py-10'>
+                        <br /><br /><br />
                         <h2 className='text-3xl font-poppins mb-2 text-cyan-800'>Forgot Password</h2>
                         <div className='border-2 w-10 border-cyan-800 inline-block mb-2'></div>
                         
@@ -76,7 +77,9 @@ const ForgotPass = () => {
                                 </Link>
                             </div>
                            
+
                             </form> */}
+                            <br />
                         <form onSubmit={onSubmit} className='flex flex-col items-center'  >
                             
                             <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
@@ -100,10 +103,14 @@ const ForgotPass = () => {
                     </div>
                 </div>
     
-                {/* Voter Application */}
                 <div className='w-2/5 px-12 py-36 bg-cyan-800 text-white rounded-r-2xl'>
-                   
-                </div>
+                <h2 className='text-3xl mb-2'>Apply as a Voter</h2>
+                <div className='border-2 w-10 border-white inline-block mb-2'></div>
+                <p className='mb-10'>Fill up personal information to apply as a voter.</p>
+                <Link href="/VoterApply" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
+                    Apply
+                </Link>
+            </div>
             </div>
         </div>
       )

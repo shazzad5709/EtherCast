@@ -90,7 +90,7 @@ function Application({}: Props) {
           <h2 className='text-3xl mb-2'>Sign in</h2>
           <div className='border-2 w-10 border-white inline-block mb-2'></div>
           <p className='mb-10'>Already have an account? Use your EtherCast account.</p>
-          <Link href="/Login" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
+          <Link href="/LogIn" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
             Sign In
           </Link> 
         </div>

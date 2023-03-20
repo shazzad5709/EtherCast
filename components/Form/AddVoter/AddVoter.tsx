@@ -20,7 +20,7 @@ const INITIAL_DATA: FormData = {
   elCode: '',
 }
 
-export default function AddCandidates(props:any) {
+export default function AddVoter(props:any) {
   const [data, setData] = useState(INITIAL_DATA)
   const [error, setError] = useState<any>();
 
@@ -33,7 +33,7 @@ export default function AddCandidates(props:any) {
   const addUser = async () => {
     try{
       const res = await axios.post(
-        '/api/users/addCandidate',
+        '/api/voters/addVoter',
         {
           data
         },
@@ -104,7 +104,7 @@ export default function AddCandidates(props:any) {
     <div className='inline-flex space-x-4'>
       
     <button type='submit' className='border-2 tracking-[2px] border-cyan-800 mb-2 mt-4 rounded-full px-5 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
-                    Add Candidates
+                    Add Voters
                   </button>
                   </div>
     

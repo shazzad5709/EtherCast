@@ -7,6 +7,6 @@ const candidateSchema = new Schema({
     electioncode: { type: Number, required: true},
 });
 
-const candidate = models.user || model('candidate', candidateSchema)
+const Candidate = models.candidate || model('candidate', candidateSchema)
 
-export default candidate;
+export default Candidate;

@@ -22,7 +22,7 @@ const validateForm = async (
   const emailUser = await Candidate.findOne({ email: email });
 
   if (emailUser) {
-    return { error: "Email already exists" };
+    return { error: "Email already exists ___candidate" };
   }
 
   return null;
@@ -66,7 +66,7 @@ export default async function handler(
     res.status(200).json({ msg: "Successfuly created new User: " + Candidate })
   )
   .catch((err: string) =>
-    res.status(400).json({ error: "Error on '/api/register': " + err })
+    res.status(400).json({ error: "" + err })
   );
 
 }

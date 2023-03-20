@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
 import Navbar from "../../../components/navbar2";
-import Table from "../../../components/table";
-import Form from "../../../components/Form/AddCandidates";
+import Table from "../../../components/tableCandidate";
+import Form from "../../../components/Form/AddCandidate";
 import { useSelector, useDispatch  } from 'react-redux';
 import { toggleChangeAction, deleteAction } from '../../../redux/reducer';
-import { deleteUser, getUsers } from '../../../lib/helper';
+import { deleteUser, getUsers } from '../../../lib/helpercan';
 import { useQueryClient } from 'react-query';
 
 type Props = {};
@@ -24,7 +24,7 @@ const AddElecOff = (props: Props) => {
   const deletehandler =  async () => {
     if(deleteId){
       await deleteUser(deleteId);
-      await queryclient.prefetchQuery('users', getUsers)
+      await queryclient.prefetchQuery('candidate', getUsers)
       await dispatch(deleteAction(null))
     }
   }

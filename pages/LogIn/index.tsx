@@ -23,7 +23,7 @@ function Login({}: Props) {
     event.preventDefault();
     if (username === validAdmin.username && password === validAdmin.password ) {
       // Navigate to admin dashboard
-      router.push("/Dashboard/officerDash");
+      router.push("/Dashboard");
       
     } else {
       setError(
@@ -82,7 +82,7 @@ function Login({}: Props) {
                 <h2 className='text-3xl mb-2'>Apply as a Voter</h2>
                 <div className='border-2 w-10 border-white inline-block mb-2'></div>
                 <p className='mb-10'>Fill up personal information to apply as a voter.</p>
-                <Link href="/application" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
+                <Link href="/VoterApply" className='border-2 border-white tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-white hover:text-cyan-800'>
                     Apply
                 </Link>
             </div>
