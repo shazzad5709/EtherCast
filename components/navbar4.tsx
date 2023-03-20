@@ -39,7 +39,7 @@ const Navbar = () => {
                   <div className='flex mx-4 my-10 mb-2 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
                     <FaListAlt className='text-2xl text-gray-600 group-hover:text-white ' />
                     <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
-                      Candidate List
+                      Candidate Info
                     </h3>
                   </div>
                 </a>

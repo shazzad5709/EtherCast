@@ -23,7 +23,7 @@ export default function Home() {
                     <p className="subtitle font-poppins">A Blockchain based E-Voting System</p>
                     <Link href='./LogIn' className="cta cta--white ig font-poppins text-center items-center text-lg px-12 py-2 w-[200px] h-[50px]">Login</Link>
                     {/* <a href="/regi" className="cta cta--white ig" >Login</a> */}
-                    <Link href='#' className="cta cta--white ig font-poppins text-lg text-center items-center px-12 py-2 w-[200px] h-[50px]">Guest User</Link>
+                    <Link href='/Dashboard/GuestUser' className="cta cta--white ig font-poppins text-lg text-center items-center px-12 py-2 w-[200px] h-[50px]">Guest User</Link>
                     {/* <a href="#" className="cta cta--white ">Guest User</a> */}
                 </div>
 

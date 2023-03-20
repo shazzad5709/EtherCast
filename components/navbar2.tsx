@@ -2,7 +2,7 @@ import React from 'react';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { FiUserPlus } from 'react-icons/fi';
 import { FaUserCircle } from 'react-icons/fa';
-import { MdOutlineSettings } from 'react-icons/md';
+import { MdNotificationsActive } from 'react-icons/md';
 
 const Navbar = () => {
   return (
@@ -59,9 +59,9 @@ const Navbar = () => {
               <li className='relative '>
                 <a>
                   <div className='flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
-                    <MdOutlineSettings className='text-2xl text-gray-600 group-hover:text-white ' />
+                    <MdNotificationsActive className='text-2xl text-gray-600 group-hover:text-white ' />
                     <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
-                      Settings
+                      Notification
                     </h3>
                   </div>
                 </a>
