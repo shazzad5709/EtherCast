@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectMongo from "../../../Database/conn";
+import connectMongo from "../../../database/conn";
 import Voter from "../../../model/voter";
 
 

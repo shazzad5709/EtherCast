@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectMongo from "../../../Database/conn";
+import connectMongo from "../../../database/conn";
 import Account from "../../../model/user";
 
 export default async function handler(

@@ -1,4 +1,4 @@
-import connectMongo from '../../../Database/conn'
+import connectMongo from '../../../database/conn'
 import connectToDatabase from '../../../lib/mongodb'
 import Users from '../../../model/user'
 
