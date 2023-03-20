@@ -13,9 +13,6 @@ const Admin = (props: Props) => {
   const { data: session, status } = useSession()
   const user = session?.user
 
-  
-  // console.log(parsedMap)
-
   if (status === "authenticated") {
     const data = JSON.stringify(user)
     let parsedMap = JSON.parse(data)
