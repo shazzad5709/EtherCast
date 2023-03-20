@@ -1,14 +1,11 @@
-'use Client'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
+import React from 'react'
+import Navbar from '../../components/navbar2'
 
-import React from "react"
-import Navbar from "../../components/navbar"
-import Table from "../../components/table"
-import Form from "../../components/Form"
-import { useSession } from "next-auth/react"
-import Link from "next/link"
-type Props = {};
+type Props = {}
 
-const Admin = (props: Props) => {
+const Candidate = (props: Props) => {
   const { data: session, status } = useSession()
   const user = session?.user
 
@@ -19,8 +16,7 @@ const Admin = (props: Props) => {
       return (
         <div>
           <Navbar />
-          <div className="pl-100">
-            <h1 className="text-6xl">...</h1>
+            <div className="pl-100">
           </div>
         </div>
       )
@@ -48,7 +44,6 @@ const Admin = (props: Props) => {
       </Link>
     </div>
   )
-  
 }
 
-export default Admin
+export default Candidate

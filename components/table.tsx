@@ -71,23 +71,23 @@ function Tr(props:any){
     return (
         <>
             <tr className="bg-gray-50 text-center ">
-                    <td className="px-16 py-2 flex flex-row  items-center">
-                        <span className="text-center ml-2 font-semibold">{props.name || 'Unknown'}</span>
-                    </td>
-                    <td className="px-16 py-2">
-                        <span>{props.email || "Unknown"}</span>
-                    </td>
-                    <td className="px-16 py-2">
-                        <span>{props.electioncode || "Unknown"}</span>
-                    </td>
-                    <td className="px-16 py-2">
-                        <span>{props.officertype}</span>
-                    </td>
-                    <td className="px-16 py-2 flex justify-around gap-5">
-                        <button className="cursor" onClick={onUpdate}><BiEdit size={25} color={"rgb(0, 131, 143)"}></BiEdit></button>
-                        <button className="cursor" onClick={onDelete}><BiTrashAlt size={25} color={"rgb(244,63,94)"}></BiTrashAlt></button>
-                    </td>
-                </tr>
+                <td className="px-16 py-2 flex flex-row  items-center">
+                    <span className="text-center ml-2 font-semibold">{props.name || 'Unknown'}</span>
+                </td>
+                <td className="px-16 py-2">
+                    <span>{props.email || "Unknown"}</span>
+                </td>
+                <td className="px-16 py-2">
+                    <span>{props.electioncode || "Unknown"}</span>
+                </td>
+                <td className="px-16 py-2">
+                    <span>{props.officertype}</span>
+                </td>
+                <td className="px-16 py-2 flex justify-around gap-5">
+                    <button className="cursor" onClick={onUpdate}><BiEdit size={25} color={"rgb(0, 131, 143)"}></BiEdit></button>
+                    <button className="cursor" onClick={onDelete}><BiTrashAlt size={25} color={"rgb(244,63,94)"}></BiTrashAlt></button>
+                </td>
+            </tr>
         </>
     )
 }

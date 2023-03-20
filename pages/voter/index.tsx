@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
+import Navbar from '../../components/navbar3'
 
 type Props = {}
 
@@ -13,10 +14,10 @@ const Voter = (props: Props) => {
     let parsedMap = JSON.parse(data)
     if(parsedMap._doc.usertype === 'admin') {
       return (
-        <div className="bg-[#f4f4f4] h-screen flex items-center justify-center w-full flex-1 px-20 text-center space-x-6">
-          <h1 className="text-3xl">Voter</h1>
-          <div className='border-l-2 h-10 border-slate-800 inline-block'></div>
-          <h2 className="text-2xl">😐😐😐</h2>      
+        <div>
+          <Navbar />
+          <div className="pl-100">
+        </div>
         </div>
       )
     }

@@ -1,10 +1,8 @@
-import React from "react";
-import { BiIdCard, BiUser } from "react-icons/bi";
+import React, { FormEvent, useState } from "react";
+import { BiUser } from "react-icons/bi";
 import { AiOutlineMail, AiFillCodeSandboxCircle } from "react-icons/ai";
-import { FormEvent, useState } from "react";
 import axios from "axios";
 import Router from "next/router";
-import Popup from "reactjs-popup";
 
 type FormData = {
   firstname: string;
@@ -32,7 +30,6 @@ export default function AddCandidates(props: any) {
 
   const addUser = async () => {
     try {
-      // ethercast\pages
       const res = await axios
         .post(
           "/api/candidate/addCandidate",

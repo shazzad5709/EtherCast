@@ -58,7 +58,6 @@ function Tr(props:any){
       
 
     const onDelete = () => {
-        // console.log("hocche kichuna")
         if(!visible){
             console.log("hocche kichu")
             dispatch(deleteAction(props.__id))
@@ -85,5 +84,3 @@ function Tr(props:any){
         </>
     )
 }
-
-// export default table

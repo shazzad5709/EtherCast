@@ -1,10 +1,8 @@
-import React from 'react'
+import React, { FormEvent, useState } from 'react'
 import { BiIdCard, BiUser} from 'react-icons/bi'
 import { AiOutlineMail,AiFillCodeSandboxCircle } from 'react-icons/ai'
-import { FormEvent, useState } from 'react'
 import axios from 'axios'
 import Router from 'next/router'
-import Popup from 'reactjs-popup'
 
 type FormData = {
   firstname: string

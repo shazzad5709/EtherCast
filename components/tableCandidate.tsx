@@ -49,16 +49,13 @@ function Tr(props:any){
         const updatedProps = { ...props, _id: 1 };
         dispatch(toggleChangeAction(props._id))
         if(visible){
-            // console.log("hocche kichu")
             dispatch(updateAction(props._id))
         }
       };
       
 
     const onDelete = () => {
-        // console.log("hocche kichuna")
         if(!visible){
-            // console.log("hocche kichu")
             dispatch(deleteAction(props.__id))
         }
     }
@@ -75,10 +72,6 @@ function Tr(props:any){
                     <td className="px-16 py-2">
                         <span>{props.electioncode || "Unknown"}</span>
                     </td>
-                    {/* <td className="px-16 py-2 flex justify-around gap-5">
-                        <button className="cursor" onClick={onUpdate}><BiEdit size={25} color={"rgb(0, 131, 143)"}></BiEdit></button>
-                        <button className="cursor" onClick={onDelete}><BiTrashAlt size={25} color={"rgb(244,63,94)"}></BiTrashAlt></button>
-                    </td> */}
                 </tr>
         </>
     )

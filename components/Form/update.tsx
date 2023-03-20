@@ -9,7 +9,6 @@ export default function UpdateUserForm({ formId, formData, setFormData }:any){
    const {isLoading, isError, data, error} = useQuery(['user', formId], () => getUser(formId))
     const UpdateMutation = useMutation((newData) => updateUser(formId, newData), {
         onSuccess : async (data) => {
-            // queryClient.setQueryData('users', (old) => [data])
             queryClient.prefetchQuery('user', getUsers)
         }
     })

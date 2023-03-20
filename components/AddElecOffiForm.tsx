@@ -1,6 +1,5 @@
 import React from 'react'
 import { BiUser, BiIdCard } from 'react-icons/bi'
-import { CgOrganisation } from 'react-icons/cg'
 import { FaVoteYea } from 'react-icons/fa'
 
 type Props = {
