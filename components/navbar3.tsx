@@ -1,10 +1,9 @@
-import { signOut } from 'next-auth/react';
-import Link from 'next/link';
 import React from 'react';
 import { BiLogOutCircle } from 'react-icons/bi';
-import { FaUserCircle } from 'react-icons/fa';
 import { FiUserPlus } from 'react-icons/fi';
+import { FaEthereum, FaListAlt, FaUserCircle } from 'react-icons/fa';
 import { MdOutlineSettings } from 'react-icons/md';
+import { AiOutlineAreaChart } from 'react-icons/ai';
 
 const Navbar = () => {
   return (
@@ -23,7 +22,7 @@ const Navbar = () => {
         >
           <div className='pt-6 bg-cyan-800 text-white'>
             <div id='header-content' className='pl-8'>
-              <h4 className='mb-2 text-3xl font-medium leading-[1.2] text-white uppercase tracking-[7px]'>
+              <h4 className='mb-2 text-3xl font-medium leading-[1.2] text-white'>
                 EtherCast
               </h4>
               <p className='mb-4 text-xl text-white'>Dashboard</p>
@@ -36,11 +35,31 @@ const Navbar = () => {
               data-te-sidenav-menu-ref
             >
               <li className='relative '>
-                <a href='/Dashboard/ElectionOfficer/addElecOff'>
+                <a href='/Dashboard/ElectionOfficer/candidateList'>
                   <div className='flex mx-4 my-10 mb-2 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
-                    <FiUserPlus className='text-2xl text-gray-600 group-hover:text-white ' />
+                    <FaListAlt className='text-2xl text-gray-600 group-hover:text-white ' />
                     <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
-                      Add Election Officer
+                      Candidate List
+                    </h3>
+                  </div>
+                </a>
+              </li>
+              <li className='relative '>
+                <a href='/Dashboard/ElectionOfficer/Election'>
+                  <div className='flex mx-4 my-10 mb-2 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
+                    <FaEthereum className='text-2xl text-gray-600 group-hover:text-white ' />
+                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
+                      Election
+                    </h3>
+                  </div>
+                </a>
+              </li>
+              <li className='relative '>
+                <a href='/Dashboard/ElectionOfficer/result'>
+                  <div className='flex mx-4 my-10 mb-2 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
+                    <AiOutlineAreaChart className='text-2xl text-gray-600 group-hover:text-white ' />
+                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
+                      Result
                     </h3>
                   </div>
                 </a>
@@ -48,16 +67,6 @@ const Navbar = () => {
             </ul>
             <hr className='border-gray-300 my-12' />
             <ul className='relative m-0 list-none px-[0.2rem] '>
-              <li className='relative '>
-                <a>
-                  <div className='flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
-                    <MdOutlineSettings className='text-2xl text-gray-600 group-hover:text-white ' />
-                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
-                      Settings
-                    </h3>
-                  </div>
-                </a>
-              </li>
 
               <li className='relative '>
                 <a>
@@ -70,18 +79,16 @@ const Navbar = () => {
                 </a>
               </li>
 
-              <div className='relative'>
-                <div className='flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
-                  <button type='button' onClick={() => signOut( {callbackUrl: '/Login'} )} className='flex'>
-                    <BiLogOutCircle className='text-2xl mr-4 text-gray-600 group-hover:text-white ' />
-                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold'>
-                      Sign Out
+              <li className='relative '>
+                <a href='/LogIn'>
+                  <div className='flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
+                    <BiLogOutCircle className='text-2xl text-gray-600 group-hover:text-white ' />
+                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
+                      LogOut
                     </h3>
-                  </button>
-                </div>
-                
-                
-              </div>
+                  </div>
+                </a>
+              </li>
             </ul>
           </div>
         </nav>

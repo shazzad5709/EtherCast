@@ -3,8 +3,13 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import '../styles/welcome.css'
 import { SessionProvider } from 'next-auth/react'
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { store } from '../redux/store';
+import { Provider } from 'react-redux';
 // import '../styles/dashboard.css'
 
+// create a client
+const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider
@@ -16,3 +21,4 @@ export default function App({ Component, pageProps }: AppProps) {
     </SessionProvider>
   )
 }
+
