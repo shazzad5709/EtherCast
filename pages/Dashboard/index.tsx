@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "../styles/dashboard.module.css";
 import Navbar from "../../components/navbar";
+import Image from "next/image";
 
 const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState("home");
@@ -12,7 +13,9 @@ const Dashboard = () => {
   return (
     <div>
         <Navbar />
-        
+        <div className="pl-100">
+            <Image className="pl-12 ml-60" src={"/EtherCast.png"} alt={""} height={100} width={1300}></Image>
+        </div>
     </div>
   );
 };
