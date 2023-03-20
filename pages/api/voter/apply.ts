@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import connectMongo from "../../../database/conn";
 import Application from "../../../model/application";
 import bcrypt from 'bcrypt'
@@ -46,13 +46,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
+  // validate if it is a POST
   if (req.method !== "POST") {
     return res
       .status(200)
       .json({ error: "This API call only accepts POST methods" });
   }
 
+  // get body variables
   const { data } = req.body;
+  // console.log(data)
 
   const errorMessage = await validateForm(
     data.username,
@@ -72,6 +75,7 @@ export default async function handler(
 
   const hashedPassword = await bcrypt.hash(data.password, 12);
 
+  // create new User on MongoDB
   await Application.create({
     username: data.username,
     usertype: 'voter',
@@ -89,4 +93,5 @@ export default async function handler(
   .catch((err: string) =>
     res.status(400).json({ error: "Error on '/api/register': " + err })
   );
+
 }

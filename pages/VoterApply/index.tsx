@@ -99,6 +99,7 @@ function Application({}: Props) {
   return (
     <div className='bg-[#f4f4f4] font-poppins h-screen flex flex-col items-center justify-center w-full flex-1 px-20 text-center'>
       <div className='bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl'>
+        {/* Application */}
         <div className='w-3/5 p-5'>
           <div className='text-left font-bold tracking-[7px] uppercase hover:text-cyan-800'>
             <Link href='/'>Ethercast</Link>
@@ -131,6 +132,7 @@ function Application({}: Props) {
           </div>
         </div>
 
+        {/* Sign In */}
         <div className='w-2/5 px-12 py-36 bg-cyan-800 text-white rounded-r-2xl'>
           <h2 className='text-3xl mb-2'>Sign in</h2>
           <div className='border-2 w-10 border-white inline-block mb-2'></div>

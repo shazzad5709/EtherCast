@@ -1,6 +1,6 @@
 import React from 'react'
 import { BiUser } from 'react-icons/bi'
-import { MdMailOutline, MdOutlinePassword } from 'react-icons/md'
+import { MdLockOutline, MdMailOutline, MdOutlinePassword } from 'react-icons/md'
 
 type Props = {
   username: string
