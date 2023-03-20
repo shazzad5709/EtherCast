@@ -11,10 +11,10 @@ const Dashboard = () => {
 
   return (
     <div>
-        <Navbar  />
-        {/* <div className="pl-100">
+        <Navbar />
+        <div className="pl-100">
             <Image className="pl-12 ml-60" src={"/EtherCast.png"} alt={""} height={100} width={1300}></Image>
-        </div> */}
+        </div> 
     </div>
   );
 };

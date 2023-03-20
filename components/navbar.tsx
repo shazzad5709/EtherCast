@@ -1,7 +1,9 @@
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 import React from 'react';
 import { BiLogOutCircle } from 'react-icons/bi';
-import { FiUserPlus } from 'react-icons/fi';
 import { FaUserCircle } from 'react-icons/fa';
+import { FiUserPlus } from 'react-icons/fi';
 import { MdOutlineSettings } from 'react-icons/md';
 
 const Navbar = () => {
@@ -21,7 +23,7 @@ const Navbar = () => {
         >
           <div className='pt-6 bg-cyan-800 text-white'>
             <div id='header-content' className='pl-8'>
-              <h4 className='mb-2 text-3xl font-medium leading-[1.2] text-white'>
+              <h4 className='mb-2 text-3xl font-medium leading-[1.2] text-white uppercase tracking-[7px]'>
                 EtherCast
               </h4>
               <p className='mb-4 text-xl text-white'>Dashboard</p>
@@ -34,14 +36,14 @@ const Navbar = () => {
               data-te-sidenav-menu-ref
             >
               <li className='relative '>
-                <a href='/Dashboard/ElectionOfficer/addElecOff'>
+                <Link href='/admin/addElecOff'>
                   <div className='flex mx-4 my-10 mb-2 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
                     <FiUserPlus className='text-2xl text-gray-600 group-hover:text-white ' />
                     <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
-                      Add Users
+                      Add Election Officer
                     </h3>
                   </div>
-                </a>
+                </Link>
               </li>
             </ul>
             <hr className='border-gray-300 my-12' />
@@ -68,16 +70,18 @@ const Navbar = () => {
                 </a>
               </li>
 
-              <li className='relative '>
-                <a href='/LogIn'>
-                  <div className='flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
-                    <BiLogOutCircle className='text-2xl text-gray-600 group-hover:text-white ' />
-                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold '>
-                      LogOut
+              <div className='relative'>
+                <div className='flex mb-2 mx-4 my-10 justify-start items-center gap-4 pl-5 hover:bg-cyan-800 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto'>
+                  <button type='button' onClick={() => signOut( {callbackUrl: '/Login'} )} className='flex'>
+                    <BiLogOutCircle className='text-2xl mr-4 text-gray-600 group-hover:text-white ' />
+                    <h3 className='text-base text-gray-800 group-hover:text-white font-semibold'>
+                      Sign Out
                     </h3>
-                  </div>
-                </a>
-              </li>
+                  </button>
+                </div>
+                
+                
+              </div>
             </ul>
           </div>
         </nav>

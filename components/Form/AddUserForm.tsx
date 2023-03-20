@@ -1,10 +1,8 @@
-import React from 'react'
+import React, { FormEvent, useState } from 'react'
 import { BiIdCard, BiUser} from 'react-icons/bi'
 import { AiOutlineMail,AiFillCodeSandboxCircle } from 'react-icons/ai'
-import { FormEvent, useState } from 'react'
 import axios from 'axios'
 import Router from 'next/router'
-import Popup from 'reactjs-popup'
 
 type FormData = {
   firstname: string
@@ -112,9 +110,9 @@ export default function AddUserForm(props:any) {
     <div className='inline-flex space-x-4'>
       
     <button type='submit' className='border-2 tracking-[2px] border-cyan-800 mb-2 mt-4 rounded-full px-5 py-2 font-semibold inline-block text-cyan-800 hover:bg-cyan-800 hover:text-white'>
-                    Add Officers
-                  </button>
-                  </div>
+      Add Officers
+    </button>
+    </div>
     
   </form>
   )

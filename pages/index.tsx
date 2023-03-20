@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-// import styles1 from '../styles/'
 
 export default function Home() {
   return (
@@ -21,10 +20,8 @@ export default function Home() {
                 
                     <h1 className='head text-4xl tracking-[8px] font-poppins font-bold'><span className='text-5xl'>E</span>ther<span className='text-5xl'>C</span>ast</h1>
                     <p className="subtitle font-poppins">A Blockchain based E-Voting System</p>
-                    <Link href='./LogIn' className="cta cta--white ig font-poppins text-center items-center text-lg px-12 py-2 w-[200px] h-[50px]">Login</Link>
-                    {/* <a href="/regi" className="cta cta--white ig" >Login</a> */}
-                    <Link href='/Dashboard/GuestUser' className="cta cta--white ig font-poppins text-lg text-center items-center px-12 py-2 w-[200px] h-[50px]">Guest User</Link>
-                    {/* <a href="#" className="cta cta--white ">Guest User</a> */}
+                    <Link href='/Login' className="cta cta--white ig font-poppins text-center items-center text-lg px-12 py-2 w-[200px] h-[50px]">Login</Link>
+                    <Link href='#' className="cta cta--white ig font-poppins text-lg text-center items-center px-12 py-2 w-[200px] h-[50px]">Guest User</Link>
                 </div>
 
                 <div id="illustration">

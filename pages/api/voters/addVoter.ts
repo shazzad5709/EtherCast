@@ -60,7 +60,7 @@ export default async function handler(
     id: number,
     name: data.firstname+" "+data.lastname,
     email: data.email,
-    electioncode:(data.elCode as Number),
+    electioncode:(data.elCode as number),
   })
   .then(() =>
     res.status(200).json({ msg: "Successfuly created new User: " + Voter })

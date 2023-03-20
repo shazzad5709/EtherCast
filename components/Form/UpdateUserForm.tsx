@@ -11,14 +11,11 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
   export default function UpdateUserForm({formId,formData,setData}:any) {
     const [fdata,setFdata] = useState<any>({})
     const fetchData = async () => {
-      // e.preventDefault()
       await axios.get(`/api/users/${formId}`)
       .then(res => {
-        // console.log(res.data)
         const data = JSON.stringify(res.data)
         let parsedMap = JSON.parse(data)
         setFdata(parsedMap)
-        // return res.data
       })
       .catch(err => {
         console.log(err)
@@ -27,61 +24,14 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
     
     
     const queryClient = useQueryClient()
-    // const data = findUser()
-    // console.log(data+"sdhgiausdgh")
-    // const {isLoading, isError, data, error} = useQuery(['users', formId], () => getUser(formId))
-    // const {fdata}:any = fetchData()
    
     console.log(fdata)
 
     const UpdateMutation = useMutation((newData) => updateUser(formId, newData), {
          onSuccess : async (data) => {
-             // queryClient.setQueryData('users', (old) => [data])
              queryClient.prefetchQuery('user', getUsers)
          }
      })
-    // useEffect(() => {
-    //   // Fetch the current user data and pre-populate the form fields
-    //   const fetchUserData = async () => {
-    //     // console.log(props.email)
-    //     try {
-    //       const res = await axios.get('/api/users/updateOfficer/');
-    //       setData(res.data);
-    //       // console.log((data))
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   };
-    //   fetchUserData();
-    // }, []);
-
-
-  
-    // function updateFields(fields: Partial<FormData>) {
-    //   setData(prev => {
-    //     return { ...prev, ...fields }
-    //   });
-    // } 
-  
-    // const updateUser = async () => {
-    //   try {
-    //     const res = await axios.put(
-    //       `/api/users/updateOfficer/`,
-    //       {
-    //         data
-    //       },
-    //       {
-    //         headers: {
-    //           Accept: 'application/json',
-    //           'Content-Type': 'application/json',
-    //         }
-    //       }
-    //     );
-    //     Router.reload();
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
    
     const name = fdata.name
     const electioncode = fdata.electioncode
@@ -92,10 +42,7 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
   
     function onSubmit(e: FormEvent) {
       e.preventDefault();
-  
-      // return updateUser();
     }
-
 
   return (
     <>
@@ -110,8 +57,6 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
               name="firstname"
               placeholder="First Name"
               defaultValue={firstname}
-              // value={data.firstname}
-                //  onChange={e => updateFields({firstname: e.target.value})}
             />
           </div>
           <div className="bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4">
@@ -123,8 +68,6 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
               name="lastname"
               placeholder="Last Name"
               defaultValue={lastname}
-              // value={data.lastname}
-                // onChange={e => updateFields({lastname: e.target.value})}
             />
           </div>
         </div>
@@ -139,8 +82,6 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
               name="email"
               placeholder="Email"
               defaultValue={email}
-              // value={data.email}
-              // onChange={e => updateFields({email: e.target.value})}
             />
           </div>
           <div className="bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4">
@@ -152,8 +93,6 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
               name="role"
               placeholder="Role"
               defaultValue={role}
-              // value={data.role}
-                // onChange={e => updateFields({role: e.target.value})}
             />
           </div>
         </div>
@@ -168,8 +107,6 @@ import { getUser, getUsers, updateUser } from "../../lib/helper";
               name="elCode"
               placeholder="Election Code"
               defaultValue={electioncode}
-              // value={data.elCode}
-                // onChange={e => updateFields({elCode: e.target.value})}
             />
           </div>
         </div>
