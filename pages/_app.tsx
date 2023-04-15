@@ -1,7 +1,6 @@
 import '../styles/globals.css'
 // import '../styles/regi.css'
 import type { AppProps } from 'next/app'
-import '../styles/welcome.css'
 import { SessionProvider } from 'next-auth/react'
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { store } from '../redux/store';
