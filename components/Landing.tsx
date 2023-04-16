@@ -8,17 +8,20 @@ type Props = {}
 export default function ({ }: Props) {
   return (
     <div className='h-screen box-border bg-cover bg-[url("/candlebg.svg")]'>
-      <div className='flex flex-col-reverse justify-end md:justify-center mt-10 md:mt-0 items-center gap-20 md:gap-12 lg:gap-[200px] md:pl-10 h-screen md:flex-row'>
+      <div className='flex flex-col-reverse justify-end md:justify-center mt-10 md:mt-0 items-center gap-10 md:gap-12 lg:gap-[200px] md:pl-10 h-screen md:flex-row'>
         <div className='flex flex-col space-y-2 justify-center items-center'>
           <h1 className='uppercase tracking-[6px] text-3xl font-bold lg:text-5xl'>
             Ethercast
           </h1>
-          <p className='text-xl text-purple-dark lg:text-2xl'>
+          <p className='text-xl text-gray-700 lg:text-2xl'>
             A Blockchain based E-Voting System
           </p>
           <div className='flex space-x-6 pt-2 md:pt-5 md:space-x-8'>
             <Link href='/Login'><Button label='Sign In' large /></Link>
-            <Link href='/Guest'><Button label='Guest' large /></Link>
+            <Link href='/Guest'><Button label='Sign Up' large /></Link>
+          </div>
+          <div className='flex pt-2 md:pt-5'>
+            <Link href='/Guest'><Button label='Continue as Guest' large dynamic /></Link>
           </div>
         </div>
         <div className='flex flex-col md:flex-row'>

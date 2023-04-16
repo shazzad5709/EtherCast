@@ -9,23 +9,24 @@ module.exports = {
     colors: {
       white: "#fff",
       black: "#000",
-      grey: {
+      gray: {
         100: '#f4f5fa',
         300: '#dde0ec',
         500: '#969caa',
         700: '#53565e'
       },
-      green: '#1faf2c',
-      yellow: '#f7b409',
+      primary: '#008753',
+      yellow: '#f2cbc6',
       red: '#de3232',
-      purple: {
-        light: '#6c58f7',
-        dark: '#4733d2',
-        darker: '#2D2085',
-      },
-      sky: '#7cb2fb',
-      cyan: '52b5c9',
-      salmon: '#f2a293',
+      // purple: {
+      //   light: '#6c58f7',
+      //   dark: '#4733d2',
+      //   darker: '#2D2085',
+      // },
+      // sky: '#7cb2fb',
+      // cyan: '52b5c9',
+      // salmon: '#f2a293',
+      green: '#1B9E6C'
     },
     fontFamily: {
       poppins: ["Poppins", "sans-serif"],

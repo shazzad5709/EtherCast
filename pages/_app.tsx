@@ -14,8 +14,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <SessionProvider
-          // Provider options are not required but can be useful in situations where
-          // you have a short session maxAge time. Shown here with default values.
           session={pageProps.session}
         >
           <Component {...pageProps} />
