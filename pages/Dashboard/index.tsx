@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "../styles/dashboard.module.css";
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/OldOnes/navbar";
 import Image from "next/image";
 
 const Dashboard = () => {

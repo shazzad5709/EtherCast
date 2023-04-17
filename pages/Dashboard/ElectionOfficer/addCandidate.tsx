@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
-import Navbar from "../../../components/navbar2";
-import Table from "../../../components/tableCandidate";
+import Navbar from "../../../components/OldOnes/navbar2";
+import Table from "../../../components/OldOnes/tableCandidate";
 import Form from "../../../components/Form/AddCandidate";
 import { useSelector, useDispatch  } from 'react-redux';
 import { toggleChangeAction, deleteAction } from '../../../redux/reducer';

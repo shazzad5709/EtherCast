@@ -1,8 +1,8 @@
 'use Client'
 
 import React, { useState } from "react"
-import Navbar from "../../components/navbar"
-import Table from "../../components/table"
+import Navbar from "../../components/OldOnes/navbar"
+import Table from "../../components/OldOnes/table"
 import Form from "../../components/Form"
 import { useSession } from "next-auth/react"
 import Link from "next/link"

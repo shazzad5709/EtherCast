@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react'
 import Link from 'next/link'
 import { MdKeyboardBackspace } from 'react-icons/md'
-import OrgInfoForm from '../../components/OrgInfoForm'
+import OrgInfoForm from '../../components/OldOnes/OrgInfoForm'
 import useMultiStepForm from './useMultiStepForm'
 import AccountInfoForm from '../../components/OldOnes/AccountInfoForm'
 import axios from 'axios'
