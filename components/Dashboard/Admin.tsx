@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Navbar from "../Utilities/Navbar";
-
+import Input from "../Utilities/Input";
 import { FiUserPlus } from "react-icons/fi";
+import Form from "../Utilities/Form";
 
 const Admin = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,9 @@ const Admin = () => {
   return (
     <div>
         <Navbar NavbarItems={navbarItems} />
-        
+        <div >
+          <Form buttonName={"Add Election Chairman"} />
+        </div>
     </div>
   );
 };
