@@ -5,17 +5,17 @@ import { FiUserPlus } from "react-icons/fi";
 import Form from "../Utilities/Form";
 
 const Admin = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const navbarItems = [
-        { id: 1, label: 'Add Election Chairman', icon: FiUserPlus , href: '/addEC' },
-        ];
+  const [isOpen, setIsOpen] = useState(true);
+  const navbarItems = [
+    { id: 1, label: 'Add Election Chairman', icon: FiUserPlus, href: '/addEC' },
+  ];
 
   return (
-    <div>
-        <Navbar NavbarItems={navbarItems} />
-        <div >
-          <Form buttonName={"Add Election Chairman"} />
-        </div>
+    <div className="bg-gray-300 flex">
+      <Navbar NavbarItems={navbarItems} />
+      <div className="flex w-full justify-center items-center">
+        <Form buttonName={"Add Election Chairman"} />
+      </div>
     </div>
   );
 };

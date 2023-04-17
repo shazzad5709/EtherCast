@@ -4,6 +4,8 @@ import Link from 'next/link'
 import NavbarOptions from './NavbarOptions'
 import { NavbarItem } from '../../types/interfaces'
 import { MdLogout } from 'react-icons/md'
+import NavbarMenu from './NavbarMenu'
+import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 
 type Props = {
   NavbarItems: NavbarItem[]
@@ -43,9 +45,22 @@ export default function Navbar({ NavbarItems }: Props) {
       </div>
 
       {/* Mobile Menu */}
-      <div className='w-full bg-gray-300 fixed top-0 left-0'>
-        <div className='flex md:hidden justify-between items-center p-4'>
-
+      <div className='w-full md:hidden fixed top-0 left-0'>
+        {/* Add Menu open-close functionality */}
+        <div className='bg-black flex justify-evenly px-4 py-3'>
+            <HiOutlineMenuAlt1 className='text-white ' size={24} />
+        </div>
+        <div className='hidden bg-black h-screen'>
+          <div className='absolute w-full flex flex-col md:hidden justify-between items-center'>
+          {items.map((item) => (
+              <NavbarMenu 
+                key={item.id}
+                label={item.label}
+                icon={item.icon}
+                href={item.href}
+              />
+            ))} 
+          </div>
         </div>
       
       </div>
