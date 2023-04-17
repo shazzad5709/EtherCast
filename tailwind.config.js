@@ -10,8 +10,8 @@ module.exports = {
       white: "#fff",
       black: "#000",
       gray: {
-        100: '#f4f5fa',
-        300: '#dde0ec',
+        100: '#f2f2f2',
+        300: '#efefef',
         500: '#969caa',
         700: '#53565e'
       },
@@ -26,7 +26,8 @@ module.exports = {
       // sky: '#7cb2fb',
       // cyan: '52b5c9',
       // salmon: '#f2a293',
-      green: '#1B9E6C'
+      green: '#1B9E6C',
+      'green-dark': '#008753',
     },
     fontFamily: {
       poppins: ["Poppins", "sans-serif"],

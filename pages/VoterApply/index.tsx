@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { MdKeyboardBackspace } from 'react-icons/md'
 import OrgInfoForm from '../../components/OrgInfoForm'
 import useMultiStepForm from './useMultiStepForm'
-import AccountInfoForm from '../../components/AccountInfoForm'
+import AccountInfoForm from '../../components/OldOnes/AccountInfoForm'
 import axios from 'axios'
 import Router from 'next/router'
 
