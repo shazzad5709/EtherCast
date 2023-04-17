@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
-import Navbar from '../../components/navbar4'
+import Navbar from "../../../components/OldOnes/navbar4"
 
 type Props = {}
 

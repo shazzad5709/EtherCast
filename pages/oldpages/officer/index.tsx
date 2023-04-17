@@ -1,32 +1,22 @@
-'use Client'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
+import React from 'react'
+import Navbar from '../../../components/OldOnes/navbar2'
 
-import React, { useState } from "react"
-import Navbar from "../../components/OldOnes/navbar"
-import Table from "../../components/OldOnes/table"
-import Form from "../../components/Form"
-import { useSession } from "next-auth/react"
-import Link from "next/link"
-type Props = {};
+type Props = {}
 
-const Admin = (props: Props) => {
+const Candidate = (props: Props) => {
   const { data: session, status } = useSession()
   const user = session?.user
-
-  const [selectedTab, setSelectedTab] = useState("home");
-
-  const handleTabClick = (tabName: string) => {
-    setSelectedTab(tabName);
-  };
 
   if (status === "authenticated") {
     const data = JSON.stringify(user)
     let parsedMap = JSON.parse(data)
-    if(parsedMap._doc.usertype === 'admin') {
+    if(parsedMap._doc.usertype === 'officer') {
       return (
         <div>
           <Navbar />
-          <div className="pl-100">
-            <h1 className="text-6xl">...</h1>
+            <div className="pl-100">
           </div>
         </div>
       )
@@ -54,7 +44,6 @@ const Admin = (props: Props) => {
       </Link>
     </div>
   )
-  
 }
 
-export default Admin
+export default Candidate
