@@ -1,13 +1,22 @@
-import { useSession } from 'next-auth/react'
-import Link from 'next/link'
-import React from 'react'
-import Navbar from '../../components/OldOnes/navbar3'
+'use Client'
 
-type Props = {}
+import React, { useState } from "react"
+import Navbar from "../../../components/OldOnes/navbar"
+import Table from "../../../components/OldOnes/table"
+import Form from "../../../components/Form"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
+type Props = {};
 
-const Voter = (props: Props) => {
+const Admin = (props: Props) => {
   const { data: session, status } = useSession()
   const user = session?.user
+
+  const [selectedTab, setSelectedTab] = useState("home");
+
+  const handleTabClick = (tabName: string) => {
+    setSelectedTab(tabName);
+  };
 
   if (status === "authenticated") {
     const data = JSON.stringify(user)
@@ -17,7 +26,8 @@ const Voter = (props: Props) => {
         <div>
           <Navbar />
           <div className="pl-100">
-        </div>
+            <h1 className="text-6xl">...</h1>
+          </div>
         </div>
       )
     }
@@ -44,6 +54,7 @@ const Voter = (props: Props) => {
       </Link>
     </div>
   )
+  
 }
 
-export default Voter
+export default Admin

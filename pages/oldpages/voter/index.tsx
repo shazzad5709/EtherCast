@@ -1,23 +1,23 @@
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
-import Navbar from '../../components/OldOnes/navbar2'
+import Navbar from '../../../components/OldOnes/navbar3'
 
 type Props = {}
 
-const Candidate = (props: Props) => {
+const Voter = (props: Props) => {
   const { data: session, status } = useSession()
   const user = session?.user
 
   if (status === "authenticated") {
     const data = JSON.stringify(user)
     let parsedMap = JSON.parse(data)
-    if(parsedMap._doc.usertype === 'officer') {
+    if(parsedMap._doc.usertype === 'admin') {
       return (
         <div>
           <Navbar />
-            <div className="pl-100">
-          </div>
+          <div className="pl-100">
+        </div>
         </div>
       )
     }
@@ -46,4 +46,4 @@ const Candidate = (props: Props) => {
   )
 }
 
-export default Candidate
+export default Voter

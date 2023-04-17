@@ -1,8 +1,8 @@
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
-import Unauthorized from '../../components/PageComponents/Unauthorized'
-import Unauthenticated from '../../components/PageComponents/Unauthenticated'
+import Unauthorized from '../../../components/PageComponents/Unauthorized'
+import Unauthenticated from '../../../components/PageComponents/Unauthenticated'
 
 type Props = {}
 
