@@ -23,6 +23,7 @@ export default function Navbar({ NavbarItems }: Props) {
         <div className='pt-8'>
           {items.map((item) => (
             <NavbarOptions 
+              key={item.id}
               label={item.label}
               icon={item.icon}
               href={item.href}
