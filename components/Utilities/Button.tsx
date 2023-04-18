@@ -9,8 +9,9 @@ type Props = {
 }
 
 export default function Button({ label, secondary, large, dynamic }: Props) {
+
   return (
-    <button
+    <button type='submit'
       className={`
         rounded-xl
         transition

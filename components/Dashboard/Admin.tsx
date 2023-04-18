@@ -10,6 +10,9 @@ const Admin = () => {
     { id: 1, label: 'Add Election Chairman', icon: FiUserPlus, href: '/addEC' },
   ];
 
+  const [inputValue, setInputValue] = useState(''); // Declare state for input value
+
+  // Event handler for input value change
   return (
     <div className="bg-gray-300 flex">
       <Navbar NavbarItems={navbarItems} />
