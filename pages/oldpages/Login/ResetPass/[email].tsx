@@ -134,7 +134,7 @@ export default function ResetPass({}: Props) {
                   <input
                       className='bg-gray-100 flex-1 outline-none'
                       type='password'
-                      name='password'
+                      name='newpassword'
                       placeholder='New Password'
                       required
                       defaultValue={''}
@@ -147,7 +147,7 @@ export default function ResetPass({}: Props) {
                   <input
                       className='bg-gray-100 flex-1 outline-none'
                       type='password'
-                      name='password'
+                      name='confirmpassword'
                       placeholder='Confirm Password'
                       required
                       value={confirmPassword}
