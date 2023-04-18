@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 type Props = {};
 
-export default function login({ }: Props) {
+export default function SignIn({ }: Props) {
   return (
     <div className='bg-gray-100 h-screen'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0'>

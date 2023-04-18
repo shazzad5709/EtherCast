@@ -3,7 +3,7 @@ import React from 'react'
 
 type Props = {}
 
-export default function index({}: Props) {
+export default function SignUp({}: Props) {
   return (
     <div className='bg-gray-100 h-screen'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0'>
