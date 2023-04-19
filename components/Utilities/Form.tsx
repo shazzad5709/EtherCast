@@ -21,6 +21,12 @@ export default function Form({ buttonName }: Props) {
 
   const [tableData, setTableData] = useState<FormData[]>([]); // Update type to FormData[]
 
+  const [showForm, setShowForm] = useState(false); // initial state is false
+
+  const toggleForm = () => {
+    setShowForm(!showForm);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -42,6 +48,9 @@ export default function Form({ buttonName }: Props) {
  
   return (
     <>
+     <button onClick={toggleForm}>Add User</button>
+    
+    {showForm && (
     <form onSubmit={handleSubmit}>
     <div className=" bg-grey-100 py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -55,13 +64,8 @@ export default function Form({ buttonName }: Props) {
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <div className="relative">
-                  <input
-                    autoComplete="off"
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={formData.name} // Bind input value to state
-                    onChange={handleChange} // Bind input change event to event handler
+                  <input autoComplete="off" id="name" name="name" 
+                  type="text" value={formData.name} onChange={handleChange} 
                     className="h-10 w-full border-b-2 border-gray-300 text-black focus:outline-none focus:border-rose-600"
                     placeholder="Name"
                   />
@@ -69,26 +73,16 @@ export default function Form({ buttonName }: Props) {
                 </div>
 
                 <div className="relative">
-                  <input
-                    autoComplete="off"
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
+                  <input autoComplete="off" id="email" name="email" 
+                  type="email"  value={formData.email} onChange={handleChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Email address"
                   />
 
                 </div>
                 <div className="relative">
-                  <input
-                    autoComplete="off"
-                    id="orgName"
-                    name="orgName"
-                    type="text"
-                    value={formData.orgName}
-                    onChange={handleChange}
+                  <input autoComplete="off" id="orgName" name="orgName"
+                    type="text" value={formData.orgName} onChange={handleChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Org Name"
                   />
@@ -96,13 +90,8 @@ export default function Form({ buttonName }: Props) {
                 </div>
 
                 <div className="relative">
-                  <input
-                    autoComplete="off"
-                    id="empCode"
-                    name="empCode"
-                    type="text"
-                    value={formData.empCode}
-                    onChange={handleChange}
+                  <input autoComplete="off" id="empCode" name="empCode"
+                  type="text" value={formData.empCode} onChange={handleChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Employee Code"
                   />
@@ -118,8 +107,11 @@ export default function Form({ buttonName }: Props) {
       </div>
     </div>
   </form>
+   )}
   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
 		<div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+    {tableData.length > 0 ? (
+
 			<table className="min-w-full leading-normal">
 					<thead>
             <tr>
@@ -131,6 +123,8 @@ export default function Form({ buttonName }: Props) {
 							Organization Name</th>
               <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
 							Employee Code</th>
+              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+							Action</th>
             </tr>
           </thead>
           <tbody>
@@ -144,10 +138,16 @@ export default function Form({ buttonName }: Props) {
                     {data.orgName}</td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     {data.empCode}</td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <button onClick={toggleForm}>Update</button>
+                 </td>
               </tr>
             ))}
           </tbody>
-      </table>
+      </table>) : (
+  <p>No data to display</p>
+)}
+
     </div>
   </div>
   </>

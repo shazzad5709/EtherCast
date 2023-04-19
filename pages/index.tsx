@@ -4,12 +4,14 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import Landing from '../components/PageComponents/Landing'
 import Admin from '../components/Dashboard/Admin'
+import Test from '../components/Utilities/Test'
 
 export default function Home() {
   return (
     <>            
       {/* <Landing />   */}
-      <Admin />
+      {/* <Admin /> */}
+      <Test />
     </>
   )
 }
