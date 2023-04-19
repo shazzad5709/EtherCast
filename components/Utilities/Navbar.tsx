@@ -30,7 +30,7 @@ export default function Navbar({ NavbarItems }: Props) {
 
   return (
     <>
-      <div className='hidden md:flex md:flex-col md:w-fit xl:w-1/6 xl:px-10 h-screen bg-white mr-6 px-6 pt-8'>
+      <div className='sticky top-0 left-0 hidden md:flex md:flex-col md:w-fit xl:w-1/6 xl:px-10 h-screen bg-white mr-6 px-6 pt-8'>
         <div className='flex md:w-[60px]' >
           <Link href='/test'>
             <Image src='/ec-black-high.png' width={60} height={60} alt={''} />

@@ -37,8 +37,11 @@ module.exports = {
       // sky: '#7cb2fb',
       // cyan: '52b5c9',
       // salmon: '#f2a293',
-      green: '#047857',
-      'green-dark': '#065f46',
+      green: {
+        light: '#F1F8F5',
+        DEFAULT: '#047857',
+        dark: '#065f46'
+      },
     },
     fontFamily: {
       poppins: ["Poppins", "sans-serif"],
@@ -72,5 +75,10 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')
+  ],
+  variants: {
+    scrollbar: ['rounded'],
+  },
 }

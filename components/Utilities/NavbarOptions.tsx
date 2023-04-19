@@ -16,7 +16,7 @@ export default function NavbarOptions({ label, icon: Icon, href, onClick }: Prop
   }, [])
 
   return ( 
-    <div onClick={handleClick} className='hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-gray-300 hover:cursor-pointer hover:drop-shadow-md'>
+    <div onClick={handleClick} className='hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-green-light hover:text-green-dark hover:cursor-pointer hover:drop-shadow-md'>
       <div className='relative space-x-3 md:w-[36px] lg:w-fit flex items-start justify-center cursor-pointer'>
         <Icon size={24} />
         <p className='hidden lg:block text-xl'>{label}</p>
