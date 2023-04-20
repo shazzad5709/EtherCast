@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Button from './Button'
+import { BiUser, BiIdCard } from 'react-icons/bi';
+import { FaVoteYea } from 'react-icons/fa';
 
 type Props = {
   buttonName: string
@@ -93,47 +95,45 @@ export default function Form({ buttonName }: Props) {
     
     {showForm && (
     <form onSubmit={handleSubmit}>
-    <div className=" bg-grey-100 py-6 flex flex-col justify-center sm:py-12">
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary to-green shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
-        </div>
-        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-          <div className="max-w-md mx-auto">
-            <div>
-
-            </div>
-            <div className="divide-y divide-gray-200">
-              <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                <div className="relative">
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <BiUser className='text-gray-400 m-2' />
+      <div className="relative">
                   <input  type="text" id="name" value={name} onChange={handleNameChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-black focus:outline-none focus:border-rose-600"
                     placeholder="Name"
                   />
 
                 </div>
-
-                <div className="relative">
+                </div>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <BiUser className='text-gray-400 m-2' />
+      <div className="relative">
                   <input  type="email" id="email" value={email} onChange={handleEmailChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Email address"
                   />
 
-                </div>
-                <div className="relative">
+                </div></div>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <BiUser className='text-gray-400 m-2' />
+      <div className="relative">
                   <input  type="text" id="orgName" value={orgName} onChange={handleOrgNameChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Org Name"
                   />
 
-                </div>
-
-                <div className="relative">
+                </div></div>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+      <FaVoteYea className='text-gray-400 m-2' />
+      <div className="relative">
                   <input  type="text" id="empCode" value={empCode} onChange={handleEmpCodeChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Employee Code"
                   />
 
-                </div>
+                </div></div>
+    
+       
                 <div className="relative">
                 <button type="submit">{selectedRecord ? 'Update' : 'Create'}</button>
         {selectedRecord && (
@@ -141,13 +141,12 @@ export default function Form({ buttonName }: Props) {
             Cancel
           </button>
         )}
-                </div>
-              </div>
-            </div>
-          </div>
+               
+             
+            
+          
         </div>
-      </div>
-    </div>
+      
   </form>
    )}
   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
