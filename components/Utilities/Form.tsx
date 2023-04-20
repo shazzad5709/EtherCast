@@ -11,7 +11,7 @@ interface FormData {
   name: string;
   email: string;
   orgName: string;
-  empCode: string; // Update type to string
+  empCode: string; 
 }
 
 export default function Form({ buttonName }: Props) {
