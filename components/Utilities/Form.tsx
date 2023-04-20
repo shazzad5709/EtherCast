@@ -94,8 +94,8 @@ export default function Form({ buttonName }: Props) {
      <button onClick={toggleForm}>Add User</button>
     
     {showForm && (
-    <form onSubmit={handleSubmit}>
-    <div className='bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4'>
+    <form onSubmit={handleSubmit} className='flex flex-col'>
+    <div className='bg-gray-100 rounded-lg w-64 p-2 flex flex-col items-center space-x-1 mb-4'>
       <BiUser className='text-gray-400 m-2' />
       <div className="relative">
                   <input  type="text" id="name" value={name} onChange={handleNameChange}
