@@ -5,6 +5,7 @@ type Props = {
   buttonName: string
 }
 interface FormData {
+  id: number,
   name: string;
   email: string;
   orgName: string;
@@ -12,38 +13,70 @@ interface FormData {
 }
 
 export default function Form({ buttonName }: Props) {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    orgName: '',
-    empCode: ''
-  });
+  const [records, setRecords] = useState<FormData[]>([]);
 
   const [tableData, setTableData] = useState<FormData[]>([]); // Update type to FormData[]
+  const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [orgName, setOrgName] = useState('');
+  const [empCode, setEmpCode] = useState('');
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const id = new Date().getTime();
+    const newRecord = { id, name, email,orgName,empCode };
+
+    let newRecords;
+    if (selectedRecord) {
+      newRecords = records.map((record) =>
+        record.id === selectedRecord.id ? newRecord : record
+      );
+    } else {
+      newRecords = [...records, newRecord];
+    }
+
+    setRecords(newRecords);
+    setSelectedRecord(null);
+    setName('');
+    setEmail('');
+  };
+
+  const handleEdit = (id: number) => {
+    const selectedRecord = records.find((record) => record.id === id);
+    if (selectedRecord) {
+      setSelectedRecord(selectedRecord);
+      setName(selectedRecord.name);
+      setEmail(selectedRecord.email);
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    const newRecords = records.filter((record) => record.id !== id);
+    setRecords(newRecords);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handleEmpCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmpCode(event.target.value);
+  };
+
+  const handleOrgNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOrgName(event.target.value);
+  };
 
   const [showForm, setShowForm] = useState(false); // initial state is false
 
   const toggleForm = () => {
     setShowForm(!showForm);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setTableData([...tableData, formData]);
-    setFormData({
-      name: '',
-      email: '',
-      orgName: '',
-      empCode: ''
-    });
   };
  
   return (
@@ -64,8 +97,7 @@ export default function Form({ buttonName }: Props) {
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <div className="relative">
-                  <input autoComplete="off" id="name" name="name" 
-                  type="text" value={formData.name} onChange={handleChange} 
+                  <input autoComplete="off" type="text" id="name" value={name} onChange={handleNameChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-black focus:outline-none focus:border-rose-600"
                     placeholder="Name"
                   />
@@ -73,16 +105,14 @@ export default function Form({ buttonName }: Props) {
                 </div>
 
                 <div className="relative">
-                  <input autoComplete="off" id="email" name="email" 
-                  type="email"  value={formData.email} onChange={handleChange}
+                  <input autoComplete="off" type="email" id="email" value={email} onChange={handleEmailChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Email address"
                   />
 
                 </div>
                 <div className="relative">
-                  <input autoComplete="off" id="orgName" name="orgName"
-                    type="text" value={formData.orgName} onChange={handleChange}
+                  <input autoComplete="off" type="text" id="orgName" value={orgName} onChange={handleOrgNameChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Org Name"
                   />
@@ -90,15 +120,19 @@ export default function Form({ buttonName }: Props) {
                 </div>
 
                 <div className="relative">
-                  <input autoComplete="off" id="empCode" name="empCode"
-                  type="text" value={formData.empCode} onChange={handleChange}
+                  <input autoComplete="off" type="text" id="empCode" value={empCode} onChange={handleEmpCodeChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Employee Code"
                   />
 
                 </div>
                 <div className="relative">
-                <Button label={buttonName} dynamic large />
+                <button type="submit">{selectedRecord ? 'Update' : 'Create'}</button>
+        {selectedRecord && (
+          <button type="button" onClick={() => setSelectedRecord(null)}>
+            Cancel
+          </button>
+        )}
                 </div>
               </div>
             </div>
@@ -110,7 +144,6 @@ export default function Form({ buttonName }: Props) {
    )}
   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
 		<div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-    {tableData.length > 0 ? (
 
 			<table className="min-w-full leading-normal">
 					<thead>
@@ -128,25 +161,30 @@ export default function Form({ buttonName }: Props) {
             </tr>
           </thead>
           <tbody>
-            {tableData.map((data, index) => (
-              <tr key={index}>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {data.name}</td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {data.email}</td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {data.orgName}</td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {data.empCode}</td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <button onClick={toggleForm}>Update</button>
-                 </td>
-              </tr>
-            ))}
+          {records.map((record) => (
+            <tr key={record.id}>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {record.name}</td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {record.email}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {record.orgName}</td>
+                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {record.empCode}</td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    
+                <button type="button" onClick={() => handleEdit(record.id)}>
+                  Edit
+                </button>
+                <button type="button" onClick={() => handleDelete(record.id)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+              
           </tbody>
-      </table>) : (
-  <p>No data to display</p>
-)}
+      </table>
 
     </div>
   </div>

@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <>            
       {/* <Landing />   */}
-      {/* <Admin /> */}
-      <Test />
+      <Admin />
+      {/* <Test /> */}
     </>
   )
 }
