@@ -41,18 +41,25 @@ export default function Form({ buttonName }: Props) {
     setSelectedRecord(null);
     setName('');
     setEmail('');
+    setOrgName('');
+    setEmpCode('');
+    toggleForm()
   };
 
   const handleEdit = (id: number) => {
+    toggleForm()
     const selectedRecord = records.find((record) => record.id === id);
     if (selectedRecord) {
       setSelectedRecord(selectedRecord);
       setName(selectedRecord.name);
       setEmail(selectedRecord.email);
+      setOrgName(selectedRecord.orgName);
+      setEmpCode(selectedRecord.empCode);
     }
   };
 
   const handleDelete = (id: number) => {
+    // toggleForm()
     const newRecords = records.filter((record) => record.id !== id);
     setRecords(newRecords);
   };
@@ -81,6 +88,7 @@ export default function Form({ buttonName }: Props) {
  
   return (
     <>
+
      <button onClick={toggleForm}>Add User</button>
     
     {showForm && (
@@ -97,7 +105,7 @@ export default function Form({ buttonName }: Props) {
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <div className="relative">
-                  <input autoComplete="off" type="text" id="name" value={name} onChange={handleNameChange}
+                  <input  type="text" id="name" value={name} onChange={handleNameChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-black focus:outline-none focus:border-rose-600"
                     placeholder="Name"
                   />
@@ -105,14 +113,14 @@ export default function Form({ buttonName }: Props) {
                 </div>
 
                 <div className="relative">
-                  <input autoComplete="off" type="email" id="email" value={email} onChange={handleEmailChange}
+                  <input  type="email" id="email" value={email} onChange={handleEmailChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Email address"
                   />
 
                 </div>
                 <div className="relative">
-                  <input autoComplete="off" type="text" id="orgName" value={orgName} onChange={handleOrgNameChange}
+                  <input  type="text" id="orgName" value={orgName} onChange={handleOrgNameChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Org Name"
                   />
@@ -120,7 +128,7 @@ export default function Form({ buttonName }: Props) {
                 </div>
 
                 <div className="relative">
-                  <input autoComplete="off" type="text" id="empCode" value={empCode} onChange={handleEmpCodeChange}
+                  <input  type="text" id="empCode" value={empCode} onChange={handleEmpCodeChange}
                     className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                     placeholder="Employee Code"
                   />
@@ -173,7 +181,7 @@ export default function Form({ buttonName }: Props) {
                     {record.empCode}</td>
               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     
-                <button type="button" onClick={() => handleEdit(record.id)}>
+                <button type="button"  onClick={() => handleEdit(record.id)} >
                   Edit
                 </button>
                 <button type="button" onClick={() => handleDelete(record.id)}>
