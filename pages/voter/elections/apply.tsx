@@ -1,9 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
-export default function SignIn({ }: Props) {
+export default function Apply({ }: Props) {
+  const router = useRouter()
+  const code = router.query.code
+  
   return (
     <div className='bg-gray-100 h-screen'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0'>
@@ -16,22 +20,41 @@ export default function SignIn({ }: Props) {
           </Link>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold leading-tight tracking-tight md:text-2xl'>
-              Sign in to your account
+              Apply as a Voter
             </h1>
             <form className='space-y-4 md:space-y-6' action='#'>
+              <div className='md:space-y-2'>
+                <p className='text-lg'>Election 1 <br /> Org 1 </p>
+              </div>
               <div>
                 <label
-                  htmlFor='username'
+                  htmlFor='code'
                   className='block mb-2 text-sm font-medium'
                 >
-                  Username
+                  Election Code
                 </label>
                 <input
-                  type='text'
-                  name='username'
-                  id='username'
+                  type='number'
+                  name='code'
+                  id='code'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                  placeholder='username123'
+                  placeholder='123456'
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor='employeeId'
+                  className='block mb-2 text-sm font-medium'
+                >
+                  Election Code
+                </label>
+                <input
+                  type='number'
+                  name='employeeId'
+                  id='employeeId'
+                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                  placeholder='123456'
                   required
                 />
               </div>
@@ -55,25 +78,8 @@ export default function SignIn({ }: Props) {
                 type='submit'
                 className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
               >
-                Sign in
+                Apply
               </button>
-              <div className='flex items-center justify-between'>
-                <Link
-                  href='/signin/accountrecovery'
-                  className='text-sm font-semibold text-primary-600 hover:underline'
-                >
-                  Forgot password?
-                </Link>
-                <p className='text-sm font-light text-gray-500'>
-                  Don’t have an account yet?{' '}
-                  <Link
-                    href='/signup'
-                    className='font-semibold text-primary-600 hover:underline'
-                  >
-                    Sign up
-                  </Link>
-                </p>
-              </div>
             </form>
           </div>
         </div>

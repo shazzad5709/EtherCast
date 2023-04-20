@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import Navbar from '../../../../components/Utilities/Navbar'
+import Navbar from '../../../components/Utilities/Navbar'
 import { FaUserTie } from 'react-icons/fa'
 import { MdHowToVote } from 'react-icons/md'
 import { RiGovernmentFill } from 'react-icons/ri'
-import { NavbarItem } from '../../../../types/interfaces'
-import ElectionList from '../../../../components/Utilities/ElectionList'
+import { NavbarItem } from '../../../types/interfaces'
+import ElectionList from '../../../components/Utilities/ElectionList'
 
 type Props = {}
 
@@ -38,45 +38,7 @@ export default function Elections({ }: Props) {
     setActive(false)
   }
 
-  const allElection = [
-    {
-      code: 1,
-      name: 'Election 1',
-      org: 'Org 1',
-      applyDeadline: '2023-05-01',
-      voteStart: '2023-05-02',
-    },
-    {
-      code: 2,
-      name: 'Election 2',
-      org: 'Org 2',
-      applyDeadline: '2023-05-01',
-      voteStart: '2023-05-02',
-    },
-    {
-      code: 3,
-      name: 'Election 3',
-      org: 'Org 3',
-      applyDeadline: '2023-05-01',
-      voteStart: '2023-05-02',
-    },
-    {
-      code: 4,
-      name: 'Election 4',
-      org: 'Org 4',
-      applyDeadline: '2023-05-01',
-      voteStart: '2023-05-02',
-    },
-    {
-      code: 5,
-      name: 'Election 5',
-      org: 'Org 5',
-      applyDeadline: '2023-05-01',
-      voteStart: '2023-05-02',
-    }
-  ]
-
-  const participating = [
+  const started = [
     {
       code: 1,
       name: 'Election 1',
@@ -124,11 +86,11 @@ export default function Elections({ }: Props) {
           </div> */}
           <div>
             <div className='sticky left-0 top-0 right-0 flex bg-white mt-2 space-x-2 mr-0 md:mr-6 justify-center'>
-              <Button label='All Elections' isActive={active} onClick={handleAllClick} />
-              <Button label='Participating' isActive={!active} onClick={handleMyClick} />
+              <Button label='Ongoing Poll' isActive={active} onClick={handleAllClick} />
+              <Button label='Live Result' isActive={!active} onClick={handleMyClick} />
             </div>
             <div className="bg-white scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white overflow-y-scroll h-[calc(100vh-90px)] mb-4 border border-gray-200 shadow-sm lg:mb-12 mr-0 md:mr-6 mt-4">
-              {active ? allElection.map((election) => (
+              {active ? started.map((election) => (
                 <ElectionList
                   key={election.code}
                   code={election.code}
@@ -136,18 +98,21 @@ export default function Elections({ }: Props) {
                   org={election.org}
                   applyDeadline={election.applyDeadline}
                   voteStart={election.voteStart}
+                  started
                 />
-              )) : participating.map((election) => (
-                <ElectionList
-                  key={election.code}
-                  code={election.code}
-                  name={election.name}
-                  org={election.org}
-                  applyDeadline={election.applyDeadline}
-                  voteStart={election.voteStart}
-                  applied
-                />
-              ))}
+              )) : <></> 
+              // participating.map((election) => (
+              //   <ElectionList
+              //     key={election.code}
+              //     code={election.code}
+              //     name={election.name}
+              //     org={election.org}
+              //     applyDeadline={election.applyDeadline}
+              //     voteStart={election.voteStart}
+              //     applied
+              //   />
+              // ))
+              }
             </div>
           </div>
         </div>
