@@ -1,9 +1,9 @@
 import React from 'react'
-import { getUsers } from "../lib/helper";
+import { getUsers } from "../../lib/helper";
 import { BiTrashAlt,BiEdit } from 'react-icons/bi'
 import { useQuery } from 'react-query';
 import { useSelector, useDispatch } from 'react-redux'
-import { toggleChangeAction, updateAction,  deleteAction } from '../redux/reducer'
+import { toggleChangeAction, updateAction,  deleteAction } from '../../redux/reducer'
 
 
 export default function Table(){
