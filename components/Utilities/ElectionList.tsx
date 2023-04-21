@@ -19,7 +19,7 @@ export default function ElectionList({ code, name, org, applyDeadline, voteStart
   }
 
   const handleVote = () => {
-    router.push(`/voter/voting/ballot?code=${code}`)
+    router.push(`/voting/ballot?code=${code}`)
   }
 
   return (
