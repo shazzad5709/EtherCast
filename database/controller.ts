@@ -1,88 +1,86 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import Accounts from "../model/account";
 
+/** Controller */
+import Users from '../model/user'
+import axios from 'axios';
+import Officer from '../model/Officer';
 
-export async function getUsers(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const users = await Accounts.find({})
+// get : http://localhost:3000/api/users
+export async function getUsers(req:any, res:any){
+    try {
+        const users = await Users.find({})
 
-    if(!users) return res.status(404).json({ error: "No users found" })
-    res.status(200).json({ users });
-  } catch (error) {
-    res.status(404).json({error: "boos"});
-  }
-}
-
-
-export async function getUser(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const { userId } = req.query
-    if(userId) {
-      const users = await Accounts.findById(userId)
-
-      if(!users) return res.status(404).json({ error: "No users found" })
-      res.status(200).json(users);
+        if(!users) return res.status(404).json( { error: "Data not Found"})
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(404).json( { error : "Error While Fetching Data"})
     }
-    res.status(404).json({error: "No userid provided."});
-    
-  } catch (error) {
-    res.status(404).json({error: "boo"});
-  }
 }
+export async function getUser(req:any, res:any){
+    try {
+        const {userId} = req.query;
+        
+        if(userId){
 
-export async function postUser(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const formData = req.body
-    if(!formData) return res.status(404).json({ error: "Form Data Not Provided." })
-    Accounts.create(formData)
-    res.status(200).json(formData)
-  } catch (error) {
-    res.status(404).json({error});
-  }
-}
-
-
-export async function putUser(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const { userId } = req.query
-    const formData = req.body
-
-    if(userId && formData) {
-      await Accounts.findByIdAndUpdate(userId, formData)
-      res.status(200).json(formData)
+            const user = await Users.findById(userId);
+            // console.log("asjdbgsudgb")
+            res.status(404).json({ error : "User inside...!"});
+            res.status(200).json(user)
+        }
+        res.status(404).json({ error : "User not Selected...!"});
+    } catch (error) {
+        res.status(404).json({ error: "Cannot get the User...!"})
     }
-    res.status(404).json({error: "No userid or form data provided."})
-  } catch (error) {
-    res.status(404).json({error});
-  }
+}
+// post : http://localhost:3000/api/users
+export async function postUser(req:any, res:any){
+    try {
+        const formData = req.body;
+        if(!formData) return res.status(404).json( { error: "Form Data Not Provided...!"});
+        Users.create( formData)
+    } catch (error) {
+        return res.status(404).json({ error })
+    }
 }
 
-export async function deleteUser(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const { userId } = req.query
+// update :  http://localhost:3000/api/users/1
+export async function putUser(req:any, res:any){
+    try {
+        const { userId } = req.query;
+        const formData = req.body;
 
-    if(userId){
-      await Accounts.findByIdAndDelete(userId)
-      res.status(200).json({message: "User deleted."})
+        if(userId && formData){
+            const user = await Users.findByIdAndUpdate(userId, formData);
+            res.status(200).json(user)
+        }
+        res.status(404).json( { error: "User Not Selected...!"})
+    } catch (error) {
+        res.status(404).json({ error: "Error While Updating the Data...!"})
     }
+}
 
-    res.status(404).json({error: "No userid provided."})
+// delete : http://localhost:3000/api/users/1
+export async function deleteUser(req:any, res:any){
+    try {
+        const { userId } = req.query;
+
+        if(userId){
+            const user = await Users.findByIdAndDelete(userId)
+            return res.status(200).json(user)
+        }
+
+        res.status(404).json({ error: "User Not Selected...!"})
+
+    } catch (error) {
+        res.status(404).json({ error: "Error While Deleting the User...!"})
+    }
+}
+
+export async function getUserByEmail(email: string): Promise<Officer | null> {
+  try {
+    const res = await axios.get(`/api/users/${email}`);
+    return res.data as Officer;
   } catch (error) {
-    res.status(404).json({error});
+    console.log(error);
+    return null;
   }
 }
