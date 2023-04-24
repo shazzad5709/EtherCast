@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String   @unique
+  password String
+  username String   @unique
+  role     String
+  image    String?
+  voter    Voter?
+  officer  Officer?
+}
+
+model Voter {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  employee_id String
+  org_name    String
+  address     String
+  user        User       @relation(fields: [userId], references: [id])
+  candidate   Candidate?
+  election    Election[] @relation(fields: [electionIds], references: [id])
+  userId      String     @unique @db.ObjectId
+  candidateId String?    @db.ObjectId
+  electionIds String[]   @db.ObjectId
+}
+
+model Candidate {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  symbol     String?
+  agenda     String?
+  voter      Voter    @relation(fields: [voterId], references: [id])
+  voterId    String   @unique @db.ObjectId
+  election   Election @relation(fields: [electionId], references: [id])
+  electionId String   @unique @db.ObjectId
+  voteCount  Int      @default(0)
+}
+
+model Officer {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  officer_id String
+  user       User     @relation(fields: [userId], references: [id])
+  election   Election @relation(fields: [electionId], references: [id])
+  electionId String   @unique @db.ObjectId
+  userId     String   @unique @db.ObjectId
+}
+
+model Election {
+  id                    String      @id @default(auto()) @map("_id") @db.ObjectId
+  title                 String
+  election_code         String
+  org_name              String
+  registration_deadline DateTime
+  cancellation_deadline DateTime
+  start_time            DateTime
+  end_time              DateTime
+  privacy               String
+  result_tactic         String
+  result                String?
+  voterIds              String[]    @db.ObjectId
+  voter                 Voter[]     @relation(fields: [voterIds], references: [id])
+  candidates            Candidate[]
+  officer               Officer[]
+}
