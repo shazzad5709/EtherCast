@@ -9,7 +9,7 @@ function DynamicDonutChart() {
       {
         label: 'Result',
         data: [30, 50, 20],
-        backgroundColor: ['red', 'blue', 'yellow'],
+        backgroundColor: ['#fc5e03', '#0d9488', '#fcba03'],
       },
     ],
   });
@@ -22,7 +22,7 @@ function DynamicDonutChart() {
           {
             label: 'My Dataset',
             data: [Math.random() * 100, Math.random() * 100, Math.random() * 100],
-            backgroundColor: ['red', 'blue', 'yellow'],
+            backgroundColor: ['#fc5e03', '#0d9488', '#fcba03'],
           },
         ],
       });
