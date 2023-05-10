@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import { FaVoteYea } from "react-icons/fa";
+import { PrismaClient } from "@prisma/client";
+
+// const prisma = new PrismaClient();
 
 type Props = {
   buttonName: string;
@@ -16,13 +19,20 @@ interface FormData {
 
 export default function Form({ buttonName }: Props) {
   const [records, setRecords] = useState<FormData[]>([]);
-
-  const [tableData, setTableData] = useState<FormData[]>([]); // Update type to FormData[]
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [orgName, setOrgName] = useState("");
   const [empCode, setEmpCode] = useState("");
+
+  // useEffect(() => {
+  //   async function fetchRecords() {
+  //     const data = await prisma.records.findMany();
+  //     setRecords(data);
+  //   }
+
+  //   fetchRecords();
+  // }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
