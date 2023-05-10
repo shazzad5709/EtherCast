@@ -4,7 +4,7 @@ import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import { FaVoteYea } from "react-icons/fa";
 import { PrismaClient } from "@prisma/client";
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 type Props = {
   buttonName: string;
@@ -13,32 +13,42 @@ interface FormData {
   id: number;
   name: string;
   email: string;
-  orgName: string;
+  org_name: string;
   empCode: string; 
 }
 
 export default function Form({ buttonName }: Props) {
+  
   const [records, setRecords] = useState<FormData[]>([]);
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [orgName, setOrgName] = useState("");
+  const [org_name, setorg_name] = useState("");
   const [empCode, setEmpCode] = useState("");
 
   // useEffect(() => {
   //   async function fetchRecords() {
-  //     const data = await prisma.records.findMany();
-  //     setRecords(data);
+  //     const data = await prisma.user.findMany();
+  //     const formData = data.map((user) => ({
+  //       id: user.id,
+  //       name: user.name,
+  //       email: user.email,
+  //       org_name: user.org_name,
+  //       empCode: user.empCode
+  //     }));
+  //     setRecords(formData);
   //   }
-
+    
   //   fetchRecords();
   // }, []);
+  
+  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const id = new Date().getTime();
-    const newRecord = { id, name, email, orgName, empCode };
+    const newRecord = { id, name, email, org_name, empCode };
 
     let newRecords;
     if (selectedRecord) {
@@ -53,7 +63,7 @@ export default function Form({ buttonName }: Props) {
     setSelectedRecord(null);
     setName("");
     setEmail("");
-    setOrgName("");
+    setorg_name("");
     setEmpCode("");
     toggleForm();
   };
@@ -65,7 +75,7 @@ export default function Form({ buttonName }: Props) {
       setSelectedRecord(selectedRecord);
       setName(selectedRecord.name);
       setEmail(selectedRecord.email);
-      setOrgName(selectedRecord.orgName);
+      setorg_name(selectedRecord.org_name);
       setEmpCode(selectedRecord.empCode);
     }
   };
@@ -88,8 +98,8 @@ export default function Form({ buttonName }: Props) {
     setEmpCode(event.target.value);
   };
 
-  const handleOrgNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOrgName(event.target.value);
+  const handleorg_nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setorg_name(event.target.value);
   };
 
   const [showForm, setShowForm] = useState(false); // initial state is false
@@ -140,9 +150,9 @@ export default function Form({ buttonName }: Props) {
             <div className="relative">
               <input
                 type="text"
-                id="orgName"
-                value={orgName}
-                onChange={handleOrgNameChange}
+                id="org_name"
+                value={org_name}
+                onChange={handleorg_nameChange}
                 className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                 placeholder="Org Name"
               />
@@ -208,7 +218,7 @@ export default function Form({ buttonName }: Props) {
                     {record.email}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.orgName}
+                    {record.org_name}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     {record.empCode}
