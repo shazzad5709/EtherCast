@@ -1,170 +1,143 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.0;
 
-contract voting_smart_contract {
+contract VotingContract {
+    // Structs
+    struct Voter {
+        bool hasVoted;
+        uint256 index;
+    }
+
+    struct Candidate {
+        uint256 voteCount;
+        uint256 index;
+    }
+
     struct Vote {
-        address voter_address;
-        address candidate_address;
+        address voterAddress;
+        address candidateAddress;
         uint256 timestamp;
     }
 
-    struct Election {
-        string election_name;
-        uint256 registration_deadline;
-        uint256 voting_start_time;
-        uint256 voting_end_time;
-        mapping(address => bool) voter_addresses;
-        mapping(address => bool) candidate_addresses;
+    // Variables
+    string public electionName;
+    uint256 public registrationDeadline;
+    uint256 public votingStartTime;
+    uint256 public votingEndTime;
+    uint256 public numVoters;
+    uint256 public numCandidates;
+    mapping(address => Voter) public voters;
+    mapping(address => Candidate) public candidates;
+    Vote[] public votes;
+    address[] public candidateList;
+
+    // Constructor
+    constructor(
+        string memory _electionName,
+        uint256 _registrationDeadline,
+        uint256 _votingStartTime,
+        uint256 _votingEndTime,
+        address[] memory _candidateList
+    ) {
+        electionName = _electionName;
+        registrationDeadline = _registrationDeadline;
+        votingStartTime = _votingStartTime;
+        votingEndTime = _votingEndTime;
+        numCandidates = _candidateList.length;
+        for (uint256 i = 0; i < numCandidates; i++) {
+            candidates[_candidateList[i]].index = i;
+            candidateList.push(_candidateList[i]);
+        }
     }
 
-    mapping(uint256 => mapping(address => uint256)) public vote_count;
-    uint256 public election_count;
+    // Modifiers
+    modifier onlyDuringRegistration() {
+        require(
+            block.timestamp < registrationDeadline,
+            "Voting already started"
+        );
+        _;
+    }
 
-    Election[] public elections;
+    modifier onlyDuringVoting() {
+        require(
+            block.timestamp >= votingStartTime &&
+                block.timestamp <= votingEndTime,
+            "Voting is not open"
+        );
+        _;
+    }
 
-    function createElection(
-        string memory _election_name,
-        uint256 _registration_deadline,
-        uint256 _voting_start_time,
-        uint256 _voting_end_time,
-        address[] memory _voter_addresses,
-        address[] memory _candidate_addresses
-    ) public {
-        Election storage election = elections[election_count];
-        election.election_name = _election_name;
-        election.registration_deadline = _registration_deadline;
-        election.voting_start_time = _voting_start_time;
-        election.voting_end_time = _voting_end_time;
-        for (uint256 i = 0; i < _voter_addresses.length; i++) {
-            election.voter_addresses[_voter_addresses[i]] = true;
-        }
-        for (uint256 i = 0; i < _candidate_addresses.length; i++) {
-            election.candidate_addresses[_candidate_addresses[i]] = true;
-        }
-        election_count++;
+    modifier onlyAfterVoting() {
+        require(block.timestamp > votingEndTime, "Voting is still open");
+        _;
+    }
+
+    modifier onlyOnce(address _voterAddress) {
+        require(!voters[_voterAddress].hasVoted, "Voter has already voted");
+        _;
+    }
+
+    // Functions
+    function registerVoter(
+        address _voterAddress
+    ) public onlyDuringRegistration {
+        voters[_voterAddress].hasVoted = false;
+        voters[_voterAddress].index = numVoters;
+        numVoters++;
     }
 
     function vote(
-        uint256 _election_index,
-        address _candidate_address,
-        uint256 _timestamp
-    ) public {
-        Election storage election = elections[_election_index];
-        require(
-            block.timestamp < election.voting_end_time,
-            "Voting period has ended"
-        );
-        require(
-            block.timestamp > election.voting_start_time,
-            "Voting period has not started"
-        );
-        require(
-            election.voter_addresses[msg.sender],
-            "You are not registered to vote in this election"
-        );
-        require(
-            !hasVoted(election, msg.sender),
-            "You have already cast your vote in this election"
-        );
-        vote_count[_election_index][_candidate_address]++;
+        address _voterAddress,
+        address _candidateAddress
+    ) public onlyDuringVoting onlyOnce(_voterAddress) {
+        Voter storage voter = voters[_voterAddress];
+        Candidate storage candidate = candidates[_candidateAddress];
+        require(voter.index < numVoters, "Voter is not registered");
+        require(candidate.index < numCandidates, "Candidate is not registered");
+        voter.hasVoted = true;
+        votes.push(Vote(_voterAddress, _candidateAddress, block.timestamp));
+        candidate.voteCount++;
     }
 
-//     function getResult(uint256 _election_index) public view returns (address[] memory, uint256[] memory) {
-//     Election storage election = elections[_election_index];
-//     require(
-//         block.timestamp > election.voting_end_time,
-//         "Voting period has not ended"
-//     );
-//     address[] memory candidates = new address[](election.num_candidates);
-//     uint256[] memory voteCounts = new uint256[](election.num_candidates);
-//     for (uint256 i = 0; i < election.num_candidates; i++) {
-//         candidates[i] = election.candidate_addresses[i];
-//         voteCounts[i] = vote_count[_election_index][election.candidate_addresses[i]];
-//     }
-//     return (candidates, voteCounts);
-// }
-
-    function getWinner(uint256 _election_index) public view returns (address[] memory) {
-    Election storage election = elections[_election_index];
-    require(
-        block.timestamp > election.voting_end_time,
-        "Voting period has not ended"
-    );
-    address[] memory candidateAddresses = new address[](election.num_candidates);
-    uint256 count = 0;
-    for (uint256 i = 0; i < election.num_candidates; i++) {
-        if (count == 0 || vote_count[_election_index][election.candidate_addresses[i]] > vote_count[_election_index][candidateAddresses[0]]) {
-            candidateAddresses[0] = election.candidate_addresses[i];
-            count = 1;
-        } else if (vote_count[_election_index][election.candidate_addresses[i]] == vote_count[_election_index][candidateAddresses[0]]) {
-            candidateAddresses[count] = election.candidate_addresses[i];
-            count++;
+    function getResults()
+        public
+        view
+        onlyAfterVoting
+        returns (address[] memory, uint256[] memory)
+    {
+        uint256 numResults = candidateList.length;
+        uint256[] memory voteCounts = new uint256[](numResults);
+        for (uint256 i = 0; i < numResults; i++) {
+            voteCounts[i] = candidates[candidateList[i]].voteCount;
         }
+        address[] memory sortedCandidates = sortCandidates(
+            candidateList,
+            voteCounts
+        );
+        return (sortedCandidates, voteCounts);
     }
-    address[] memory winners = new address[](count);
-    for (uint256 i = 0; i < count; i++) {
-        winners[i] = candidateAddresses[i];
-    }
-    return winners;
-}
 
-    function sortDescending(
-        uint256[] memory arr,
-        address[] memory candidates
-    ) private pure {
-        uint256 n = arr.length;
-        for (uint256 i = 0; i < n; i++) {
-            for (uint256 j = i + 1; j < n; j++) {
-                if (arr[i] < arr[j]) {
-                    uint256 temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                    address tempAddr = candidates[i];
-                    candidates[i] = candidates[j];
-                    candidates[j] = tempAddr;
+    function sortCandidates(
+        address[] memory _candidateList,
+        uint256[] memory _voteCounts
+    ) internal pure returns (address[] memory) {
+        address[] memory sortedCandidates = new address[](_candidateList.length);
+        for (uint256 i = 0; i < _candidateList.length; i++) {
+            sortedCandidates[i] = _candidateList[i];
+        }
+        for (uint256 i = 0; i < _candidateList.length; i++) {
+            for (uint256 j = i + 1; j < _candidateList.length; j++) {
+                if (_voteCounts[i] < _voteCounts[j]) {
+                    address tempAddress = sortedCandidates[i];
+                    sortedCandidates[i] = sortedCandidates[j];
+                    sortedCandidates[j] = tempAddress;
+                    uint256 tempVoteCount = _voteCounts[i];
+                    _voteCounts[i] = _voteCounts[j];
+                    _voteCounts[j] = tempVoteCount;
                 }
             }
         }
-    }
-
-    function isRegisteredVoter(
-        Election storage _election,
-        address _voter_address
-    ) private view returns (bool) {
-        for (uint256 i = 0; i < _election.voter_addresses.length; i++) {
-            if (_election.voter_addresses[i] == _voter_address) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function hasVoted(
-        Election storage _election,
-        address _voter_address
-    ) private view returns (bool) {
-        for (uint256 i = 0; i < _election.votes.length; i++) {
-            if (_election.votes[i].voter_address == _voter_address) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function getCandidates(
-        uint256 _election_index
-    ) public view returns (address[] memory) {
-        Election storage election = elections[_election_index];
-        return election.candidate_addresses;
+        return sortedCandidates;
     }
 }
-
-
-
-
-
-
-
-
-
-

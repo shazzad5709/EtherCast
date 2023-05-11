@@ -55,16 +55,25 @@ export default NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }) {
-        return { ...token, ...user };
+    async jwt({ token }) {
+      // fetch user from db here first  
+      
+      return {
+          id: user?.id,
+          username: user?.username,
+          email: user?.email,
+          role: user?.role
+        };
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
         if (token) {
           session.user.id = token.id
-          session.user.name = token.name
+          session.user.username = token.username
           session.user.email = token.email
           session.user.role = token.role
         }
+
+        return session
     },
   },
   pages: {
