@@ -10,16 +10,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Session {
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    sessionToken  String    @unique
+    userId        String    @db.ObjectId
+    expires       DateTime
+    user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum UserRole {
+  ADMIN
+  OFFICER
+  VOTER
+  CANDIDATE
+}
 model User {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
   name     String
   email    String   @unique
   password String
   username String   @unique
-  role     String
+  role     UserRole @default(VOTER)
   image    String?
   voter    Voter?
   officer  Officer?
+  sessions Session[]
 }
 
 model Voter {
@@ -48,7 +63,7 @@ model Candidate {
 
 model Officer {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  officer_id String
+  org_name   String
   user       User     @relation(fields: [userId], references: [id])
   election   Election @relation(fields: [electionId], references: [id])
   electionId String   @unique @db.ObjectId
