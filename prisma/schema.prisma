@@ -62,12 +62,13 @@ model Candidate {
 }
 
 model Officer {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  org_name   String
-  user       User     @relation(fields: [userId], references: [id])
-  election   Election @relation(fields: [electionId], references: [id])
-  electionId String   @unique @db.ObjectId
-  userId     String   @unique @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  org_name    String
+  employee_id String
+  user        User     @relation(fields: [userId], references: [id])
+  election    Election @relation(fields: [electionId], references: [id])
+  electionId  String   @unique @db.ObjectId
+  userId      String   @unique @db.ObjectId
 }
 
 model Election {

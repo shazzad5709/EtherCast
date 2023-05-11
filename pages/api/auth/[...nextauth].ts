@@ -59,9 +59,12 @@ export default NextAuth({
         return { ...token, ...user };
     },
     async session({ session, token, user }) {
-        // Send properties to the client, like an access_token from a provider.
-        session.user = token;
-        return session;
+        if (token) {
+          session.user.id = token.id
+          session.user.name = token.name
+          session.user.email = token.email
+          session.user.role = token.role
+        }
     },
   },
   pages: {
