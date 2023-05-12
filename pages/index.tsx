@@ -11,9 +11,9 @@ export default function Home() {
   return (
     <>            
       {/* <Landing />   */}
-      {/* <Admin /> */}
+      <Admin />
       {/* <Test /> */}
-      <EditProfile />
+      {/* <EditProfile /> */}
     </>
   )
 }
