@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import { FaVoteYea } from "react-icons/fa";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../libs/prisma";
+import { get } from "http";
+import { captureRejectionSymbol } from "events";
+import { set } from "mongoose";
 
 type Props = {
   buttonName: string;
 };
+
 interface FormData {
   id: number;
   name: string;
@@ -17,7 +19,8 @@ interface FormData {
   empCode: string; 
 }
 
-export default function Form({ buttonName }: Props) {
+
+export default async function Form({ buttonName }: Props) {
   
   const [records, setRecords] = useState<FormData[]>([]);
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
@@ -25,24 +28,47 @@ export default function Form({ buttonName }: Props) {
   const [email, setEmail] = useState("");
   const [org_name, setorg_name] = useState("");
   const [empCode, setEmpCode] = useState("");
+  
+  // const users = await prisma.user.findMany();
+
+  // async function create(data:FormData){
+  //   try{
+  //     fetch('http://localhost:3000/api/create',{
+  //       body: JSON.stringify(data),
+  //       headers:{
+  //         'Content-Type': 'application/json'
+  //       },
+  //       method: 'POST'
+  //     }) .then(()=>setRecords({name:'',email:'',org_name:'',empCode:''}))
+  // }catch(e){
+  //   console.log(e);
+  // }
+  // res.status(200).json(users);
 
   // useEffect(() => {
-  //   async function fetchRecords() {
-  //     const data = await prisma.user.findMany();
-  //     const formData = data.map((user) => ({
-  //       id: user.id,
-  //       name: user.name,
-  //       email: user.email,
-  //       org_name: user.org_name,
-  //       empCode: user.empCode
-  //     }));
-  //     setRecords(formData);
-  //   }
-    
-  //   fetchRecords();
-  // }, []);
-  
-  
+
+  //   const getRecords = async () => {
+  //     const response = await fetch("/api/users");
+  //     const data = await response.json();
+  //     setRecords(data);};
+  //     getRecords();
+  //   }, []);
+    //   const data =  prisma.officer.findMany({
+    //     include: {
+    //       user: true,
+    //       election: true,
+    //     },
+    //   });
+    //   const formData = data.map((officer) => ({
+    //     id: officer.id.toString(),
+    //     name: officer.user.name,
+    //     email: officer.user.email,
+    //     org_name: officer.org_name,
+    //     empCode: officer.employee_id,
+    //   }));
+    //   setRecords(formData);
+    // });
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
