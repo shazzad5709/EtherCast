@@ -67,7 +67,7 @@ model Officer {
   employee_id String
   user        User     @relation(fields: [userId], references: [id])
   election    Election @relation(fields: [electionId], references: [id])
-  electionId  String   @unique @db.ObjectId
+  electionId  String   @db.ObjectId
   userId      String   @unique @db.ObjectId
 }
 
@@ -75,14 +75,6 @@ model Election {
   id                    String      @id @default(auto()) @map("_id") @db.ObjectId
   title                 String
   election_code         String
-  org_name              String
-  registration_deadline DateTime
-  cancellation_deadline DateTime
-  start_time            DateTime
-  end_time              DateTime
-  privacy               String
-  result_tactic         String
-  result                String?
   voterIds              String[]    @db.ObjectId
   voter                 Voter[]     @relation(fields: [voterIds], references: [id])
   candidates            Candidate[]

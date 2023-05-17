@@ -1,14 +1,12 @@
 import prisma from "../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import { UserRole } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    // return res.status(405).json({ message: 'Method Not Allowed' });
-    // }
-
     const { name, email, org_name, employee_id } = req.body;
 
     const user = await prisma.user.findUnique({
@@ -19,17 +17,15 @@ export default async function handler(
 
     let userId;
     if (user) {
-      // Unique email already exists in the database
       userId = user.id;
       console.log("Email already exists");
     } else {
-      // Unique email doesn't exist in the database
       const user = await prisma.user.create({
         data: {
           name: name,
           email: email,
           password: "123456",
-          role: "OFFICER",
+          role: 'OFFICER',
         },
       });
       userId = user.id;
@@ -37,16 +33,21 @@ export default async function handler(
     }
 
     try {
+      console.log(userId)
       const officer = await prisma.officer.create({
         data: {
           org_name: org_name,
           employee_id: employee_id,
           userId: userId,
-          electionId: "1",
+          electionId: "646510f54b0f7684c56f21bf",
         },
+        include: {
+          user: true,
+        }
       });
       return res.status(200).json({ message: "Officer created successfully" });
     } catch (error) {
+      console.log("kenooo")
       return res.status(500).json({ message: "Something went wrong" });
     }
   }

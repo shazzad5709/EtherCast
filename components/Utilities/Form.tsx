@@ -21,27 +21,60 @@ interface FormData {
 }
 
 
-export default async function Form({ buttonName }: Props) {
+export default function Form({ buttonName}: Props) {
   
-  const [records, setRecords] = useState<FormData[]>([]);
+  const [records, setRecords] = useState([]);
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [org_name, setorg_name] = useState("");
   const [empCode, setEmpCode] = useState("");
-
+  const [showForm, setShowForm] = useState(false); // initial state is false
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const getUsers = async () => {
-      const response = await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`);
-      const users = response.data;
+      const response = await axios.get('/api/dataOfficer/createdOfficer?election_id=1');
       setUsers(response.data);
+      const renderUser = 
+      (
+        <>
+          {users?.map((user) => (
+            <tr key={user.id}>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                
+                {user.name}
+              </td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                {user.email}
+              </td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                {user.org_name}
+              </td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                {user.empCode}
+              </td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <button type="button" onClick={() => handleEdit(user.id)}>
+                <BiEdit size={25} color={"rgb(0, 131, 143)"} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(user.id)}
+                >
+                <BiTrashAlt size={25} color={"rgb(244,63,94)"}/>
+                </button>
+              </td>
+            </tr>
+          ))}
+        </>
+        
+      )
       console.log(response.data);
     }
 
     getUsers();
-  }, []);
+  }, [showForm]);
 
   async function fetchUsersByElectionCode() {
     try {
@@ -118,20 +151,20 @@ export default async function Form({ buttonName }: Props) {
 
   const handleEdit = (id: number) => {
     toggleForm();
-    const selectedRecord = records.find((record) => record.id === id);
-    if (selectedRecord) {
-      setSelectedRecord(selectedRecord);
-      setName(selectedRecord.name);
-      setEmail(selectedRecord.email);
-      setorg_name(selectedRecord.org_name);
-      setEmpCode(selectedRecord.empCode);
-    }
+    // const selectedRecord = records.find((record) => record.id === id);
+    // if (selectedRecord) {
+    //   setSelectedRecord(selectedRecord);
+    //   setName(selectedRecord.name);
+    //   setEmail(selectedRecord.email);
+    //   setorg_name(selectedRecord.org_name);
+    //   setEmpCode(selectedRecord.empCode);
+    // }
   };
 
   const handleDelete = (id: number) => {
     // toggleForm()
-    const newRecords = records.filter((record) => record.id !== id);
-    setRecords(newRecords);
+    // const newRecords = records.filter((record) => record.id !== id);
+    // setRecords(newRecords);
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,7 +183,6 @@ export default async function Form({ buttonName }: Props) {
     setorg_name(event.target.value);
   };
 
-  const [showForm, setShowForm] = useState(false); // initial state is false
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -257,34 +289,7 @@ export default async function Form({ buttonName }: Props) {
               </tr>
             </thead>
             <tbody>
-              {/* {users?.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    
-                    {user.name}
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {user.email}
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {user.org_name}
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {user.empCode}
-                  </td>
-                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <button type="button" onClick={() => handleEdit(user.id)}>
-                    <BiEdit size={25} color={"rgb(0, 131, 143)"} />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(user.id)}
-                    >
-                     <BiTrashAlt size={25} color={"rgb(244,63,94)"}/>
-                    </button>
-                  </td>
-                </tr>
-              ))} */}
+              
             </tbody>
           </table>
         </div>
