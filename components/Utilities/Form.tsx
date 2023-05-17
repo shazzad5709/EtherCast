@@ -6,6 +6,7 @@ import prisma from "../../libs/prisma";
 import { get } from "http";
 import { captureRejectionSymbol } from "events";
 import { set } from "mongoose";
+import axios from "axios";
 
 type Props = {
   buttonName: string;
@@ -28,38 +29,39 @@ export default async function Form({ buttonName }: Props) {
   const [email, setEmail] = useState("");
   const [org_name, setorg_name] = useState("");
   const [empCode, setEmpCode] = useState("");
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const response = await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`);
+      const users = response.data;
+      setUsers(response.data);
+      console.log(response.data);
+    }
+
+    getUsers();
+  }, []);
+
+  async function fetchUsersByElectionCode() {
+    try {
+      const response =  await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`);
+      setUsers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   
-  // const users = await prisma.user.findMany();
-
-  // async function create(data:FormData){
-  //   try{
-  //     fetch('http://localhost:3000/api/create',{
-  //       body: JSON.stringify(data),
-  //       headers:{
-  //         'Content-Type': 'application/json'
-  //       },
-  //       method: 'POST'
-  //     }) .then(()=>setRecords({name:'',email:'',org_name:'',empCode:''}))
-  // }catch(e){
-  //   console.log(e);
-  // }
-  // res.status(200).json(users);
-
   // useEffect(() => {
 
-  //   const getRecords = async () => {
-  //     const response = await fetch("/api/users");
-  //     const data = await response.json();
-  //     setRecords(data);};
-  //     getRecords();
-  //   }, []);
-    //   const data =  prisma.officer.findMany({
-    //     include: {
-    //       user: true,
-    //       election: true,
-    //     },
-    //   });
-    //   const formData = data.map((officer) => ({
+    // const getRecords = async () => {
+    //   const response =  await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`)
+    //   // const data = await response.json();
+    //   setRecords(response.data);};
+    //   getRecords();
+    // }, []);
+    //   const formData = response.data.map((officer) => ({
     //     id: officer.id.toString(),
     //     name: officer.user.name,
     //     email: officer.user.email,
@@ -70,22 +72,42 @@ export default async function Form({ buttonName }: Props) {
     // });
 
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const id = new Date().getTime();
-    const newRecord = { id, name, email, org_name, empCode };
+    const res = await axios.post(
+      '/api/dataOfficer/createdOfficer',
+      {
+        name: name,
+        email: email,
+        org_name: org_name,
+        empCode: empCode,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      }
+    ).catch((err) => {
+      alert('You DEAD');
+    });
+    const election_id = '1';
+    
 
-    let newRecords;
-    if (selectedRecord) {
-      newRecords = records.map((record) =>
-        record.id === selectedRecord.id ? newRecord : record
-      );
-    } else {
-      newRecords = [...records, newRecord];
-    }
+    // const id = new Date().getTime();
+    // const newRecord = { id, name, email, org_name, empCode };
+    // let newRecords;
+    // if (selectedRecord) {
+    //   newRecords = records.map((record) =>
+    //     record.id === selectedRecord.id ? newRecord : record
+    //   );
+    // } else {
+    //   newRecords = [...records, newRecord];
+    // }
 
-    setRecords(newRecords);
+    // setRecords(newRecords);
+    
     setSelectedRecord(null);
     setName("");
     setEmail("");
@@ -137,7 +159,7 @@ export default async function Form({ buttonName }: Props) {
   return (
     <>
     <div>
-    <div className="felx flex-col">
+    <div className="flex flex-col">
     <button onClick={toggleForm}>Add User</button>
     </div>
       
@@ -235,33 +257,34 @@ export default async function Form({ buttonName }: Props) {
               </tr>
             </thead>
             <tbody>
-              {records.map((record) => (
-                <tr key={record.id}>
+              {/* {users?.map((user) => (
+                <tr key={user.id}>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.name}
+                    
+                    {user.name}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.email}
+                    {user.email}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.org_name}
+                    {user.org_name}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.empCode}
+                    {user.empCode}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <button type="button" onClick={() => handleEdit(record.id)}>
+                    <button type="button" onClick={() => handleEdit(user.id)}>
                     <BiEdit size={25} color={"rgb(0, 131, 143)"} />
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDelete(record.id)}
+                      onClick={() => handleDelete(user.id)}
                     >
                      <BiTrashAlt size={25} color={"rgb(244,63,94)"}/>
                     </button>
                   </td>
                 </tr>
-              ))}
+              ))} */}
             </tbody>
           </table>
         </div>
