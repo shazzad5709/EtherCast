@@ -1,49 +1,117 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import { FaVoteYea } from "react-icons/fa";
+import prisma from "../../libs/prisma";
+import { get } from "http";
+import { captureRejectionSymbol } from "events";
+import { set } from "mongoose";
+import axios from "axios";
 
 type Props = {
   buttonName: string;
 };
+
 interface FormData {
   id: number;
   name: string;
   email: string;
-  orgName: string;
+  org_name: string;
   empCode: string; 
 }
 
-export default function Form({ buttonName }: Props) {
-  const [records, setRecords] = useState<FormData[]>([]);
 
-  const [tableData, setTableData] = useState<FormData[]>([]); // Update type to FormData[]
+export default async function Form({ buttonName }: Props) {
+  
+  const [records, setRecords] = useState<FormData[]>([]);
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [orgName, setOrgName] = useState("");
+  const [org_name, setorg_name] = useState("");
   const [empCode, setEmpCode] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const [users, setUsers] = useState([]);
 
-    const id = new Date().getTime();
-    const newRecord = { id, name, email, orgName, empCode };
-
-    let newRecords;
-    if (selectedRecord) {
-      newRecords = records.map((record) =>
-        record.id === selectedRecord.id ? newRecord : record
-      );
-    } else {
-      newRecords = [...records, newRecord];
+  useEffect(() => {
+    const getUsers = async () => {
+      const response = await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`);
+      const users = response.data;
+      setUsers(response.data);
+      console.log(response.data);
     }
 
-    setRecords(newRecords);
+    getUsers();
+  }, []);
+
+  async function fetchUsersByElectionCode() {
+    try {
+      const response =  await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`);
+      setUsers(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  
+  // useEffect(() => {
+
+    // const getRecords = async () => {
+    //   const response =  await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`)
+    //   // const data = await response.json();
+    //   setRecords(response.data);};
+    //   getRecords();
+    // }, []);
+    //   const formData = response.data.map((officer) => ({
+    //     id: officer.id.toString(),
+    //     name: officer.user.name,
+    //     email: officer.user.email,
+    //     org_name: officer.org_name,
+    //     empCode: officer.employee_id,
+    //   }));
+    //   setRecords(formData);
+    // });
+
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const res = await axios.post(
+      '/api/dataOfficer/createdOfficer',
+      {
+        name: name,
+        email: email,
+        org_name: org_name,
+        empCode: empCode,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      }
+    ).catch((err) => {
+      alert('You DEAD');
+    });
+    const election_id = '1';
+    
+
+    // const id = new Date().getTime();
+    // const newRecord = { id, name, email, org_name, empCode };
+    // let newRecords;
+    // if (selectedRecord) {
+    //   newRecords = records.map((record) =>
+    //     record.id === selectedRecord.id ? newRecord : record
+    //   );
+    // } else {
+    //   newRecords = [...records, newRecord];
+    // }
+
+    // setRecords(newRecords);
+    
     setSelectedRecord(null);
     setName("");
     setEmail("");
-    setOrgName("");
+    setorg_name("");
     setEmpCode("");
     toggleForm();
   };
@@ -55,7 +123,7 @@ export default function Form({ buttonName }: Props) {
       setSelectedRecord(selectedRecord);
       setName(selectedRecord.name);
       setEmail(selectedRecord.email);
-      setOrgName(selectedRecord.orgName);
+      setorg_name(selectedRecord.org_name);
       setEmpCode(selectedRecord.empCode);
     }
   };
@@ -78,8 +146,8 @@ export default function Form({ buttonName }: Props) {
     setEmpCode(event.target.value);
   };
 
-  const handleOrgNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOrgName(event.target.value);
+  const handleorg_nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setorg_name(event.target.value);
   };
 
   const [showForm, setShowForm] = useState(false); // initial state is false
@@ -91,7 +159,7 @@ export default function Form({ buttonName }: Props) {
   return (
     <>
     <div>
-    <div className="felx flex-col">
+    <div className="flex flex-col">
     <button onClick={toggleForm}>Add User</button>
     </div>
       
@@ -130,9 +198,9 @@ export default function Form({ buttonName }: Props) {
             <div className="relative">
               <input
                 type="text"
-                id="orgName"
-                value={orgName}
-                onChange={handleOrgNameChange}
+                id="org_name"
+                value={org_name}
+                onChange={handleorg_nameChange}
                 className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
                 placeholder="Org Name"
               />
@@ -189,33 +257,34 @@ export default function Form({ buttonName }: Props) {
               </tr>
             </thead>
             <tbody>
-              {records.map((record) => (
-                <tr key={record.id}>
+              {/* {users?.map((user) => (
+                <tr key={user.id}>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.name}
+                    
+                    {user.name}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.email}
+                    {user.email}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.orgName}
+                    {user.org_name}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {record.empCode}
+                    {user.empCode}
                   </td>
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    <button type="button" onClick={() => handleEdit(record.id)}>
+                    <button type="button" onClick={() => handleEdit(user.id)}>
                     <BiEdit size={25} color={"rgb(0, 131, 143)"} />
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDelete(record.id)}
+                      onClick={() => handleDelete(user.id)}
                     >
                      <BiTrashAlt size={25} color={"rgb(244,63,94)"}/>
                     </button>
                   </td>
                 </tr>
-              ))}
+              ))} */}
             </tbody>
           </table>
         </div>
