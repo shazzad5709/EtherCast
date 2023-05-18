@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
-import { FaVoteYea } from "react-icons/fa";
-import prisma from "../../../libs/prisma";
-import { get } from "http";
-import { captureRejectionSymbol } from "events";
-import { set } from "mongoose";
 import axios from "axios";
 
 type Props = {
@@ -90,19 +85,12 @@ export default function Form({ buttonName}: Props) {
     event.preventDefault();
 
     const res = await axios.post(
-      '/api/dataOfficer/createdOfficer',
+      '/api/data/createdChairman',
       {
         name: name,
         email: email,
         org_name: org_name,
-        empCode: empCode,
       },
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }
-      }
     ).catch((err) => {
       alert('You DEAD');
     });

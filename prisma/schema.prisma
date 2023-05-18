@@ -30,7 +30,6 @@ model User {
   name     String
   email    String   @unique
   password String
-  username String?   @unique
   role     UserRole @default(VOTER)
   image    String?
   voter    Voter?
@@ -79,7 +78,6 @@ model Chairman{
   user        User     @relation(fields: [userId], references: [id])
   election Election?
   userId      String   @unique @db.ObjectId
-
 }
 
 model Election {

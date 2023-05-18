@@ -3,41 +3,38 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { UserRole } from "@prisma/client";
 
 export default async function handler(
+
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
     const { name, email, org_name } = req.body;
 
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: {
         email: email,
       },
     });
 
-    let userId;
     if (user) {
-      userId = user.id;
       console.log("Email already exists");
     } else {
-      const user = await prisma.user.create({
+      user = await prisma.user.create({
         data: {
           name: name,
           email: email,
           password: "123456",
-          role: 'CHAIRMAN',
+          role: "CHAIRMAN",
         },
       });
-      userId = user.id;
       console.log("Email is unique");
     }
 
     try {
-      console.log(userId)
       const officer = await prisma.chairman.create({
         data: {
           org_name: org_name,
-          userId: userId,
+          userId: user.id,
          
         },
         include: {
