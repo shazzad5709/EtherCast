@@ -23,6 +23,7 @@ enum UserRole {
   OFFICER
   VOTER
   CANDIDATE
+  CHAIRMAN
 }
 model User {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -35,6 +36,7 @@ model User {
   voter    Voter?
   officer  Officer?
   sessions Session[]
+  chairman Chairman?
 }
 
 model Voter {
@@ -71,12 +73,23 @@ model Officer {
   userId      String   @unique @db.ObjectId
 }
 
+model Chairman{
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  org_name    String
+  user        User     @relation(fields: [userId], references: [id])
+  election Election?
+  userId      String   @unique @db.ObjectId
+
+}
+
 model Election {
   id                    String      @id @default(auto()) @map("_id") @db.ObjectId
   title                 String
   election_code         String
   voterIds              String[]    @db.ObjectId
   voter                 Voter[]     @relation(fields: [voterIds], references: [id])
-  candidates            Candidate[]
-  officer               Officer[]
+  candidates            Candidate[] 
+  officer               Officer[] 
+  chairmanId          String?     @db.ObjectId @unique
+  chairman              Chairman?   @relation(fields: [chairmanId], references: [id])
 }
