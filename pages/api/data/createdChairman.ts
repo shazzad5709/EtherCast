@@ -7,7 +7,21 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "POST") {
+    
+  if (req.method === "GET") {
+
+    try {
+      // console.log("-------------");
+      const chairman = await prisma.chairman.findMany();
+      // console.log("*************************")
+      // console.log(chairman);
+
+      return res.status(200).json(chairman);
+    } catch (error) {
+      return res.status(500).json({ message: "Something went wrong" });
+    }
+  }
+  else if (req.method === "POST") {
     const { name, email, org_name } = req.body;
 
     let user = await prisma.user.findUnique({
@@ -35,31 +49,23 @@ export default async function handler(
         data: {
           org_name: org_name,
           userId: user.id,
-         
+          name: user.name,
+          email: user.email,
         },
         include: {
           user: true,
           
         }
       });
-      return res.status(200).json({ message: "Officer created successfully" });
+      return res.status(200).json({ message: "Chairman created successfully" });
     } catch (error) {
+      console.log('Error:', error);
       console.log("kenooo")
       return res.status(500).json({ message: "Something went wrong" });
     }
   }
-  if (req.method === "GET") {
-    const { electionId } = req.query;
-    let id = electionId as string;
-
-    try {
-      const users = await prisma.officer.findMany({
-        where: { electionId: id },
-      });
-
-      return res.status(200).json(users);
-    } catch (error) {
-      return res.status(500).json({ message: "Something went wrong" });
-    }
+  
+  else{
+    res.status(405).end();
   }
 }

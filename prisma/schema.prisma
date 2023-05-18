@@ -75,6 +75,8 @@ model Officer {
 model Chairman{
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   org_name    String
+  name       String?
+  email     String?
   user        User     @relation(fields: [userId], references: [id])
   election Election?
   userId      String   @unique @db.ObjectId
