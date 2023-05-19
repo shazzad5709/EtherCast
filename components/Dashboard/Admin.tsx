@@ -3,6 +3,7 @@ import Navbar from "../Utilities/Navbar";
 import Input from "../Utilities/Input";
 import { FiUserPlus } from "react-icons/fi";
 import Form from "../Utilities/Form/Form";
+import Chairman from "../Utilities/Form/MainWork";
 
 const Admin = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -14,10 +15,11 @@ const Admin = () => {
 
   // Event handler for input value change
   return (
+    
     <div className="bg-gray-300 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        <Form buttonName={"Add Election Chairman"} />
+        <Chairman />
       </div>
     </div>
   );
