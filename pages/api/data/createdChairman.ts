@@ -45,7 +45,7 @@ export default async function handler(
     }
 
     try {
-      const officer = await prisma.chairman.create({
+      const chairman = await prisma.chairman.create({
         data: {
           org_name: org_name,
           userId: user.id,
@@ -64,6 +64,20 @@ export default async function handler(
       return res.status(500).json({ message: "Something went wrong" });
     }
   }
+
+  else if(req.method === 'DELETE') {
+    
+    const id = req.query.id;
+    try {
+      const deletedChairman = await prisma.chairman.delete({
+        where: { id: String(id) },
+      });
+
+      res.status(200).json("Delete Done");
+    } catch (error) {
+      res.status(500).json({ error: ' went wrong while deleting chairman.' });
+    }
+    } 
   
   else{
     res.status(405).end();

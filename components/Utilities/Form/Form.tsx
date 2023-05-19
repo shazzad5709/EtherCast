@@ -40,23 +40,6 @@ export default function Form({ buttonName }: Props) {
     return response.data;
   };
 
-  // const { data: users, error } = useSWR<Chairman[]>(
-  //   "/api/data/createdChairman",
-  //   getUsers
-  // );
-
-  // if (!users) {
-  //   return <div>Loading...</div>;
-  // }
-
-  async function fetchUsersByElectionCode() {
-    // try {
-    //   const response =  await axios.get(`/api/dataOfficer/createdOfficer?election_id=1`);
-    //   setUsers(response.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -82,6 +65,7 @@ export default function Form({ buttonName }: Props) {
 
   const handleEdit = (id: number) => {
     toggleForm();
+    
     // const selectedRecord = records.find((record) => record.id === id);
     // if (selectedRecord) {
     //   setSelectedRecord(selectedRecord);
@@ -106,9 +90,9 @@ export default function Form({ buttonName }: Props) {
     setEmail(event.target.value);
   };
 
-  const handleEmpCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmpCode(event.target.value);
-  };
+  // const handleEmpCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmpCode(event.target.value);
+  // };
 
   const handleorg_nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setorg_name(event.target.value);
@@ -180,57 +164,7 @@ export default function Form({ buttonName }: Props) {
             </form>
           )}
         </div>
-        <ChairmanTable />
-        {/* <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto"> */}
-          {/* <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-            <table className="min-w-full leading-normal">
-              <thead>
-                <tr>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Organization Name
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Employee Code
-                  </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {user.name}
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {user.email}
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {user.org_name}
-                    </td> */}
-                    {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <button type="button" onClick={() => handleEdit(user.id)}>
-                <BiEdit size={25} color={"rgb(0, 131, 143)"} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(user.id)}
-                >
-                <BiTrashAlt size={25} color={"rgb(244,63,94)"}/>
-                </button>
-              </td> */}
-                  {/* </tr>
-                ))}
-              </tbody> */}
-            {/* </table> */}
-          {/* </div> */}
+        
         </div>
       
     </>

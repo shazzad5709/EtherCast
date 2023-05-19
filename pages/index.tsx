@@ -12,10 +12,10 @@ export default function Home() {
   return (
     <>            
       {/* <Landing />   */}
-      <Admin />
       {/* <Test /> */}
-      {/* <EditProfile /> */}
+      {/* <EditProfile />  */}
       {/* <Result /> */}
+      <Admin />
     </>
   )
 }
