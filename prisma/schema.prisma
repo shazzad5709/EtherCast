@@ -68,6 +68,7 @@ model Voter {
   // address     String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   candidate   Candidate?
+  isCandidate Boolean    @default(false)
   // election    Election[] @relation(fields: [electionIds], references: [id])
   userId      String     @unique @db.ObjectId
   candidateId String?    @db.ObjectId

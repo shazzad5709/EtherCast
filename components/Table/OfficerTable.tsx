@@ -3,7 +3,8 @@ import axios from 'axios';
 import { BiEdit, BiTrashAlt,BiAddToQueue } from 'react-icons/bi';
 import user from '../../model/user';
 import Form from '../UpdatedForm/ChairmanUpdate';
-import { MdSecurityUpdateGood } from 'react-icons/md';
+
+import {TiTick} from 'react-icons/ti';
 
 interface Voter {
   id: string;
@@ -12,6 +13,7 @@ interface Voter {
   name: string | null ; // Add the name property here
   email: string | null ; // Add the email property here
   userId: string;
+  isCandidate: boolean ;
   // role:string | null;
   // candidateId: string | null;
 }
@@ -22,7 +24,7 @@ interface User {
   name: string | null ; // Add the name property here
   email: string | null ; // Add the email property here
   userId: string;
-  role:string | null;
+  role:string;
   // candidateId: string | null;
 }
 
@@ -59,10 +61,10 @@ const ChairmanTable = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const fetchUses = async () => {
+  const fetchUsers = async () => {
     try {
       const response = await axios.get('/api/data/User/createdUser');
-      setVoters(response.data);
+      setUsers(response.data);
       setLoading(false);
     } catch (error) {
       setError('Something went wrong while fetching Voters.');
@@ -71,8 +73,8 @@ const ChairmanTable = () => {
   };
 
   useEffect(() => {
-    fetchOfficers();
-    const interval = setInterval(fetchOfficers, 50);
+    fetchUsers();
+    const interval = setInterval(fetchUsers, 50);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
@@ -107,7 +109,7 @@ const ChairmanTable = () => {
   const handleCandidacy = async (id:any) => {
     try {
       await axios.put(`/api/data/User/${id}`, { role: 'CANDIDATE' });
-      fetchOfficers(); // Fetch the updated data after updating
+      fetchUsers(); // Fetch the updated data after updating
       alert('User is now a candidate');
     } catch (error) {
       console.log('Something went wrong while updating the role.');
@@ -174,16 +176,17 @@ const ChairmanTable = () => {
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                   {voter.employee_id}
                 </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <button type="button" onClick={() => handleCandidacy(voter.id)}>
-                    {/* {user.role === 'VOTER' ? ( */}
+                <td className="px-5 py-5 border-b flex items-center justify-center border-gray-200 bg-white text-sm">
+                <button  type="button" onClick={() => handleCandidacy(voter.id)}>
+                    {!voter.isCandidate ? (
+                    
                       <BiAddToQueue size={25} color="rgb(27, 166, 43)" />
-                    {/* ) : (
-                      <MdSecurityUpdateGood size={25} color="rgb(27, 166, 43)" />
-                    )} */}
+                     ) : (
+                      <TiTick size={37} color="rgb(0, 131, 143)" />
+                    )}  
                   </button>
                   </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <td className="px-5 py-5 border-b  border-gray-200 bg-white text-sm">
                   <button type="button" onClick={() => handleEdit(voter.id)}>
                     <BiEdit size={25} color="rgb(0, 131, 143)" />
                   </button>

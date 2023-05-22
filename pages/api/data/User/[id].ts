@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
   
     try {
-      const existingUser = await prisma.user.findUnique({ where: { id: String(id) } });
+      const existingUser = await prisma.voter.findUnique({ where: { id:id as string } });
       
       if (!existingUser) {
         console.log("TUMI USER NA KENOOOOOO AJIB");
@@ -31,8 +31,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       const updatedUser = await prisma.user.update({
-        where: { id: String(id) },
+        where: { id: existingUser.userId },
         data: { role:role },
+      });
+
+      const updatedVoter = await prisma.voter.update({
+        where: { id: id as string },
+        data: { isCandidate: true },
       });
 
       res.status(200).json(updatedUser);
