@@ -23,8 +23,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
     try {
       const existingUser = await prisma.user.findUnique({ where: { id: String(id) } });
-      console.log("dkfjnhdkfhn");
+      
       if (!existingUser) {
+        console.log("TUMI USER NA KENOOOOOO AJIB");
         console.log(id, role);
         return res.status(404).json({ message: 'User not found.' });
       }
