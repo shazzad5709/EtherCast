@@ -1,4 +1,4 @@
-import ChairmanTable from "../Table/OfficerTable";
+import OfficerTable from "../Table/OfficerTable";
 import Form from "../Utilities/Form/OfficerForm";
 
 export default function AdminTotal(){
@@ -7,7 +7,7 @@ export default function AdminTotal(){
         <div>
            
         <Form buttonName="Add Voter" />
-         <ChairmanTable />
+         <OfficerTable />
 
         </div>
          

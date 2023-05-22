@@ -11,7 +11,6 @@ interface Officer {
   name: string | null ; // Add the name property here
   email: string | null ; // Add the email property here
   userId: string;
-  electionId: string;
 }
 
 

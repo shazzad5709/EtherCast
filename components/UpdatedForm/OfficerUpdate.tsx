@@ -1,32 +1,32 @@
-import { Officer } from '@prisma/client';
+import { Voter } from '@prisma/client';
 import { useState } from 'react';
 import { BiUser } from 'react-icons/bi';
 
 interface FormProps {
   buttonName: string;
-  officer: Officer | null | undefined;
-  onUpdate: (updatedOfficer: Officer) => void;
+  voter: Voter | null | undefined;
+  onUpdate: (updatedVoter: Voter) => void;
 }
 
-  const Form = ({ buttonName, officer, onUpdate }: FormProps) => {
-  const [name, setName] = useState(officer?.name || '');
-  const [email, setEmail] = useState(officer?.email || '');
-  const [orgName, setOrgName] = useState(officer?.org_name || '');
-  const [employee_id, setEmpCode] = useState(officer?.employee_id|| '');
+  const Form = ({ buttonName, voter, onUpdate }: FormProps) => {
+  const [name, setName] = useState(voter?.name || '');
+  const [email, setEmail] = useState(voter?.email || '');
+  const [orgName, setOrgName] = useState(voter?.org_name || '');
+  const [employee_id, setEmpCode] = useState(voter?.employee_id|| '');
   
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const updatedOfficer: Officer = {
-      id: officer?.id || '',
-      name: name || '',
-      email: email || '',
-      org_name: orgName || '',
-      employee_id: employee_id || '',
-      userId: officer?.userId || '',
-  
+    const updatedVoter: Voter = {
+        id: voter?.id || '',
+        name: name || '',
+        email: email || '',
+        org_name: orgName || '',
+        employee_id: employee_id || '',
+        userId: voter?.userId || '',
+        candidateId: null
     };
-    await onUpdate(updatedOfficer);
+    await onUpdate(updatedVoter);
   };
   
 

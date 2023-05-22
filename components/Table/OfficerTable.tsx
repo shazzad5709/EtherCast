@@ -1,69 +1,73 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BiEdit, BiTrashAlt } from 'react-icons/bi';
-import Form from '../UpdatedForm/AdminUpdate';
+import user from '../../model/user';
+import Form from '../UpdatedForm/ChairmanUpdate';
 
-interface Chairman {
+interface Voter {
   id: string;
   org_name: string;
-  name: string;
-  email: string;
-  userId: string; // Add the userId property here
+  employee_id: string;
+  name: string | null ; // Add the name property here
+  email: string | null ; // Add the email property here
+  userId: string;
 }
 
+
+
 const ChairmanTable = () => {
-  const [chairmen, setChairmen] = useState<Chairman[]>([]);
+  const [voters, setVoters] = useState<Voter[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [selectedChairman, setSelectedChairman] = useState<Chairman | null>(null);
+  const [selectedVoter, setSelectedVoter] = useState<Voter | null>(null);
 
   const toggleForm = () => {
     setShowForm(!showForm);
   };
 
-  const fetchChairmen = async () => {
+  const fetchOfficers = async () => {
     try {
-      const response = await axios.get('/api/data/createdChairman');
-      setChairmen(response.data);
+      const response = await axios.get('/api/data/Officer/createdVoter');
+      setVoters(response.data);
       setLoading(false);
     } catch (error) {
-      setError('Something went wrong while fetching chairmen.');
+      setError('Something went wrong while fetching Voters.');
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchChairmen();
-    const interval = setInterval(fetchChairmen, 50);
+    fetchOfficers();
+    const interval = setInterval(fetchOfficers, 50);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);
 
   const handleEdit = (id: string) => {
-    const chairman = chairmen.find((chairman) => chairman.id === id);
-    setSelectedChairman(chairman !== undefined ? chairman : null);
+    const voter = voters.find((voter) => voter.id === id);
+    setSelectedVoter(voter !== undefined ? voter : null);
     toggleForm();
   };
 
-  const handleUpdate = async (updatedChairman: Chairman) => {
+  const handleUpdate = async (updatedVoter: Voter) => {
     try {
-      await axios.put(`/api/data/${updatedChairman.id}`, updatedChairman);
-      fetchChairmen(); // Fetch the updated data after updating
-      setSelectedChairman(null);
+      await axios.put(`/api/data/Voter/${updatedVoter.id}`, updatedVoter);
+      fetchOfficers(); // Fetch the updated data after updating
+      setSelectedVoter(null);
       toggleForm();
     } catch (error) {
-      console.log('Something went wrong while updating chairman.');
+      console.log('Something went wrong while updating Officer.');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`/api/data/${id}`);
-      fetchChairmen(); // Fetch the updated data after deleting
+      await axios.delete(`/api/data/Officer/${id}`);
+      fetchOfficers(); // Fetch the updated data after deleting
     } catch (error) {
-      console.log('Something went wrong while deleting chairman.');
+      console.log('Something went wrong while deleting Officer.');
     }
   };
 
@@ -81,7 +85,7 @@ const ChairmanTable = () => {
     {showForm && (
         <Form
           buttonName="Update User"
-          chairman={selectedChairman}
+          officer={selectedVoter}
           onUpdate={handleUpdate}
         />
       )}
@@ -102,29 +106,35 @@ const ChairmanTable = () => {
                 Organization Name
               </th>
               <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Employee Code
+              </th>
+              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
-            {chairmen.map((chairman) => (
-              <tr key={chairman.id}>
+            {voters.map((voter) => (
+              <tr key={voter.id}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {chairman.name}
+                  {voter.name}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {chairman.email}
+                  {voter.email}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {chairman.org_name}
+                  {voter.org_name}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <button type="button" onClick={() => handleEdit(chairman.id)}>
+                  {voter.employee_id}
+                </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <button type="button" onClick={() => handleEdit(voter.id)}>
                     <BiEdit size={25} color="rgb(0, 131, 143)" />
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleDelete(chairman.id)}
+                    onClick={() => handleDelete(voter.id)}
                   >
                     <BiTrashAlt size={25} color="rgb(244,63,94)" />
                   </button>

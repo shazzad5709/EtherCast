@@ -10,7 +10,7 @@ const ElectionOfficers = () => {
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
         {id: 2, label: 'Manage Election', icon: MdViewInAr , href: '/manageElection' },
-        {id: 3, label: 'Add Voter Email', icon: FiUserPlus , href: '/addVoterEmail' },
+        {id: 3, label: 'Add Voter Info', icon: FiUserPlus , href: '/addVoterEmail' },
         {id: 4, label: 'View Voter List', icon: FaListAlt , href: '/voterList' },
     ];
 
