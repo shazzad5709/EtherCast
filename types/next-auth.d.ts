@@ -1,5 +1,5 @@
 import { JWT } from "next-auth/jwt"
-import { User } from "./interfaces"
+import { User } from "next-auth"
 import { UserRole } from '@prisma/client'
 
 declare module "next-auth" {
@@ -14,9 +14,10 @@ declare module "next-auth" {
 }
 
 declare module "next-auth/jwt" {
-  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT {
-    /** OpenID ID Token */
-    idToken?: string
+    id: userId
+    username: string
+    email: string
+    role: UserRole
   }
 }

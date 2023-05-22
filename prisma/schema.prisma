@@ -81,8 +81,8 @@ model Officer {
 model Chairman{
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   org_name    String
-  name       String?
-  email     String?
+  name        String?
+  email       String?
   user        User     @relation(fields: [userId], references: [id])
   election    Election?
   userId      String   @unique @db.ObjectId
@@ -96,6 +96,6 @@ model Election {
   voter                 Voter[]     @relation(fields: [voterIds], references: [id])
   candidates            Candidate[] 
   officer               Officer[] 
-  chairmanId          String?     @db.ObjectId @unique
+  chairmanId            String?     @db.ObjectId @unique
   chairman              Chairman?   @relation(fields: [chairmanId], references: [id])
 }
