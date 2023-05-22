@@ -11,11 +11,11 @@ export default async function handler(
 
     try {
       // console.log("-------------");
-      const chairman = await prisma.officer.findMany();
+      const voters = await prisma.voter.findMany();
       // console.log("*************************")
       // console.log(chairman);
 
-      return res.status(200).json(chairman);
+      return res.status(200).json(voters);
     } catch (error) {
       return res.status(500).json({ message: "Something went wrong" });
     }
@@ -37,20 +37,21 @@ export default async function handler(
           name: name,
           email: email,
           password: "123456",
-          role: "OFFICER",
+          role: "VOTER",
         },
       });
       console.log("Email is unique");
     }
 
     try {
-      const officer = await prisma.officer.create({
+      const officer = await prisma.voter.create({
         data: {
           org_name: org_name,
           userId: user.id,
           name: user.name,
           email: user.email,
-          employee_id:employee_id
+          employee_id:employee_id,
+        
         },
         include: {
           user: true,
@@ -69,7 +70,7 @@ export default async function handler(
     
     const id = req.query.id;
     try {
-      const deletedOfficer = await prisma.officer.delete({
+      const deletedOfficer = await prisma.voter.delete({
         where: { id: String(id) },
       });
 

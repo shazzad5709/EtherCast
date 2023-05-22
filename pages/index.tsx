@@ -5,6 +5,8 @@ import Link from 'next/link'
 import Landing from '../components/PageComponents/Landing'
 import Admin from '../components/Dashboard/Admin'
 import ElectionChairman from '../components/Dashboard/ElectionChairman'
+import ElectionOfficers from '../components/Dashboard/ElectionOfficers'
+import LoginPage from '../components/Utilities/Test'
 
 
 export default function Home() {
@@ -12,7 +14,9 @@ export default function Home() {
     <>            
       {/* <Landing />   */}
       {/* <Admin /> */}
-      <ElectionChairman />
+      {/* <ElectionChairman /> */}
+      <ElectionOfficers />
+      
     </>
   )
 }

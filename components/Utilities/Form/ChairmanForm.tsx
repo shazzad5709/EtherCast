@@ -38,11 +38,12 @@ export default function Form({ buttonName }: Props) {
         email: email,
         org_name: org_name,
         employee_id: employee_id,
+       
       })
       .catch((err) => {
         alert("You DEAD=========");
       });
-    const election_id = "1";
+    
 
     setSelectedRecord(null);
     setName("");

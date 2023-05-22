@@ -1,7 +1,8 @@
+import axios from "axios";
 import ChairmanTable from "../Table/ChairmanTable";
 import Form from "../Utilities/Form/ChairmanForm";
 
-export default function AdminTotal(){
+export default function Chairman(){
     return(
         <>
         <div>
