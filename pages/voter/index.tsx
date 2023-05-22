@@ -1,20 +1,18 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next';
+
 
 type Props = {}
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.writeHead(302, { Location: '/voter/elections' });
-  context.res.end();
-  
-  return {
-    props: {}
-  };
-};
+export default function Voter({}: Props) {
+  const router = useRouter()
 
-export default function index({}: Props) {
+  useEffect(() => {
+    router.push('/voter/elections')
+  }, [])
+
   return (
-    <div className='flex h-screen items-center justify-center'>Loading...</div>
+    <div className='flex h-screen items-center justify-center text-2xl'>Loading...</div>
   )
 }

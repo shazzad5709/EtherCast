@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { toast } from "react-hot-toast";
 
 type Props = {};
 
 export default function SignIn({ }: Props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<any>();
+  const router = useRouter();
+  const { data: session, status } = useSession() 
+
+  const user = session?.user
+  if (status === "authenticated")
+    router.push(`${session?.user?.role}`)
+
+  const signinUser = async() => {
+    const res: any =
+      await signIn('credentials', {
+        redirect: false,
+        email: email,
+        password: password,
+        callbackUrl: `${window.location.origin}`
+      })
+
+      console.log(res);
+      
+
+      if(!user) {
+        toast.error("Invalid Credentials")
+      }
+  }
+
+  const handleSignin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    signinUser()
+  }
+
   return (
     <div className='bg-gray-100 h-screen'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0'>
@@ -18,21 +53,23 @@ export default function SignIn({ }: Props) {
             <h1 className='text-xl font-bold leading-tight tracking-tight md:text-2xl'>
               Sign in to your account
             </h1>
-            <form className='space-y-4 md:space-y-6' action='#'>
+            <form className='space-y-4 md:space-y-6' method='POST' onSubmit={handleSignin}>
               <div>
                 <label
-                  htmlFor='username'
+                  htmlFor='email'
                   className='block mb-2 text-sm font-medium'
                 >
-                  Username
+                  Email
                 </label>
                 <input
-                  type='text'
-                  name='username'
-                  id='username'
+                  type='email'
+                  name='email'
+                  id='email'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                  placeholder='username123'
+                  placeholder='example@mail.com'
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
@@ -49,6 +86,8 @@ export default function SignIn({ }: Props) {
                   placeholder='••••••••'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <button

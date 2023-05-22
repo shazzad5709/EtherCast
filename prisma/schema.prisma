@@ -11,11 +11,11 @@ datasource db {
 }
 
 model Session {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
-    sessionToken  String    @unique
-    userId        String    @db.ObjectId
-    expires       DateTime
-    user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum UserRole {
@@ -25,17 +25,38 @@ enum UserRole {
   CANDIDATE
   CHAIRMAN
 }
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  userId            String  @db.ObjectId
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  id_token          String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String
-  email    String   @unique
+  email    String    @unique
   password String
-  role     UserRole @default(VOTER)
+  role     UserRole  @default(VOTER)
   image    String?
   voter    Voter?
   officer  Officer?
   sessions Session[]
   chairman Chairman?
+  Account  Account[]
 }
 
 model Voter {
@@ -54,48 +75,48 @@ model Voter {
 }
 
 model Candidate {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  symbol     String?
-  agenda     String?
-  name        String?
-  email       String?
-  voter      Voter    @relation(fields: [voterId], references: [id])
-  voterId    String   @unique @db.ObjectId
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  symbol    String?
+  agenda    String?
+  name      String?
+  email     String?
+  voter     Voter   @relation(fields: [voterId], references: [id])
+  voterId   String  @unique @db.ObjectId
   // election   Election @relation(fields: [electionId], references: [id])
   // electionId String   @unique @db.ObjectId
-  voteCount  Int      @default(0)
+  voteCount Int     @default(0)
 }
 
 model Officer {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String?
   email       String?
   org_name    String
   employee_id String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User    @relation(fields: [userId], references: [id])
   // election    Election @relation(fields: [electionId], references: [id])
   // electionId  String   @db.ObjectId
-  userId      String   @unique @db.ObjectId
+  userId      String  @unique @db.ObjectId
 }
 
-model Chairman{
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  org_name    String
-  name       String?
-  email     String?
-  user        User     @relation(fields: [userId], references: [id])
-  election    Election?
-  userId      String   @unique @db.ObjectId
+model Chairman {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  org_name String
+  name     String?
+  email    String?
+  user     User      @relation(fields: [userId], references: [id])
+  election Election?
+  userId   String    @unique @db.ObjectId
 }
 
 model Election {
-  id                    String      @id @default(auto()) @map("_id") @db.ObjectId
-  title                 String
-  election_code         String
-  voterIds              String[]    @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  election_code String
+  voterIds      String[]  @db.ObjectId
   // voter                 Voter[]     @relation(fields: [voterIds], references: [id])
   // candidates            Candidate[] 
   // officer               Officer[] 
-  chairmanId          String?     @db.ObjectId @unique
-  chairman              Chairman?   @relation(fields: [chairmanId], references: [id])
+  chairmanId    String?   @unique @db.ObjectId
+  chairman      Chairman? @relation(fields: [chairmanId], references: [id])
 }
