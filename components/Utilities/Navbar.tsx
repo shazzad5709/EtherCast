@@ -6,6 +6,7 @@ import { NavbarItem } from '../../types/interfaces'
 import { MdClose, MdLogout } from 'react-icons/md'
 import NavbarMenu from './NavbarMenu'
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
+import { signOut } from 'next-auth/react'
 
 type Props = {
   NavbarItems: NavbarItem[]
@@ -49,8 +50,7 @@ export default function Navbar({ NavbarItems }: Props) {
         
 
         {/* TODO Display Sign in button for guest users */}
-        {/* TODO Add Sign out functionality on click */}
-        <div className='mt-auto mb-10 hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-gray-300 hover:drop-shadow-md'>
+        <div onClick={() => signOut( {callbackUrl: '/'} )} className='mt-auto mb-10 hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-gray-300 hover:drop-shadow-md'>
           <div className='relative space-x-3 md:w-[36px] lg:w-fit flex items-start justify-center cursor-pointer'>
             <MdLogout size={24} />
             <p className='hidden lg:block text-xl'>Sign out</p>

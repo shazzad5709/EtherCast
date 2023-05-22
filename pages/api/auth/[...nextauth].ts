@@ -65,7 +65,6 @@ export default NextAuth({
 
       return {
           id: dbUser.id,
-          username: dbUser.username,
           email: dbUser.email,
           role: dbUser.role
         };
@@ -73,7 +72,6 @@ export default NextAuth({
     async session({ token, session }) {
         if (token) {
           session.user.id = token.id
-          session.user.username = token.username
           session.user.email = token.email
           session.user.role = token.role
         }

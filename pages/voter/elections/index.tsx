@@ -6,6 +6,9 @@ import { RiGovernmentFill } from 'react-icons/ri'
 import { NavbarItem } from '../../../types/interfaces'
 import ElectionList from '../../../components/Utilities/ElectionList'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
+import Unauthenticated from '../../../components/PageComponents/Unauthenticated'
+import Unauthorized from '../../../components/PageComponents/Unauthorized'
 
 type Props = {}
 
@@ -30,6 +33,7 @@ const Button = ({ label, isActive, onClick }: ButtonProps) => {
 
 export default function Elections({ }: Props) {
   const [active, setActive] = useState(true)
+  const { data: session, status } = useSession()
 
   const handleAllClick = () => {
     setActive(true)
@@ -115,44 +119,56 @@ export default function Elections({ }: Props) {
     }
   ]
 
-  return (
-    <div>
-      <div className='bg-gray-200 flex'>
-        <Navbar NavbarItems={VoterNavItems} />
-        <div className='w-full h-screen space-y-4'>
-          {/* <div className='sticky flex left-0 top-0 right-0 bg-white ml-[-24px] justify-end'>
-            <p className='mr-16 py-2 text-2xl font-semibold'>Voter 1</p>
-          </div> */}
-          <div>
-            <div className='sticky left-0 top-0 right-0 flex bg-white mt-2 space-x-2 mr-0 md:mr-6 justify-center'>
-              <Button label='All Elections' isActive={active} onClick={handleAllClick} />
-              <Button label='Participating' isActive={!active} onClick={handleMyClick} />
-            </div>
-            <div className="bg-white scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white overflow-y-scroll h-[calc(100vh-90px)] mb-4 border border-gray-200 shadow-sm lg:mb-12 mr-0 md:mr-6 mt-4">
-              {active ? allElection.map((election) => (
-                <ElectionList
-                  key={election.code}
-                  code={election.code}
-                  name={election.name}
-                  org={election.org}
-                  applyDeadline={election.applyDeadline}
-                  voteStart={election.voteStart}
-                />
-              )) : participating.map((election) => (
-                <ElectionList
-                  key={election.code}
-                  code={election.code}
-                  name={election.name}
-                  org={election.org}
-                  applyDeadline={election.applyDeadline}
-                  voteStart={election.voteStart}
-                  applied
-                />
-              ))}
+  if(status === 'authenticated') {
+    if(session?.user?.role === 'VOTER') {
+      return (
+        <div>
+          <div className='bg-gray-200 flex'>
+            <Navbar NavbarItems={VoterNavItems} />
+            <div className='w-full h-screen space-y-4'>
+              {/* <div className='sticky flex left-0 top-0 right-0 bg-white ml-[-24px] justify-end'>
+                <p className='mr-16 py-2 text-2xl font-semibold'>Voter 1</p>
+              </div> */}
+              <div>
+                <div className='sticky left-0 top-0 right-0 flex bg-white mt-2 space-x-2 mr-0 md:mr-6 justify-center'>
+                  <Button label='All Elections' isActive={active} onClick={handleAllClick} />
+                  <Button label='Participating' isActive={!active} onClick={handleMyClick} />
+                </div>
+                <div className="bg-white scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white overflow-y-scroll h-[calc(100vh-90px)] mb-4 border border-gray-200 shadow-sm lg:mb-12 mr-0 md:mr-6 mt-4">
+                  {active ? allElection.map((election) => (
+                    <ElectionList
+                      key={election.code}
+                      code={election.code}
+                      name={election.name}
+                      org={election.org}
+                      applyDeadline={election.applyDeadline}
+                      voteStart={election.voteStart}
+                    />
+                  )) : participating.map((election) => (
+                    <ElectionList
+                      key={election.code}
+                      code={election.code}
+                      name={election.name}
+                      org={election.org}
+                      applyDeadline={election.applyDeadline}
+                      voteStart={election.voteStart}
+                      applied
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )
+    }
+    return (
+      <Unauthorized path={`${(session?.user?.role).toLowerCase()}`} />
+    )
+  }
+  return (
+    <Unauthenticated />
   )
+
+  
 }
