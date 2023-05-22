@@ -8,7 +8,7 @@ const Candidate = () => {
     const [isOpen, setIsOpen] = useState(false);
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
-        { id: 2, label: 'Apply as Voter', icon: BsFillHandIndexThumbFill , href: '/voterApply' },
+        { id: 2, label: 'Candidacy', icon: BsFillHandIndexThumbFill , href: '/voterApply' },
         { id: 3, label: 'Election', icon: MdOutlineHowToVote , href: '/election' },
         ];
 
