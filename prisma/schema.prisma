@@ -42,6 +42,8 @@ model Voter {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   employee_id String
   org_name    String
+  name        String?
+  email       String?
   address     String
   user        User       @relation(fields: [userId], references: [id])
   candidate   Candidate?
@@ -55,6 +57,8 @@ model Candidate {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   symbol     String?
   agenda     String?
+  name        String?
+  email       String?
   voter      Voter    @relation(fields: [voterId], references: [id])
   voterId    String   @unique @db.ObjectId
   election   Election @relation(fields: [electionId], references: [id])
@@ -64,6 +68,8 @@ model Candidate {
 
 model Officer {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String?
+  email       String?
   org_name    String
   employee_id String
   user        User     @relation(fields: [userId], references: [id])
@@ -78,7 +84,7 @@ model Chairman{
   name       String?
   email     String?
   user        User     @relation(fields: [userId], references: [id])
-  election Election?
+  election    Election?
   userId      String   @unique @db.ObjectId
 }
 

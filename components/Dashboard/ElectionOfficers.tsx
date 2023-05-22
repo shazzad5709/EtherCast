@@ -3,6 +3,7 @@ import Navbar from "../Utilities/Navbar";
 import { FiUserPlus } from "react-icons/fi";
 import { FaUserCircle, FaListAlt } from "react-icons/fa";
 import { MdViewInAr } from "react-icons/md";
+import Officer from "../MainWork/ElectionOfficer";
 
 const ElectionOfficers = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +17,9 @@ const ElectionOfficers = () => {
   return (
     <div>
         <Navbar NavbarItems={navbarItems} />
-        
+        <div className="flex w-full justify-center items-center">
+        <Officer />
+      </div>
     </div>
   );
 };

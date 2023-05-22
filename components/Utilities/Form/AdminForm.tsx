@@ -5,7 +5,7 @@ import axios from "axios";
 import { Chairman } from "@prisma/client";
 import { render } from "react-dom";
 import useSWR from "swr";
-import ChairmanTable from "./ChairmanTable";
+import ChairmanTable from "../../Table/AdminTable";
 
 type Props = {
   buttonName: string;
@@ -19,33 +19,19 @@ interface FormData {
   empCode: string;
 }
 
-interface Officer {
-  id: string;
-  name: string;
-  email: string;
-  org_name: string;
-}
 
 export default function Form({ buttonName }: Props) {
-  const [records, setRecords] = useState([]);
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [org_name, setorg_name] = useState("");
-  const [empCode, setEmpCode] = useState("");
   const [showForm, setShowForm] = useState(false); // initial state is false
-
-  const getUsers = async () => {
-    const response = await axios.get("/api/data/createdChairman");
-    return response.data;
-  };
-
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const res = await axios
-      .post("/api/data/createdChairman", {
+      .post("./api/data/Admin/createdChairman", {
         name: name,
         email: email,
         org_name: org_name,
@@ -59,41 +45,16 @@ export default function Form({ buttonName }: Props) {
     setName("");
     setEmail("");
     setorg_name("");
-    setEmpCode("");
     toggleForm();
   };
 
-  const handleEdit = (id: number) => {
-    toggleForm();
-    
-    // const selectedRecord = records.find((record) => record.id === id);
-    // if (selectedRecord) {
-    //   setSelectedRecord(selectedRecord);
-    //   setName(selectedRecord.name);
-    //   setEmail(selectedRecord.email);
-    //   setorg_name(selectedRecord.org_name);
-    //   setEmpCode(selectedRecord.empCode);
-    // }
-  };
-
-  const handleDelete = (id: number) => {
-    // toggleForm()
-    // const newRecords = records.filter((record) => record.id !== id);
-    // setRecords(newRecords);
-  };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
-
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-
-  // const handleEmpCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEmpCode(event.target.value);
-  // };
-
   const handleorg_nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setorg_name(event.target.value);
   };
@@ -106,8 +67,10 @@ export default function Form({ buttonName }: Props) {
     <>
       <div>
         <div className="flex flex-col">
-          <button onClick={toggleForm}>Add User</button>
+          <button onClick={toggleForm}>Add Chairman</button>
         </div>
+        <br />
+        <br />
 
         <div>
           {showForm && (

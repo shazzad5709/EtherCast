@@ -5,7 +5,7 @@ import { BiUser } from 'react-icons/bi';
 interface FormProps {
     buttonName: string;
     chairman: Chairman | undefined | null;
-    onUpdate: (updatedChairman: Chairman|null) => void;
+    onUpdate: (updatedChairman: Chairman) => void;
   }
 
 
