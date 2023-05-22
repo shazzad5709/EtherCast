@@ -44,7 +44,7 @@ export default async function handler(
     }
 
     try {
-      const officer = await prisma.voter.create({
+      const voter = await prisma.voter.create({
         data: {
           org_name: org_name,
           userId: user.id,
@@ -59,7 +59,7 @@ export default async function handler(
         }
       });
       
-      return res.status(200).json({ message: "Chairman created successfully" });
+      return res.status(200).json({ message: "Voter created successfully" });
     } catch (error) {
       console.log('Error:', error);
       console.log("kenooo")

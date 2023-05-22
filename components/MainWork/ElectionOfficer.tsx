@@ -1,7 +1,7 @@
 import OfficerTable from "../Table/OfficerTable";
 import Form from "../Utilities/Form/OfficerForm";
 
-export default function AdminTotal(){
+export default function ElectionOfficer(){
     return(
         <>
         <div>

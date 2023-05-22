@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import axios from "axios";
-import { Chairman } from "@prisma/client";
-import { render } from "react-dom";
-import useSWR from "swr";
-import ChairmanTable from "../../Table/AdminTable";
 
 type Props = {
   buttonName: string;
@@ -34,7 +30,7 @@ export default function Form({ buttonName }: Props) {
     event.preventDefault();
 
     const res = await axios
-      .post("./api/data/Chairman/createdOfficer", {
+      .post("./api/data/Officer/createdVoter", {
         name: name,
         email: email,
         org_name: org_name,
@@ -75,7 +71,7 @@ export default function Form({ buttonName }: Props) {
     <>
       <div>
         <div className="flex flex-col">
-          <button onClick={toggleForm}>Add Officer</button>
+          <button onClick={toggleForm}>Add Voter</button>
         </div>
 
         <div>

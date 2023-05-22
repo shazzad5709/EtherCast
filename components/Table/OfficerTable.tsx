@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { BiEdit, BiTrashAlt } from 'react-icons/bi';
+import { BiEdit, BiTrashAlt,BiAddToQueue } from 'react-icons/bi';
 import user from '../../model/user';
 import Form from '../UpdatedForm/ChairmanUpdate';
+import { MdSecurityUpdateGood } from 'react-icons/md';
 
 interface Voter {
   id: string;
@@ -11,12 +12,25 @@ interface Voter {
   name: string | null ; // Add the name property here
   email: string | null ; // Add the email property here
   userId: string;
+  // role:string | null;
+  // candidateId: string | null;
+}
+interface User {
+  id: string;
+  org_name: string;
+  employee_id: string;
+  name: string | null ; // Add the name property here
+  email: string | null ; // Add the email property here
+  userId: string;
+  role:string | null;
+  // candidateId: string | null;
 }
 
 
 
 const ChairmanTable = () => {
   const [voters, setVoters] = useState<Voter[]>([]);
+  const [user, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -45,6 +59,25 @@ const ChairmanTable = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const fetchUses = async () => {
+    try {
+      const response = await axios.get('/api/data/User/createdUser');
+      setVoters(response.data);
+      setLoading(false);
+    } catch (error) {
+      setError('Something went wrong while fetching Voters.');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOfficers();
+    const interval = setInterval(fetchOfficers, 50);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
+
   const handleEdit = (id: string) => {
     const voter = voters.find((voter) => voter.id === id);
     setSelectedVoter(voter !== undefined ? voter : null);
@@ -53,12 +86,12 @@ const ChairmanTable = () => {
 
   const handleUpdate = async (updatedVoter: Voter) => {
     try {
-      await axios.put(`/api/data/Voter/${updatedVoter.id}`, updatedVoter);
+      await axios.put(`/api/data/Officer/${updatedVoter.id}`, updatedVoter);
       fetchOfficers(); // Fetch the updated data after updating
       setSelectedVoter(null);
       toggleForm();
     } catch (error) {
-      console.log('Something went wrong while updating Officer.');
+      console.log('Something went wrong while updating Votersssssss');
     }
   };
 
@@ -67,7 +100,17 @@ const ChairmanTable = () => {
       await axios.delete(`/api/data/Officer/${id}`);
       fetchOfficers(); // Fetch the updated data after deleting
     } catch (error) {
-      console.log('Something went wrong while deleting Officer.');
+      console.log('Something went wrong while deleting Voterssssss.');
+    }
+  };
+
+  const handleCandidacy = async (id:any) => {
+    try {
+      await axios.put(`/api/data/User/${id}`, { role: 'CANDIDATE' });
+      fetchOfficers(); // Fetch the updated data after updating
+      alert('User is now a candidate');
+    } catch (error) {
+      console.log('Something went wrong while updating the role.');
     }
   };
 
@@ -109,6 +152,9 @@ const ChairmanTable = () => {
                 Employee Code
               </th>
               <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                Candidacy
+              </th>
+              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Action
               </th>
             </tr>
@@ -128,6 +174,15 @@ const ChairmanTable = () => {
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                   {voter.employee_id}
                 </td>
+                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <button type="button" onClick={() => handleCandidacy(voter.id)}>
+                    {/* {user.role === 'VOTER' ? ( */}
+                      <BiAddToQueue size={25} color="rgb(27, 166, 43)" />
+                    {/* ) : (
+                      <MdSecurityUpdateGood size={25} color="rgb(27, 166, 43)" />
+                    )} */}
+                  </button>
+                  </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                   <button type="button" onClick={() => handleEdit(voter.id)}>
                     <BiEdit size={25} color="rgb(0, 131, 143)" />

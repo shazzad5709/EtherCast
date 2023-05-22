@@ -25,6 +25,7 @@ interface FormProps {
         employee_id: employee_id || '',
         userId: voter?.userId || '',
         candidateId: null
+        
     };
     await onUpdate(updatedVoter);
   };
