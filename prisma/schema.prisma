@@ -66,7 +66,7 @@ model Voter {
   name        String?
   email       String?
   // address     String
-  user        User       @relation(fields: [userId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   candidate   Candidate?
   // election    Election[] @relation(fields: [electionIds], references: [id])
   userId      String     @unique @db.ObjectId
@@ -80,7 +80,7 @@ model Candidate {
   agenda    String?
   name      String?
   email     String?
-  voter     Voter   @relation(fields: [voterId], references: [id])
+  voter     Voter   @relation(fields: [voterId], references: [id], onDelete: Cascade)
   voterId   String  @unique @db.ObjectId
   // election   Election @relation(fields: [electionId], references: [id])
   // electionId String   @unique @db.ObjectId
@@ -93,7 +93,7 @@ model Officer {
   email       String?
   org_name    String
   employee_id String
-  user        User    @relation(fields: [userId], references: [id])
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   // election    Election @relation(fields: [electionId], references: [id])
   // electionId  String   @db.ObjectId
   userId      String  @unique @db.ObjectId
@@ -104,7 +104,7 @@ model Chairman {
   org_name String
   name     String?
   email    String?
-  user     User      @relation(fields: [userId], references: [id])
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   election Election?
   userId   String    @unique @db.ObjectId
 }
@@ -118,5 +118,5 @@ model Election {
   // candidates            Candidate[] 
   // officer               Officer[] 
   chairmanId    String?   @unique @db.ObjectId
-  chairman      Chairman? @relation(fields: [chairmanId], references: [id])
+  chairman      Chairman? @relation(fields: [chairmanId], references: [id], onDelete: Cascade)
 }
