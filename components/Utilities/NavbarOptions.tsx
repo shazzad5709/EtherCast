@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { useCallback, useState } from 'react'
 import { IconType } from 'react-icons/lib'
 
@@ -10,10 +11,12 @@ type Props = {
 
 export default function NavbarOptions({ label, icon: Icon, href, onClick }: Props) {
   // const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-  const handleClick = useCallback(() => {
-    alert('clicked')
-  }, [])
+  const handleClick = () => {
+    console.log({href})
+    router.push(`/${href}`);
+  }
 
   return ( 
     <div onClick={handleClick} className='hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-green-light hover:text-green-dark hover:cursor-pointer hover:drop-shadow-md'>

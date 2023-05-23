@@ -19,7 +19,7 @@ export default function Home() {
       {/* <ElectionOfficers /> */}
       {/* <div>Hello</div> */}
       {/* <Header label="Home" /> */}
-      <Avatar userId={''} />
+      {/* <Avatar userId={''} /> */}
       
     </>
   )

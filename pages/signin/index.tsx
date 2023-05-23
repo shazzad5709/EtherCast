@@ -15,7 +15,7 @@ export default function SignIn({ }: Props) {
 
   const user = session?.user
   if (status === "authenticated")
-    router.push(`${session?.user?.role}`)
+    router.push(`${(session?.user?.role).toLowerCase()}`)
 
   // const signinUser = async() => {
   //   const res: any =

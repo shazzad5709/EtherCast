@@ -14,8 +14,8 @@ const Avatar:React.FC<AvatarProps> = ({userId, isLarge, hasBorder}) => {
     const router = useRouter();
     const onClick = useCallback((event:any) => {
         event.stopPropagation();
-
-        const url = `/userP/${userId}`;
+        // alert(userId)
+        const url = `/profile/${userId}`;
         router.push(url);
     },[router, userId])
     return (

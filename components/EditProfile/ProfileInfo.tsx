@@ -1,42 +1,37 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import Avatar from "./Avatar";
 import { useSession } from "next-auth/react";
 import Unauthenticated from "../PageComponents/Unauthenticated";
+import { useRouter } from "next/router";
+import useUser from "../../hooks/useUser";
+import { InfinitySpin } from "react-loader-spinner";
 
 export default function Profile() {
-    const { data: session, status } = useSession();
-    const [authenticated, setAuthenticated] = useState(Boolean(false));
+  const { data: session, status } = useSession();
+  const [id, setId] = useState("");
 
-    const fetchUsers = async () => {
-        let id = session?.user?.id;
-        try {
-            const response = await axios.get(`/api/data/User/${id}`);
+  useEffect(() => {
+    setId(session?.user?.id);
+  }, [session]);
 
-        } catch (error) {
-            console.log('Something went wrong while fetching Voters.');
-        }
-    };
+  const { data: fetchedUser } = useUser(id);
+  const router = useRouter();
 
-    useEffect(() => {
-        fetchUsers();
-    }, [authenticated]);
-
-    if (status === 'authenticated') {
-        setAuthenticated(true);
-
-        return (
-            <>
-                <div className="flex flex-col items-center justify-center">
-    
-                </div>
-    
-            </>
-        )
+  useEffect(() => {
+    if (status === "authenticated" && id) {
+      const url = `/profile/${id}`;
+      router.push(url);
     }
-    return (
-        <Unauthenticated />
-    )
+  }, [status, id, router]);
 
-    
+  if (status === "authenticated") {
+    return (
+      <>
+        <div className="flex flex-col items-center justify-center">
+          <InfinitySpin width="200" color="#4fa94d" />
+        </div>
+      </>
+    );
+  }
+
+  return <Unauthenticated />;
 }
