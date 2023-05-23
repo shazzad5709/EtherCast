@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { BiCalendar } from "react-icons/bi";
+import { BiCalendar, BiDotsHorizontalRounded } from "react-icons/bi";
 import { format } from "date-fns";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
@@ -9,6 +9,8 @@ import useEditModal from "../../hooks/useEditModal";
 
 import Button from "../Utilities/ButtonProfile";
 import Voter from "../Dashboard/Voter";
+import { RiLockPasswordFill ,RiLockPasswordLine} from "react-icons/ri";
+import { MdPassword } from "react-icons/md";
 
 interface UserBioProps {
   userId: string;
@@ -40,11 +42,12 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
       <div className="flex justify-end p-2">
         {currentUser?.id === userId ? (
           <>
-          <div> test </div>
+          {/* <div> test </div> */}
           <Button secondary label="Edit" onClick={editModal.onOpen} />
           </>
         ) : (
-          <Button secondary label="Edit" onClick={editModal.onOpen} />
+          // <Button secondary label="Edit" onClick={editModal.onOpen} />
+          <>test </>
         )}
       </div>
       <div className="mt-8 px-4">
@@ -53,9 +56,9 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
           <p className=" text-2xl font-semibold">
             {fetchedUser?.name}
           </p>
-          <p className="text-md text-neutral-500">
+          {/* <p className="text-md text-neutral-500">
             {fetchedUser?.role}
-          </p>
+          </p> */}
         </div>
         <div className="flex flex-col mt-4">
           <p >
@@ -70,11 +73,13 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
               mt-4 
               text-neutral-500
           ">
-            <BiCalendar size={24} />
-            <p>
-              Joined {createdAt}
-            </p>
+            <RiLockPasswordLine size={21}/>
+          <p className="placeholder-gray-400">
+             {fetchedUser?.password ? <BiDotsHorizontalRounded />: ""}
+          </p>
           </div>
+          
+          
         </div>
         
         </div>

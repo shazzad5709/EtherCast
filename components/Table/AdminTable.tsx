@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BiEdit, BiTrashAlt } from 'react-icons/bi';
 import user from '../../model/user';
 import Form from '../UpdatedForm/AdminUpdate';
+import {InfinitySpin} from "react-loader-spinner";
 
 interface Chairman {
   id: string;
@@ -69,7 +70,14 @@ const AdminTable = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+      <InfinitySpin 
+        width='200'
+        color="#4fa94d"
+      />
+      </div>
+    )
   }
 
   if (error) {

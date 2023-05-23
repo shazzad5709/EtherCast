@@ -7,8 +7,8 @@ import useUser from "../../hooks/useUser";
 import Header from "../../components/EditProfile/Header";
 import UserBio from "../../components/Users/UserBio";
 import UserHero from "../../components/Users/UserHero";
-
-
+import Voter from "../../components/Dashboard/Voter";
+import {InfinitySpin} from "react-loader-spinner";
 
 const UserView = () => {
   const router = useRouter();
@@ -19,13 +19,17 @@ const UserView = () => {
   if (isLoading || !fetchedUser) {
     return (
       <div className="flex justify-center items-center h-full">
-        Loading Profile........
+        <InfinitySpin 
+        width='200'
+        color="#4fa94d"
+      />
       </div>
     )
   }
 
   return (
     <>
+      {/* <Voter /> */}
       <Header showBackArrow label={fetchedUser?.name} />
       <UserHero userId={userId as string} />
       <UserBio userId={userId as string} />

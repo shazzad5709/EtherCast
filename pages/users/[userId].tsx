@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 // import { ClipLoader } from "react-spinners";
 
 import useUser from "../../hooks/useUser";
-
+import {InfinitySpin} from "react-loader-spinner";
 // import PostFeed from "../../../components/posts/PostFeed";
 import Header from "../../components/EditProfile/Header";
 import UserBio from "../../components/Users/UserBio";
@@ -18,9 +18,12 @@ const UserView = () => {
 
   if (isLoading || !fetchedUser) {
     return (
-      <div className="flex justify-center items-center h-full">
-        Loading Profile........
-      </div>
+      <div className='flex h-screen items-center justify-center text-2xl'>
+    <InfinitySpin 
+      width='200'
+      color="#4fa94d"
+    />
+    </div>
     )
   }
 

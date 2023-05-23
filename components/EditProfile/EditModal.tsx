@@ -17,10 +17,12 @@ const EditModal = () => {
 
   const [profileImage, setProfileImage] = useState('');
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     setProfileImage(currentUser?.profileImage);
     setName(currentUser?.name);
+    setPassword(currentUser?.password)
   }, [currentUser?.name, currentUser?.profileImage]);
   
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +31,7 @@ const EditModal = () => {
     try {
       setIsLoading(true);
 
-      await axios.put('/api/edit', { userId: currentUser.id, name, profileImage });
+      await axios.put('/api/edit', { userId: currentUser.id, name, profileImage,password });
       mutateFetchedUser();
 
       toast.success('Updated');
@@ -49,6 +51,12 @@ const EditModal = () => {
         placeholder="Name"
         onChange={(e) => setName(e.target.value)}
         value={name}
+        disabled={isLoading}  
+      />
+      <Input
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
         disabled={isLoading}  
       />
     </div>

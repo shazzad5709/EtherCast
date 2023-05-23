@@ -103,7 +103,7 @@ export default function Elections({ }: Props) {
       id: 1,
       label: 'Profile',
       icon: FaUserTie,
-      href: '/profile',
+      href: `/profile/${session?.user?.id}`,
     },
     {
       id: 2,

@@ -22,7 +22,7 @@ const Avatar:React.FC<AvatarProps> = ({userId, isLarge, hasBorder}) => {
         <>
         <div
       className={`
-        ${hasBorder ? 'border-4 border-black' : ''}
+        ${hasBorder ? 'border-4 border-black' :'border-2 border-black'}
         ${isLarge ? 'h-32' : 'h-12'}
         ${isLarge ? 'w-32' : 'w-12'}
         rounded-full 
@@ -40,7 +40,7 @@ const Avatar:React.FC<AvatarProps> = ({userId, isLarge, hasBorder}) => {
         }}
         alt="Avatar"
         onClick={onClick}
-        src={fetchedUser?.profileImage || '/images/placeholder.png'}
+        src={fetchedUser?.image || '/images/placeholder.png'}
       />
     </div>
         </>

@@ -15,7 +15,7 @@ export default function Home() {
     <>            
       {/* <Landing />   */}
       {/* <Admin /> */}
-      {/* <ElectionChairman /> */}
+      <ElectionChairman />
       {/* <ElectionOfficers /> */}
       {/* <div>Hello</div> */}
       {/* <Header label="Home" /> */}
