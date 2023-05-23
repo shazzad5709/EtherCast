@@ -7,3 +7,5 @@ const useCurrentUser = () => {
         data,error,isLoading,mutate
     };
 }
+
+export default useCurrentUser;
