@@ -65,13 +65,13 @@ contract VotingContract {
         revert("Election not found");
     }
 
-    function searchElection(uint256 _electionCode)
-        public
-        view
-        returns (Election memory _election)
-    {
-        _election = elections[getElection(_electionCode)];
-    }
+    // function searchElection(uint256 _electionCode)
+    //     public
+    //     view
+    //     returns (Election memory _election)
+    // {
+    //     _election = elections[getElection(_electionCode)];
+    // }
 
     // Modifiers
     modifier onlyDuringRegistration(uint256 _electionCode) {
@@ -107,7 +107,7 @@ contract VotingContract {
             }
         }
 
-        require(exists, "Voter is not registered!");
+        require(exists, "Voter not found!");
         _;
     }
 
@@ -121,7 +121,7 @@ contract VotingContract {
             }
         }
 
-        require(exists, "Voter is not registered!");
+        require(exists, "Candidate is not registered!");
         _;
     }
 
@@ -135,7 +135,7 @@ contract VotingContract {
             }
         }
 
-        require(!exists, "Candidate already registered!");
+        require(!exists, "Candidate not found!");
         _;
     }
 
@@ -196,7 +196,7 @@ contract VotingContract {
             }
         }
 
-        require(!voted, "Only officers can register voters!");
+        require(!voted, "Vote already casted!");
         _;
     }
 
@@ -204,24 +204,25 @@ contract VotingContract {
         require(
             block.timestamp >
                 elections[getElection(_electionCode)].votingEndTime,
-            "Voting is still open"
+            "Voting is still open!"
         );
         _;
     }
 
     function voting(
         uint256 _electionCode,
-        address _voter,
         address _candidate
     ) public {
         Election storage _election = elections[getElection(_electionCode)];
         Voter storage _Voter;
         Candidate storage _Candidate;
 
+        address _voter = msg.sender;
+
         require(
             block.timestamp >= _election.votingStartTime &&
                 block.timestamp <= _election.votingEndTime,
-            "Voting is not open"
+            "Voting is not open!"
         );
 
         bool voterExists;
@@ -239,7 +240,7 @@ contract VotingContract {
         }
 
         require(voterExists, "Voter is not registered!");
-        require(!voted, "Only officers can register voters!");
+        require(!voted, "Vote already casted!");
         _Voter = _election.voters[index];
 
         for (uint256 i = 0; i < _election.candidates.length; i++) {

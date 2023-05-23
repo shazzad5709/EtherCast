@@ -17,7 +17,25 @@ export default function SignIn({ }: Props) {
   if (status === "authenticated")
     router.push(`${(session?.user?.role).toLowerCase()}`)
 
-  const signinUser = async() => {
+  // const signinUser = async() => {
+  //   const res: any =
+  //     await signIn('credentials', {
+  //       redirect: false,
+  //       email: email,
+  //       password: password,
+  //       callbackUrl: `${window.location.origin}`
+  //     })
+
+  //     console.log(res);
+      
+
+  //     if(!user) {
+  //       toast.error("Invalid Credentials")
+  //     }
+  // }
+
+  const handleSignin = async(event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     const res: any =
       await signIn('credentials', {
         redirect: false,
@@ -32,11 +50,6 @@ export default function SignIn({ }: Props) {
       if(!user) {
         toast.error("Invalid Credentials")
       }
-  }
-
-  const handleSignin = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    signinUser()
   }
 
   return (
