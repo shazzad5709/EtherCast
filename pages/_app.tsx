@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react'
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { store } from '../redux/store';
 import { Provider } from 'react-redux';
+import EditModal from '../components/EditProfile/EditModal';
 // import '../styles/dashboard.css'
 
 // create a client
@@ -18,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
           session={pageProps.session}
         >
           <Toaster />
+          <EditModal />
           <Component {...pageProps} />
         </SessionProvider>
       </Provider>

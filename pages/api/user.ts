@@ -1,0 +1,42 @@
+import prisma from '../../libs/prisma';
+
+export default async function handler(req:any, res:any) {
+  const { userId } = req.query;
+
+  if (req.method === 'GET') {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  } else if (req.method === 'PUT') {
+    const { name, image, password } = req.body;
+
+    try {
+      const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: {
+          name,
+          image,
+          password,
+        },
+      });
+
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      console.error('Failed to update user:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  } else {
+    res.status(405).json({ message: 'Method not allowed' });
+  }
+}
