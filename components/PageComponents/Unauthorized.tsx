@@ -12,7 +12,7 @@ export default function Unauthorized({ path }: Props) {
       <div className='border-l-2 h-10 border-black inline-block'></div>
       <h2 className="text-xl">You do not have access to this page.</h2>
       <div className='border-l-2 h-10 border-black inline-block'></div>
-      <Link href={path} className='border-2 border-black tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-black hover:text-white hover:font-normal'>
+      <Link href={`/${path}`} className='border-2 border-black tracking-[2px] rounded-full px-auto w-[160px] py-2 font-semibold inline-block hover:bg-black hover:text-white hover:font-normal'>
         Home
       </Link>
     </div>

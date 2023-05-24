@@ -1,5 +1,6 @@
 import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from 'bcrypt';
 import { UserRole } from "@prisma/client";
 
 export default async function handler(
@@ -30,6 +31,8 @@ export default async function handler(
       },
     });
 
+    const hashedPassword = await bcrypt.hash("12345", 10)
+
     if (user) {
       console.log("Email already exists");
     } else {
@@ -37,7 +40,7 @@ export default async function handler(
         data: {
           name: name,
           email: email,
-          password: "123456",
+          password: hashedPassword,
           role: "CHAIRMAN",
         },
       });

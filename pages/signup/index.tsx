@@ -34,8 +34,10 @@ export default function SignUp({}: Props) {
       })
 
     console.log(res);
-    
-    router.push(`${session?.user?.role}`)
+    if(session) {
+      setRole((session?.user?.role).toLowerCase())
+      router.push(`/${role}`)
+    }
   }
 
   const signupUser = async () => {

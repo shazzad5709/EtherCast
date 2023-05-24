@@ -20,7 +20,7 @@ const Admin = () => {
     <div className="bg-gray-300 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        <AdminTotal/>
+        <AdminTotal />
       </div>
     </div>
   );
