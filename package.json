@@ -28,7 +28,7 @@
     "chart.js": "^4.2.1",
     "date-fns": "^2.30.0",
     "dotenv": "^16.0.3",
-    "ethers": "^6.4.0",
+    "ethers": "^5.7.2",
     "faker": "^6.6.6",
     "jsonwebtoken": "^9.0.0",
     "materialize-css": "^1.0.0-rc.2",
