@@ -133,10 +133,10 @@ const CandidateTable = () => {
                   {candidate.email}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {candidate.symbol}
+                  {candidate.agenda}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {candidate.agenda}
+                  {candidate.symbol}
                 </td>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                   <button type="button" onClick={() => handleEdit(candidate.id)}>

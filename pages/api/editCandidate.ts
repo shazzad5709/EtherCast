@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error('Missing fields');
     }
 
-    const updatedUser = await prisma.candidate.update({
+    const updatedUser = await prisma.user.update({
       where: {
         id: currentUser.id,
         // email: currentUser.email,

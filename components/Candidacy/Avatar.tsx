@@ -20,7 +20,7 @@ const Avatar:React.FC<AvatarProps> = ({userId, isLarge, hasBorder}) => {
     },[router, userId])
     return (
         <>
-        <div
+        {/* <div
       className={`
         ${hasBorder ? 'border-4 border-black' :'border-2 border-black'}
         ${isLarge ? 'h-32' : 'h-12'}
@@ -42,7 +42,7 @@ const Avatar:React.FC<AvatarProps> = ({userId, isLarge, hasBorder}) => {
         onClick={onClick}
         src={fetchedUser?.image || '/images/placeholder.png'}
       />
-    </div>
+    </div> */}
         </>
     )
 }
