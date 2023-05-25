@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.19 .0;
+pragma solidity ^0.8.19;
 
 contract VotingContract {
     struct Voter {
@@ -52,6 +52,18 @@ contract VotingContract {
         _election.officers = _officers;
     }
 
+    function VerifySignature(
+        bytes32 _hashedMessage,
+        uint8 _v,
+        bytes32 _r,
+        bytes32 _s
+    ) public pure returns (address) {
+        bytes memory prefix = '\x19Ethereum Signed Message:\n32';
+        bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));
+        address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
+        return signer;
+    }
+
     function getElection(uint256 _electionCode)
         internal
         view
@@ -64,14 +76,6 @@ contract VotingContract {
         }
         revert("Election not found");
     }
-
-    // function searchElection(uint256 _electionCode)
-    //     public
-    //     view
-    //     returns (Election memory _election)
-    // {
-    //     _election = elections[getElection(_electionCode)];
-    // }
 
     // Modifiers
     modifier onlyDuringRegistration(uint256 _electionCode) {
@@ -153,11 +157,20 @@ contract VotingContract {
         _;
     }
 
-    function registerVoter(uint256 _electionCode, address _voterAddress)
+    function registerVoter(
+        uint256 _electionCode,
+        address _voterAddress,
+        bytes32 _hashedMessage,
+        uint8 _v,
+        bytes32 _r,
+        bytes32 _s
+        )
         public
         onlyDuringRegistration(_electionCode)
         onlyUnregisteredVoter(_electionCode, _voterAddress)
     {
+        address addressToVerify = VerifySignature(_hashedMessage, _v, _r, _s);
+        require(addressToVerify == _voterAddress, "Address do not match");
         Election storage _election = elections[getElection(_electionCode)];
 
         Voter storage _voter = _election.voters.push();

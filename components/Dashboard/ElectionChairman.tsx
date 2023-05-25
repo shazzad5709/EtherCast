@@ -10,7 +10,7 @@ const ElectionChairman = () => {
     const [isOpen, setIsOpen] = useState(false);
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
-        { id: 2, label: 'Create Election', icon: MdOutlineHowToVote , href: '/createElection' },
+        { id: 2, label: 'Create Election', icon: MdOutlineHowToVote , href: '/chairman/create-election' },
         { id: 3, label: 'Add Election Officer', icon: FiUserPlus, href: '/addEC' },
         // { id: 4, label: 'View Reports', icon: HiOutlineDocumentReport , href: '/viewReports' },
        ];
@@ -19,7 +19,7 @@ const ElectionChairman = () => {
     <div className="bg-gray-300 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        <Chairman/>
+        <Chairman />
       </div>
     </div>
   );

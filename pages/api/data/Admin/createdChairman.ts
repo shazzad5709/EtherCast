@@ -1,5 +1,6 @@
 import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from 'bcrypt';
 import { UserRole } from "@prisma/client";
 
 export default async function handler(
@@ -30,15 +31,28 @@ export default async function handler(
       },
     });
 
+    const hashedPassword = await bcrypt.hash("12345", 10)
+
     if (user) {
+      if(user.role !== UserRole.NONE) {
+        return res.status(400).json({ message: "Already in another election" });
+      }
       console.log("Email already exists");
+      user = await prisma.user.update({
+        where: {
+          email: email,
+        },
+        data: {
+          role: UserRole.CHAIRMAN,
+        },
+      });
     } else {
       user = await prisma.user.create({
         data: {
           name: name,
           email: email,
-          password: "123456",
-          role: "CHAIRMAN",
+          password: hashedPassword,
+          role: UserRole.CHAIRMAN,
         },
       });
       console.log("Email is unique");

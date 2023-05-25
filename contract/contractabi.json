@@ -1,0 +1,216 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_electionCode",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_electionName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_registrationDeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_votingStartTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_votingEndTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_officers",
+				"type": "address[]"
+			}
+		],
+		"name": "createElection",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_electionCode",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_candidateAddress",
+				"type": "address"
+			}
+		],
+		"name": "registerCandidate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_electionCode",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_voterAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_hashedMessage",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_s",
+				"type": "bytes32"
+			}
+		],
+		"name": "registerVoter",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_electionCode",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_candidate",
+				"type": "address"
+			}
+		],
+		"name": "voting",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "elections",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "electionCode",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "electionName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "registrationDeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "votingStartTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "votingEndTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "chairman",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_electionCode",
+				"type": "uint256"
+			}
+		],
+		"name": "getResults",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_hashedMessage",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_v",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_r",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_s",
+				"type": "bytes32"
+			}
+		],
+		"name": "VerifySignature",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	}
+]

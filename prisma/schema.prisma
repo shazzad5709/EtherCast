@@ -19,6 +19,7 @@ model Session {
 }
 
 enum UserRole {
+  NONE
   ADMIN
   OFFICER
   VOTER
@@ -46,17 +47,17 @@ model Account {
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  email    String    @unique
-  password String
-  role     UserRole  @default(VOTER)
-  image    String?
-  voter    Voter?
-  officer  Officer?
-  sessions Session[]
-  chairman Chairman?
-  Account  Account[]
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String    @unique
+  password  String
+  role      UserRole  @default(NONE)
+  image     String?
+  voter     Voter?
+  officer   Officer?
+  sessions  Session[]
+  chairman  Chairman?
+  Account   Account[]
 }
 
 model Voter {
@@ -108,12 +109,13 @@ model Chairman {
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   election Election?
   userId   String    @unique @db.ObjectId
+  privateKey String?
 }
 
 model Election {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  title         String
-  election_code String
+  title         String?
+  election_code String    @unique
   voterIds      String[]  @db.ObjectId
   // voter                 Voter[]     @relation(fields: [voterIds], references: [id])
   // candidates            Candidate[] 
