@@ -41,7 +41,9 @@ export default async function handler(
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong' });
     }
-  } else if (req.method === 'POST') {
+  } 
+  
+  else if (req.method === 'POST') {
     const { name, email, org_name } = req.body;
 
     let user = await prisma.user.findUnique({
@@ -94,7 +96,9 @@ export default async function handler(
           userId: user.id,
           name: user.name,
           email: user.email,
-          privateKey: wallet.privateKey,
+          // privateKey: wallet.privateKey,
+          privateKey: '0xE23a987239d869d88597fFDd4ed117816B422fA5',
+          //change this private key to the one generated above
           electionId: election.id,
         },
         include: {

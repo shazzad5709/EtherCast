@@ -96,9 +96,10 @@ model Officer {
   org_name      String
   employee_id   String
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  election      Election? @relation(fields: [electionId], references: [id])
+  election      Election? @relation(fields: [electionId], references: [id], onDelete: Cascade)
   electionId    String?   @db.ObjectId
   userId        String   @unique @db.ObjectId
+  privateKey    String?
   // election_code Int      @unique
 }
 
