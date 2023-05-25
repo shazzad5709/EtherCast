@@ -17,7 +17,7 @@ export default function ({ }: Props) {
             A Blockchain based E-Voting System
           </p>
           <div className='flex space-x-6 pt-2 md:pt-5 md:space-x-8'>
-            <Link href='/Login'><Button label='Sign In' large /></Link>
+            <Link href='/signin'><Button label='Sign In' large /></Link>
             <Link href='/Guest'><Button label='Sign Up' large /></Link>
           </div>
           <div className='flex pt-2 md:pt-5'>

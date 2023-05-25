@@ -33,11 +33,11 @@ export default NextAuth({
                     user.password
                 );
 
-                // console.log(credentials!.password, " ", user.password, " ", isPasswordCorrect)
-
-                if (!isPasswordCorrect) {
-                    throw new Error('Password is incorrect');
-                }
+        // console.log(credentials!.password, " ", user.password, " ", isPasswordCorrect)
+        
+        if (!isPasswordCorrect) {
+            throw new Error("Password is incorrect");
+          }
 
                 user.password = '';
 

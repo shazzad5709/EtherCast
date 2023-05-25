@@ -40,6 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: { isCandidate: true },
       });
 
+      
       res.status(200).json(updatedUser);
     } catch (error) {
       console.error(error);
