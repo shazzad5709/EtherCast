@@ -24,7 +24,8 @@ interface FormProps {
       org_name: orgName || '',
       employee_id: employee_id || '',
       userId: officer?.userId || '',
-  
+      electionId: null,
+      privateKey: null
     };
     await onUpdate(updatedOfficer);
   };
