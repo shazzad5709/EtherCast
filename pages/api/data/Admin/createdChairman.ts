@@ -1,28 +1,47 @@
-import prisma from "../../../../libs/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
+import prisma from '../../../../libs/prisma';
+import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
-import { UserRole } from "@prisma/client";
+import { UserRole } from '@prisma/client';
+const ethers = require('ethers');
+
+function generateRandom(min = 12345, max = 98765) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+async function createWallet() {
+  const wallet = ethers.Wallet.createRandom();
+
+  console.log('address:', wallet.address);
+  console.log('mnemonic:', wallet.mnemonic.phrase);
+  console.log('privateKey:', wallet.privateKey);
+
+  const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY);
+
+  const signer = new ethers.Wallet(process.env.ADMIN_PRIVATE_KEY, provider);
+
+  const tx = await signer.sendTransaction({
+    to: wallet.address,
+    value: ethers.utils.parseEther('0.001'),
+  });
+
+  await tx.wait();
+  console.log('sent');
+  return wallet;
+}
 
 export default async function handler(
-
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    
-  if (req.method === "GET") {
-
+  if (req.method === 'GET') {
     try {
-      // console.log("-------------");
       const chairman = await prisma.chairman.findMany();
-      // console.log("*************************")
-      // console.log(chairman);
 
       return res.status(200).json(chairman);
     } catch (error) {
-      return res.status(500).json({ message: "Something went wrong" });
+      return res.status(500).json({ message: 'Something went wrong' });
     }
-  }
-  else if (req.method === "POST") {
+  } else if (req.method === 'POST') {
     const { name, email, org_name } = req.body;
 
     let user = await prisma.user.findUnique({
@@ -31,13 +50,16 @@ export default async function handler(
       },
     });
 
-    const hashedPassword = await bcrypt.hash("12345", 10)
+    // const hashedPassword = await bcrypt.hash(generateRandom().toString(), 10)
+    const hashedPassword = await bcrypt.hash('12345', 10);
 
     if (user) {
-      if(user.role !== UserRole.NONE) {
-        return res.status(400).json({ message: "Already in another election" });
+      if (user.role !== UserRole.NONE) {
+        return res
+          .status(400)
+          .json({ message: 'Already in another election' });
       }
-      console.log("Email already exists");
+      console.log('Email already exists');
       user = await prisma.user.update({
         where: {
           email: email,
@@ -55,8 +77,29 @@ export default async function handler(
           role: UserRole.CHAIRMAN,
         },
       });
-      console.log("Email is unique");
+      console.log('Email is unique');
     }
+
+    const wallet = await createWallet();
+    
+    try {
+      const election = await prisma.election.create({
+        data: {
+          
+        },
+        include: {
+          user: true,
+        },
+      });
+      return res
+        .status(200)
+        .json({ message: 'Chairman created successfully' });
+    } catch (error) {
+      console.log('Error:', error);
+      console.log('kenooo');
+      return res.status(500).json({ message: 'Something went wrong' });
+    }
+  }
 
     try {
       const chairman = await prisma.chairman.create({
@@ -65,35 +108,34 @@ export default async function handler(
           userId: user.id,
           name: user.name,
           email: user.email,
+          privateKey: wallet.privateKey,
         },
         include: {
           user: true,
-          
-        }
+        },
       });
-      return res.status(200).json({ message: "Chairman created successfully" });
+      return res
+        .status(200)
+        .json({ message: 'Chairman created successfully' });
     } catch (error) {
       console.log('Error:', error);
-      console.log("kenooo")
-      return res.status(500).json({ message: "Something went wrong" });
+      console.log('kenooo');
+      return res.status(500).json({ message: 'Something went wrong' });
     }
-  }
-
-  else if(req.method === 'DELETE') {
-    
+  } else if (req.method === 'DELETE') {
     const id = req.query.id;
     try {
       const deletedChairman = await prisma.chairman.delete({
         where: { id: String(id) },
       });
 
-      res.status(200).json("Delete Done");
+      res.status(200).json('Delete Done');
     } catch (error) {
-      res.status(500).json({ error: ' went wrong while deleting chairman.' });
+      res.status(500).json({
+        error: ' went wrong while deleting chairman.',
+      });
     }
-    } 
-  
-  else{
+  } else {
     res.status(405).end();
   }
 }
