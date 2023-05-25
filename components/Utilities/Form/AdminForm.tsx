@@ -37,6 +37,9 @@ export default function Form({ buttonName }: Props) {
         email: email,
         org_name: org_name,
       })
+      .then((res) => {
+        toast.success("Chairman Added Successfully");
+      })
       .catch((err) => {
         toast.error(err.response.data.message)
       });
