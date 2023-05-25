@@ -6,7 +6,7 @@ import Unauthenticated from '../../components/PageComponents/Unauthenticated'
 
 type Props = {}
 
-export default function index({}: Props) {
+export default function AdminLanding({}: Props) {
   const {data:session, status} = useSession()
   if(status==='authenticated') {
     if(session?.user?.role === 'ADMIN') {

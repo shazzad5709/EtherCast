@@ -49,7 +49,7 @@ export default async function handler(
     },
   })
   .then(() => {
-    return res.status(200).json({ msg: "Account successfully created!"})
+    return res.status(200).json({ msg: "Account successfully created!" })
   })
   .catch((err: string) => {
     console.log(err)

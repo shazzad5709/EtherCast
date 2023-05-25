@@ -34,14 +34,25 @@ export default async function handler(
     const hashedPassword = await bcrypt.hash("12345", 10)
 
     if (user) {
+      if(user.role !== UserRole.NONE) {
+        return res.status(400).json({ message: "Already in another election" });
+      }
       console.log("Email already exists");
+      user = await prisma.user.update({
+        where: {
+          email: email,
+        },
+        data: {
+          role: UserRole.CHAIRMAN,
+        },
+      });
     } else {
       user = await prisma.user.create({
         data: {
           name: name,
           email: email,
           password: hashedPassword,
-          role: "CHAIRMAN",
+          role: UserRole.CHAIRMAN,
         },
       });
       console.log("Email is unique");

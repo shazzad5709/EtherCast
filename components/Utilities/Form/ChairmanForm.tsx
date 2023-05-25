@@ -49,6 +49,7 @@ export default function Form({ buttonName }: Props) {
     setName("");
     setEmail("");
     setorg_name("");
+    setEmpCode("");
     toggleForm();
   };
 
