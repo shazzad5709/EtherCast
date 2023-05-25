@@ -1,16 +1,9 @@
-import { useMemo } from "react";
-import { BiCalendar, BiDotsHorizontalRounded } from "react-icons/bi";
-import { format } from "date-fns";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
 import useUser from "../../hooks/useUser";
-// import useFollow from "../../hooks/useFollow";
-import useEditModal from "../../hooks/useEditModal";
-
+import useCandidateEdit from "../../hooks/useCanTask";
 import Button from "../Utilities/ButtonProfile";
-import Voter from "../Dashboard/Voter";
-import { RiLockPasswordFill ,RiLockPasswordLine} from "react-icons/ri";
-import { MdPassword } from "react-icons/md";
+
 
 interface UserBioProps {
   userId: string;
@@ -20,17 +13,17 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
   const { data: currentUser } = useCurrentUser();
   const { data: fetchedUser } = useUser(userId);
 
-  const editModal = useEditModal();
+  const editModal = useCandidateEdit();
 
 //   const { isFollowing, toggleFollow } = useFollow(userId);
 
-  const createdAt = useMemo(() => {
-    if (!fetchedUser?.createdAt) {
-      return null;
-    }
+  // const createdAt = useMemo(() => {
+  //   if (!fetchedUser?.createdAt) {
+  //     return null;
+  //   }
 
-    return format(new Date(fetchedUser.createdAt), 'MMMM yyyy');
-  }, [fetchedUser?.createdAt])
+  //   return format(new Date(fetchedUser.createdAt), 'MMMM yyyy');
+  // }, [fetchedUser?.createdAt])
 
 
   return ( 
@@ -42,7 +35,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
       <div className="flex justify-end p-2">
         {currentUser?.id === userId ? (
           <>
-          {/* <div> test </div> */}
+          {/* <div> test........... </div> */}
           <Button secondary label="Edit" onClick={editModal.onOpen} />
           </>
         ) : (

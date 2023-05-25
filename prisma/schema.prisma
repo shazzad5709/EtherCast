@@ -97,6 +97,7 @@ model Officer {
   email         String? @unique
   org_name      String
   employee_id   String
+  privateKey    String?
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   election      Election? @relation(fields: [electionId], references: [id])
   electionId    String?   @db.ObjectId

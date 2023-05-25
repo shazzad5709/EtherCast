@@ -1,9 +1,7 @@
 import Image from "next/image";
-
 import useUser from "../../hooks/useUser";
-
 import Avatar from "../EditProfile/Avatar"
-import Voter from "../Dashboard/Voter";
+
 
 interface UserHeroProps {
   userId: string;

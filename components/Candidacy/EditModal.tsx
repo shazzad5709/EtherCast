@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
-import useEditModal from "../../hooks/useEditModal";
+import useCandidateEdit from "../../hooks/useCanTask";
 import useUser from "../../hooks/useUser";
 
 import Input from "../EditProfile/Input";
@@ -14,7 +14,7 @@ import { set } from "mongoose";
 const EditModal = () => {
   const { data: currentUser } = useCurrentUser();
   const { mutate: mutateFetchedUser } = useUser(currentUser?.id);
-  const editModal = useEditModal();
+  const editModal = useCandidateEdit();
 
   // const [profileImage, setProfileImage] = useState('');
   const [name, setName] = useState('');
@@ -35,7 +35,7 @@ const EditModal = () => {
     try {
       setIsLoading(true);
 
-      await axios.put('/api/editCandidate', { userId: currentUser.id, symbol, agenda });
+      await axios.put('/api/editCandidate', { userId: currentUser.id,name, symbol, agenda });
       mutateFetchedUser();
 
       toast.success('Updated');
@@ -46,7 +46,7 @@ const EditModal = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentUser?.id, editModal, name, mutateFetchedUser]);
+  }, [currentUser?.id, editModal, name, symbol, mutateFetchedUser]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -73,6 +73,7 @@ const EditModal = () => {
   );
 
   return (
+    <>
     <Modal
       disabled={isLoading}
       isOpen={editModal.isOpen}
@@ -82,6 +83,8 @@ const EditModal = () => {
       onSubmit={onSubmit}
       body={bodyContent}
     />
+    {/* <div> Test</div> */}
+    </>
   );
 }
 
