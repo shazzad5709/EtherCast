@@ -1,24 +1,30 @@
 import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UserRole } from "@prisma/client";
+import serverAuth from "../../../../libs/serverAuth";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
+  const { currentUser } = await serverAuth(req, res);
+ 
   if (req.method === "GET") {
+    
     try {
-      const { email } = req.query;
-      const candidates = await prisma.candidate.findMany();
-      const candidate = await prisma.candidate.findFirst({
-        where: {
-          email: email as string,
-        },
-      });
 
+      const candidate = await prisma.candidate.findUnique(
+        {
+          where: {
+            email: currentUser.email,
+          },
+        },
+      );
+      
+      // const candidate = await prisma.candidate.findMany();
+     
       if (candidate) {
-        return res.status(200).json(candidates);
+        return res.status(200).json(candidate);
       } else {
         return res.status(404).json({ message: "Candidate not found" });
       }

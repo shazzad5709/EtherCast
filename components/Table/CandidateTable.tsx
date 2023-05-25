@@ -19,7 +19,7 @@ interface Candidate {
 
 
 const CandidateTable = () => {
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [candidates, setCandidates] = useState<Candidate>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -49,8 +49,8 @@ const CandidateTable = () => {
   }, []);
 
   const handleEdit = (id: string) => {
-    const candidate = candidates.find((candidate) => candidate.id === id);
-    setSelectedCandidate(candidate !== undefined ? candidate : null);
+    
+    setSelectedCandidate(candidates !== undefined ? candidates : null);
     toggleForm();
   };
 
@@ -89,74 +89,83 @@ const CandidateTable = () => {
     return <p>Error: {error}</p>;
   }
 
-  return (
+  return(
     <>
-    <div>
-    {showForm && (
-        <Form
-          buttonName="Update User"
-          candidate={selectedCandidate}
-          onUpdate={handleUpdate}
-        />
-      )}
-    </div>
-    <br /><br />
-    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-      <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-        <table className="min-w-full leading-normal">
-          <thead>
-            <tr>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Name
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Email
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Agenda
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Symbol
-              </th>
-              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {candidates.map((candidate) => (
-              <tr key={candidate.id}>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {candidate.name}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {candidate.email}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {candidate.agenda}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  {candidate.symbol}
-                </td>
-                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <button type="button" onClick={() => handleEdit(candidate.id)}>
-                    <BiEdit size={25} color="rgb(0, 131, 143)" />
-                  </button>
-                  {/* <button
-                    type="button"
-                    onClick={() => handleDelete(candidate.id)}
-                  >
-                    <BiTrashAlt size={25} color="rgb(244,63,94)" />
-                  </button> */}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <p>{candidates?.name}</p>
+    <p>{candidates?.agenda} </p>
+    <p>{candidates?.email} </p>
+    <p>{candidates?.symbol} </p>
+    <button type="button" onClick={() => handleEdit(candidates)} />
     </>
-  );
+  )
+  // return (
+  //   <>
+  //   <div>
+  //   {showForm && (
+  //       <Form
+  //         buttonName="Update User"
+  //         candidate={selectedCandidate}
+  //         onUpdate={handleUpdate}
+  //       />
+  //     )}
+  //   </div>
+  //   <br /><br />
+  //   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+  //     <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+  //       <table className="min-w-full leading-normal">
+  //         <thead>
+  //           <tr>
+  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+  //               Name
+  //             </th>
+  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+  //               Email
+  //             </th>
+  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+  //               Agenda
+  //             </th>
+  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+  //               Symbol
+  //             </th>
+  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+  //               Action
+  //             </th>
+  //           </tr>
+  //         </thead>
+  //         <tbody>
+  //           {candidates.map((candidate) => (
+  //             <tr key={candidate.id}>
+  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+  //                 {candidate.name}
+  //               </td>
+  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+  //                 {candidate.email}
+  //               </td>
+  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+  //                 {candidate.agenda}
+  //               </td>
+  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+  //                 {candidate.symbol}
+  //               </td>
+  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+  //                 <button type="button" onClick={() => handleEdit(candidate.id)}>
+  //                   <BiEdit size={25} color="rgb(0, 131, 143)" />
+  //                 </button>
+  //                 {/* <button
+  //                   type="button"
+  //                   onClick={() => handleDelete(candidate.id)}
+  //                 >
+  //                   <BiTrashAlt size={25} color="rgb(244,63,94)" />
+  //                 </button> */}
+  //               </td>
+  //             </tr>
+  //           ))}
+  //         </tbody>
+  //       </table>
+  //     </div>
+  //   </div>
+  //   </>
+  // );
 };
 
 export default CandidateTable;
