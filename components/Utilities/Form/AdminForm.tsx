@@ -6,6 +6,7 @@ import { Chairman } from "@prisma/client";
 import { render } from "react-dom";
 import useSWR from "swr";
 import ChairmanTable from "../../Table/AdminTable";
+import toast from "react-hot-toast";
 
 type Props = {
   buttonName: string;
@@ -37,7 +38,7 @@ export default function Form({ buttonName }: Props) {
         org_name: org_name,
       })
       .catch((err) => {
-        alert("You DEAD");
+        toast.error(err.response.data.message)
       });
     const election_id = "1";
 
