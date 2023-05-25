@@ -118,6 +118,7 @@ model Chairman {
 model Election {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   title    String?
+  org_name String
   // election_code Int       @unique @default(auto())
   voterIds String[]  @db.ObjectId
   // voter                 Voter[]     @relation(fields: [voterIds], references: [id])

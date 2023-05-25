@@ -81,27 +81,10 @@ export default async function handler(
     }
 
     const wallet = await createWallet();
-    
-    try {
-      const election = await prisma.election.create({
-        data: {
-          
-        },
-        include: {
-          user: true,
-        },
-      });
-      return res
-        .status(200)
-        .json({ message: 'Chairman created successfully' });
-    } catch (error) {
-      console.log('Error:', error);
-      console.log('kenooo');
-      return res.status(500).json({ message: 'Something went wrong' });
-    }
-  }
 
     try {
+      const election = await prisma.election.create({
+      });
       const chairman = await prisma.chairman.create({
         data: {
           org_name: org_name,
