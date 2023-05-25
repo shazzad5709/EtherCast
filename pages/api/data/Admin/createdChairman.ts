@@ -97,9 +97,10 @@ export default async function handler(
           name: user.name,
           email: user.email,
           // privateKey: wallet.privateKey,
-          privateKey: '0xE23a987239d869d88597fFDd4ed117816B422fA5',
+          privateKey: '0x7452f56d7cb77456aa7a56d76c44f35f3fc286b77ca8c8b26ee5de8ac1a7ecdd',
           //change this private key to the one generated above
           electionId: election.id,
+          
         },
         include: {
           user: true,
@@ -111,7 +112,6 @@ export default async function handler(
         .json({ message: 'Chairman created successfully' });
     } catch (error) {
       console.log('Error:', error);
-      console.log('kenooo');
       return res.status(500).json({ message: 'Something went wrong' });
     }
   } else if (req.method === 'DELETE') {

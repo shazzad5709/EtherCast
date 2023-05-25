@@ -7,6 +7,7 @@ import { render } from "react-dom";
 import useSWR from "swr";
 import ChairmanTable from "../../Table/AdminTable";
 import { toast } from "react-hot-toast";
+import { InfinitySpin } from "react-loader-spinner";
 
 type Props = {
   buttonName: string;
@@ -28,11 +29,12 @@ export default function Form({ buttonName }: Props) {
   const [email, setEmail] = useState("");
   const [org_name, setorg_name] = useState("");
   const [employee_id, setEmpCode] = useState("");
-  const [showForm, setShowForm] = useState(false); // initial state is false
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setLoading(true);
     const res = await axios
       .post("./api/data/Chairman/createdOfficer", {
         name: name,
@@ -55,6 +57,7 @@ export default function Form({ buttonName }: Props) {
     setorg_name("");
     setEmpCode("");
     toggleForm();
+    setLoading(false);
   };
 
 
@@ -74,6 +77,17 @@ export default function Form({ buttonName }: Props) {
   const toggleForm = () => {
     setShowForm(!showForm);
   };
+
+  if (loading) {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
+      </div>
+    )
+  }
 
   return (
     <>
@@ -196,9 +210,7 @@ export default function Form({ buttonName }: Props) {
 
           )}
         </div>
-
       </div>
-
     </>
   );
 }

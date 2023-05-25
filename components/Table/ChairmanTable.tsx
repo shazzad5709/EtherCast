@@ -40,11 +40,7 @@ const ChairmanTable = () => {
 
   useEffect(() => {
     fetchOfficers();
-    const interval = setInterval(fetchOfficers, 50);
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(interval);
-  }, []);
+  }, [officers]);
 
   const handleEdit = (id: string) => {
     const officer = officers.find((officer) => officer.id === id);
@@ -84,7 +80,7 @@ const ChairmanTable = () => {
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <p>Error: Something went wrong when fetching Officers...</p>;
   }
 
   return (

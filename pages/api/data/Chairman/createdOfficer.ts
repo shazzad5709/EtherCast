@@ -104,7 +104,7 @@ export default async function handler(
           email: user.email,
           employee_id: employee_id,
           electionId: chairman!.electionId,
-          privateKey: '0xE23a987239d869d88597fFDd4ed117816B422fA5'
+          privateKey: '0x0dbead782cf06db0b2dbfce8d601a2d3961958513b440a72b6229284e1200fc1'
         },
         include: {
           user: true,
@@ -115,7 +115,6 @@ export default async function handler(
       return res.status(200).json({ message: "Officer created successfully" });
     } catch (error) {
       console.log('Error:', error);
-      console.log("kenooo")
       return res.status(500).json({ message: "Something went wrong" });
     }
   }

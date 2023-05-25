@@ -6,10 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === "GET") {
 
     try {
-      // console.log("-------------");
       const chairman = await prisma.chairman.findMany();
-      // console.log("*************************")
-      // console.log(chairman);
 
       return res.status(200).json(chairman);
     } catch (error) {

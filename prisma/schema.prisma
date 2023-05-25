@@ -115,6 +115,7 @@ model Chairman {
   election   Election? @relation(fields: [electionId], references: [id], onDelete: Cascade)
   userId     String   @unique @db.ObjectId
   privateKey String?
+  electionCreated Boolean @default(false)
   // election_code Int       @unique
 }
 
@@ -122,7 +123,6 @@ model Election {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   title    String?
   org_name String
-  // election_code Int       @unique @default(auto())
   voterIds String[]  @db.ObjectId
   // voter                 Voter[]     @relation(fields: [voterIds], references: [id])
   // candidates            Candidate[] 
