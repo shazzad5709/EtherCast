@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import useUser from "../../hooks/useUser";
 import Header from "../../components/EditProfile/Header";
-import UserBio from "../../components/Users/UserBio";
-import UserHero from "../../components/Users/UserHero";
+import UserBio from "../../components/Candidacy/CandidateAgenda";
+import UserHero from "../../components/Candidacy/Candidate";
 import {InfinitySpin} from "react-loader-spinner";
 
 const UserView = () => {

@@ -53,6 +53,8 @@ model User {
   password String
   role     UserRole  @default(NONE)
   image    String?
+  symbol    String?
+  agenda    String?
   voter    Voter?
   officer  Officer?
   sessions Session[]
