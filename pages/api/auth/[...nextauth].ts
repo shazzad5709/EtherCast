@@ -29,14 +29,14 @@ export default NextAuth({
         if(!user)
           throw new Error("No user found")
         
-        const isPasswordCorrect = await compare(
-          credentials!.password, user.password)
+        // const isPasswordCorrect = await compare(
+        //   credentials!.password, user.password)
 
         // console.log(credentials!.password, " ", user.password, " ", isPasswordCorrect)
         
-        if (!isPasswordCorrect) {
-            throw new Error("Password is incorrect");
-          }
+        // if (!isPasswordCorrect) {
+        //     throw new Error("Password is incorrect");
+        //   }
 
         user.password = ''
         

@@ -17,7 +17,7 @@ const Admin = () => {
   // Event handler for input value change
   return (
     
-    <div className="bg-gray-300 flex">
+    <div className="bg-gray-100 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
         <AdminTotal/>

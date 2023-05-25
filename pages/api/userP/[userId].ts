@@ -9,15 +9,21 @@ export default async function handler(
     }
 
     try {
-        const {userId} = req.query;
+        const {userId,email} = req.query;
 
         if(!userId || typeof userId !== 'string'){
             res.status(400).json({message:'Invalid ID'})
         }
 
         const existingUser = await prisma.user.findUnique({
-            where: { id: String(userId) },
+            where: { id: String(userId)},
         });
+        // const existingEmail = await prisma.user.findUnique({
+        //     where: { email: String(email) },
+        // });
+        // const candidateEmail = await prisma.candidate.findUnique({
+        //     where: { email: email as string },
+        // });
         // console.log(existingUser)
         return res.status(200).json({...existingUser});
     } catch (error) {

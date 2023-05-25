@@ -56,7 +56,7 @@ const ChairmanTable = () => {
 
   useEffect(() => {
     fetchOfficers();
-    const interval = setInterval(fetchOfficers, 50);
+    const interval = setInterval(fetchOfficers, 50000);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
@@ -110,12 +110,30 @@ const ChairmanTable = () => {
   const handleCandidacy = async (id:any) => {
     try {
       await axios.put(`/api/data/User/${id}`, { role: 'CANDIDATE' });
+
       fetchUsers(); // Fetch the updated data after updating
       alert('User is now a candidate');
     } catch (error) {
       console.log('Something went wrong while updating the role.');
     }
+    createCandidates();
   };
+
+
+// Function to create candidates
+const createCandidates = async () => {
+  try {
+    // Call the API route to create candidates
+    const response = await axios.post('/api/data/Officer/createCandidate');
+    console.log('Response:', response.data);
+  } catch (error) {
+    console.error('Error creating candidates:', error);
+  }
+};
+
+// Trigger the creation of candidates
+createCandidates();
+
 
   if (loading) {
     return (

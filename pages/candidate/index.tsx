@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Navbar from "../Utilities/Navbar";
+import Navbar from "../../components/Utilities/Navbar";
 import { FaUserCircle } from "react-icons/fa";
 import { MdOutlineHowToVote } from "react-icons/md";
 import {BsFillHandIndexThumbFill} from "react-icons/bs"
-import CandidateInfo from "../MainWork/Candidate";
+import CandidateInfo from "../../components/MainWork/Candidate";
 
 const Candidate = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ const Candidate = () => {
     <div className="bg-gray-100 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        {/* <CandidateInfo /> */}
+        <CandidateInfo />
       </div>
     </div>
   );

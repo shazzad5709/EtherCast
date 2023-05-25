@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import axios from "axios";
-import { Chairman } from "@prisma/client";
-import { render } from "react-dom";
-import useSWR from "swr";
-import ChairmanTable from "../../Table/AdminTable";
 
 type Props = {
   buttonName: string;
@@ -15,9 +11,8 @@ interface FormData {
   id: number;
   name: string;
   email: string;
-  org_name: string;
-  employee_id: string;
-  election_id:string;
+  agenda : string;
+  symbol:string;
 }
 
 
@@ -25,31 +20,31 @@ export default function Form({ buttonName }: Props) {
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [org_name, setorg_name] = useState("");
-  const [employee_id, setEmpCode] = useState("");
+  const [agenda, setagenda] = useState("");
+  const [symbol, setSymbol] = useState("");
   const [showForm, setShowForm] = useState(false); // initial state is false
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const res = await axios
-      .post("./api/data/Chairman/createdOfficer", {
-        name: name,
-        email: email,
-        org_name: org_name,
-        employee_id: employee_id,
+    // const res = await axios
+    //   .post("./api/data/Candidate/candidateInfo", {
+    //     name: name,
+    //     email: email,
+    //     agenda: agenda,
+    //     symbol: symbol,
        
-      })
-      .catch((err) => {
-        alert("You DEAD=========");
-      });
+    //   })
+    //   .catch((err) => {
+    //     alert("You DEAD=========");
+    //   });
     
-
-    setSelectedRecord(null);
-    setName("");
-    setEmail("");
-    setorg_name("");
-    toggleForm();
+    // const res = awi
+    // setSelectedRecord(null);
+    // setName("");
+    // setEmail("");
+    // setagenda("");
+    // toggleForm();
   };
 
 
@@ -57,13 +52,13 @@ export default function Form({ buttonName }: Props) {
     setName(event.target.value);
   };
   const handleEmpCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmpCode(event.target.value);
+    setSymbol(event.target.value);
   };
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-  const handleorg_nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setorg_name(event.target.value);
+  const handleagendaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setagenda(event.target.value);
   };
 
   const toggleForm = () => {
@@ -87,7 +82,7 @@ export default function Form({ buttonName }: Props) {
                 
             <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h4 className='text-xl font-bold leading-tight tracking-tight md:text-xl'>
-              Create Officer
+              Create Candidate
             </h4>
             
             <form className='space-y-4 md:space-y-6' method='POST' onSubmit={handleSubmit}>
@@ -130,20 +125,20 @@ export default function Form({ buttonName }: Props) {
 
               <div>
                 <label
-                  htmlFor='org_name'
+                  htmlFor='agenda'
                   className='block mb-2 text-sm font-medium'
                 >
                   Organization Name
                 </label>
                 <input
                   type='text'
-                  name='org_name'
-                  id="org_name"
+                  name='agenda'
+                  id="agenda"
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                   placeholder='IIT'
                   required
-                  value={org_name}
-                  onChange={handleorg_nameChange}
+                  value={agenda}
+                  onChange={handleagendaChange}
                 />
               </div>
               
@@ -161,7 +156,7 @@ export default function Form({ buttonName }: Props) {
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                   placeholder='123'
                   required
-                  value={employee_id}
+                  value={symbol}
                     onChange={handleEmpCodeChange}
                 />
               </div>
