@@ -65,7 +65,7 @@ model Voter {
   employee_id String
   org_name    String
   name        String?
-  email       String?
+  email       String? @unique
   // address     String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   candidate   Candidate?
@@ -81,7 +81,7 @@ model Candidate {
   symbol    String?
   agenda    String?
   name      String?
-  email     String?
+  email     String? @unique
   voter     Voter   @relation(fields: [voterId], references: [id], onDelete: Cascade)
   voterId   String  @unique @db.ObjectId
   // election   Election @relation(fields: [electionId], references: [id])
@@ -92,12 +92,12 @@ model Candidate {
 model Officer {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?
+  email         String? @unique
   org_name      String
   employee_id   String
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  election      Election @relation(fields: [electionId], references: [id])
-  electionId    String   @db.ObjectId
+  election      Election? @relation(fields: [electionId], references: [id])
+  electionId    String?   @db.ObjectId
   userId        String   @unique @db.ObjectId
   // election_code Int      @unique
 }
@@ -106,10 +106,10 @@ model Chairman {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   org_name   String
   name       String?
-  email      String?
+  email      String? @unique
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  electionId String   @unique @db.ObjectId
-  election   Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  electionId String?   @unique @db.ObjectId
+  election   Election? @relation(fields: [electionId], references: [id], onDelete: Cascade)
   userId     String   @unique @db.ObjectId
   privateKey String?
   // election_code Int       @unique

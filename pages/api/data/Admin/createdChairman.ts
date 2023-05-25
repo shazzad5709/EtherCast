@@ -20,7 +20,7 @@ async function createWallet() {
   const signer = new ethers.Wallet(process.env.ADMIN_PRIVATE_KEY, provider);
 
   const tx = await signer.sendTransaction({
-    to: wallet.address,
+    to: '0xE23a987239d869d88597fFDd4ed117816B422fA5', //change this 'address' to wallet.address
     value: ethers.utils.parseEther('0.001'),
   });
 
@@ -84,6 +84,9 @@ export default async function handler(
 
     try {
       const election = await prisma.election.create({
+        data: {
+          org_name: org_name,
+        }
       });
       const chairman = await prisma.chairman.create({
         data: {
@@ -92,9 +95,11 @@ export default async function handler(
           name: user.name,
           email: user.email,
           privateKey: wallet.privateKey,
+          electionId: election.id,
         },
         include: {
           user: true,
+          election: true,
         },
       });
       return res
@@ -115,7 +120,7 @@ export default async function handler(
       res.status(200).json('Delete Done');
     } catch (error) {
       res.status(500).json({
-        error: ' went wrong while deleting chairman.',
+        error: 'Something went wrong while deleting chairman.',
       });
     }
   } else {

@@ -2,6 +2,8 @@ import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
+import { useSession } from "next-auth/react";
+import serverAuth from "../../../../libs/serverAuth";
 
 
 export default async function handler(
@@ -10,12 +12,15 @@ export default async function handler(
 ) {
 
   if (req.method === "GET") {
-
+    const { currentUser } = await serverAuth(req, res);
     try {
-      // console.log("-------------");
-      const chairman = await prisma.officer.findMany();
-      // console.log("*************************")
-      // console.log(chairman);
+      const chairman = await prisma.chairman.findUnique(
+        {
+          where: {
+            email: currentUser.email,
+          },
+        },
+      );
 
       return res.status(200).json(chairman);
     } catch (error) {
