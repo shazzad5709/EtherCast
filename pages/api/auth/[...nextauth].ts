@@ -32,8 +32,6 @@ export default NextAuth({
                     credentials!.password,
                     user.password
                 );
-
-        // console.log(credentials!.password, " ", user.password, " ", isPasswordCorrect)
         
         if (!isPasswordCorrect) {
             throw new Error("Password is incorrect");

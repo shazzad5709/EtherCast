@@ -1,28 +1,37 @@
 import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
-import { UserRole } from "@prisma/client";
 import { sendWelcomeEmail } from "../../mailer";
 import bcrypt from "bcrypt";
-import { linkSync } from "fs";
+import serverAuth from "../../../../libs/serverAuth";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
 
-  if (req.method === "GET") {
+  const { currentUser } = await serverAuth(req, res);
+  const officer = await prisma.officer.findUnique(
+    {
+      where: {
+        email: currentUser.email,
+      },
+    },
+  );
 
+  if (req.method === "GET") {
     try {
-      // console.log("-------------");
-      const voters = await prisma.voter.findMany();
-      // console.log("*************************")
-      // console.log(chairman);
+      const voters = await prisma.voter.findMany({
+        where: {
+          electionId: officer!.electionId,
+        }
+      });
 
       return res.status(200).json(voters);
     } catch (error) {
       return res.status(500).json({ message: "Something went wrong" });
     }
   }
+
   // else if (req.method === "POST") {
   //   const { name, email } = req.body;
   //   // const hashedPassword = await bcrypt.hash(password, 10);
@@ -50,11 +59,10 @@ export default async function handler(
   //   }
   // }
 
-
-// Function to generate OTP (example implementation)
+  // Function to generate OTP (example implementation)
 
   else if (req.method === "POST") {
-    const { name, email, org_name,employee_id } = req.body;
+    const { name, email, org_name, employee_id } = req.body;
     const hashedPassword = await bcrypt.hash("12345", 10)
     let user = await prisma.user.findUnique({
       where: {
@@ -69,7 +77,7 @@ export default async function handler(
         data: {
           name: name,
           email: email,
-          password:hashedPassword,
+          password: hashedPassword,
           role: "VOTER",
         },
       });
@@ -84,17 +92,17 @@ export default async function handler(
           userId: user.id,
           name: user.name,
           email: user.email,
-          employee_id:employee_id,
+          employee_id: employee_id,
 
-        
+
         },
         include: {
           user: true,
-          
+
         }
       });
-      await sendWelcomeEmail(email, link,otp);
-      
+      await sendWelcomeEmail(email, link, otp);
+
       return res.status(200).json({ message: "Voter created successfully" });
     } catch (error) {
       console.log('Error:', error);
@@ -102,8 +110,8 @@ export default async function handler(
       return res.status(500).json({ message: "Something went wrong" });
     }
   }
-  else if(req.method === 'DELETE') {
-    
+  else if (req.method === 'DELETE') {
+
     const id = req.query.id;
     try {
       const deletedOfficer = await prisma.voter.delete({
@@ -114,9 +122,9 @@ export default async function handler(
     } catch (error) {
       res.status(500).json({ error: ' went wrong while deleting voter.' });
     }
-    } 
-  
-  else{
+  }
+
+  else {
     res.status(405).end();
   }
 
