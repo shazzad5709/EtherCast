@@ -10,6 +10,9 @@ export default async function createCandidate(req:NextApiRequest, res:NextApiRes
         role: 'CANDIDATE',
       },
     });
+    const otp = '12345';
+    const link = "http://localhost:3000/signin";
+    let email1 = '';
 
     for (const candidate of candidates) {
       const existingCandidate = await prisma.candidate.findUnique({ where: { email: candidate.email } });
@@ -27,10 +30,11 @@ export default async function createCandidate(req:NextApiRequest, res:NextApiRes
           },
         },
       });
-
-      console.log('Created Candidate:', createdCandidate);
+      email1 = candidate.email;
+      console.log(email1);
+      // console.log('Created Candidate:', createdCandidate);
     }
-    
+    await sendCandidateEmail(email1,link,otp);
     res.status(200).json({ message: 'Candidates created successfully.' });
   } catch (error) {
     console.error('Error creating candidates:', error);

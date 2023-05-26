@@ -20,9 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   else if (req.method === 'PUT') {
     const { id } = req.query;
     const { role } = req.body;
-    const otp = '12345';
-    const link = "http://localhost:3000/signin";
-    const { email } = req.body;
   
     try {
       const existingUser = await prisma.voter.findUnique({ where: { id:id as string } });
@@ -38,12 +35,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: { role:role },
       });
 
+
+
       const updatedVoter = await prisma.voter.update({
         where: { id: id as string },
         data: { isCandidate: true },
       });
 
-      await sendCandidateEmail(email, link, otp);
       res.status(200).json(updatedUser);
     } catch (error) {
       console.error(error);

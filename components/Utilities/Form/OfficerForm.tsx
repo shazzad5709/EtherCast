@@ -3,6 +3,7 @@ import Button from "../Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { InfinitySpin } from "react-loader-spinner";
 
 type Props = {
   buttonName: string;
@@ -14,8 +15,8 @@ interface FormData {
   email: string;
   org_name: string;
   employee_id: string;
-  election_id:string;
-  candidate_id:string;
+  election_id: string;
+  candidate_id: string;
 }
 
 export default function Form({ buttonName }: Props) {
@@ -25,16 +26,16 @@ export default function Form({ buttonName }: Props) {
   const [org_name, setorg_name] = useState("");
   const [employee_id, setEmpCode] = useState("");
   const [showForm, setShowForm] = useState(false); // initial state is false
-  const [showButton,setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchChairmen = async () => {
       try {
-        const response = await axios.get('/api/data/Admin/check');
+        const response = await axios.get("/api/data/Admin/check");
         const data = response.data;
-        
+
         if (data) {
-          
           setShowButton(true); //  show button
         } else {
           setShowButton(false); // don't Show the button
@@ -45,12 +46,11 @@ export default function Form({ buttonName }: Props) {
     };
 
     fetchChairmen();
-    
   }, []); //
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+    setLoading(true);
     try {
       const res = await axios.post("./api/data/Officer/createdVoter", {
         name,
@@ -58,7 +58,7 @@ export default function Form({ buttonName }: Props) {
         org_name,
         employee_id,
       });
-  
+
       if (res.status === 200) {
         toast.success("User created successfully!.Link sent to email.");
         setSelectedRecord(null);
@@ -67,14 +67,14 @@ export default function Form({ buttonName }: Props) {
         setorg_name("");
         setEmpCode("");
         toggleForm();
+        setLoading(false);
       } else {
         alert("Failed to create user. Please try again.");
       }
-    } 
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -92,88 +92,144 @@ export default function Form({ buttonName }: Props) {
     setShowForm(!showForm);
   };
 
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center text-2xl">
+        <InfinitySpin width="200" color="#4fa94d" />
+      </div>
+    );
+  }
+
   return (
     <>
       <div>
         {showButton && (
-        <div className="flex flex-col">
-          <button onClick={toggleForm}>Add Voter</button>
-        </div>
+          <div className="flex flex-col">
+            <button
+              type="submit"
+              className="w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              onClick={toggleForm}
+            >
+              Add Voter
+            </button>
+          </div>
         )}
         <div>
           {showForm && (
-            <form onSubmit={handleSubmit}>
-              <div className="bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4">
-                <BiUser className="text-gray-400 m-2" />
+            <div>
+              <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+                <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+                  <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h4 className="text-xl font-bold leading-tight tracking-tight md:text-xl">
+                      Add New Voter
+                    </h4>
+                    <form
+                      className="space-y-4 md:space-y-6"
+                      method="POST"
+                      onSubmit={handleSubmit}
+                    >
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block mb-2 text-sm font-medium"
+                        >
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="Name"
+                          required
+                          value={name}
+                          onChange={handleNameChange}
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="block mb-2 text-sm font-medium"
+                        >
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="username@example.com"
+                          required
+                          value={email}
+                          onChange={handleEmailChange}
+                        />
+                      </div>
 
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={handleNameChange}
-                  className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
-                  placeholder="Name"
-                />
-              </div>
+                      <div>
+                        <label
+                          htmlFor="org_name"
+                          className="block mb-2 text-sm font-medium"
+                        >
+                          Organization Name
+                        </label>
+                        <input
+                          type="text"
+                          name="org_name"
+                          id="org_name"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="IIT"
+                          required
+                          value={org_name}
+                          onChange={handleorg_nameChange}
+                        />
+                      </div>
 
-              <div className="bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4">
-                <BiUser className="text-gray-400 m-2" />
+                      <div>
+                        <label
+                          htmlFor="empCode"
+                          className="block mb-2 text-sm font-medium"
+                        >
+                          Employee Code
+                        </label>
+                        <input
+                          type="text"
+                          name="empCode"
+                          id="empCode"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          placeholder="123"
+                          required
+                          value={employee_id}
+                          onChange={handleEmpCodeChange}
+                        />
+                      </div>
 
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
-                  placeholder="Email address"
-                />
-              </div>
-              <div className="bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4">
-                <BiUser className="text-gray-400 m-2" />
-                <div className="relative">
-                  <input
-                    type="text"
-                    id="org_name"
-                    value={org_name}
-                    onChange={handleorg_nameChange}
-                    className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
-                    placeholder="Org Name"
-                  />
+                      <div className="relative">
+                        <button
+                          type="submit"
+                          className="w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        >
+                          {selectedRecord ? "Update Info" : "Add Voter"}
+                        </button>
+                        {/* <button type="submit">
+                              {selectedRecord ? "Update Info" : "Create"}
+                            </button> */}
+                        {selectedRecord && (
+                          <button
+                            type="button"
+                            onClick={() => setSelectedRecord(null)}
+                          >
+                            Cancel
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </div>
                 </div>
-               
               </div>
-
-              <div className="bg-gray-100 rounded-lg w-64 p-2 flex items-center space-x-1 mb-4">
-                <BiUser className="text-gray-400 m-2" />
-                <div className="relative">
-                  <input
-                    type="text"
-                    id="empCode"
-                    value={employee_id}
-                    onChange={handleEmpCodeChange}
-                    className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
-                    placeholder="Employee Code"
-                  />
-                </div>
-              </div>
-              
-
-              <div className="relative">
-                <button type="submit">
-                  {selectedRecord ? "Update" : "Create"}
-                </button>
-                {selectedRecord && (
-                  <button type="button" onClick={() => setSelectedRecord(null)}>
-                    Cancel
-                  </button>
-                )}
-              </div>
-            </form>
+            </div>
           )}
         </div>
-        
-        </div>
-      
+      </div>
     </>
   );
 }

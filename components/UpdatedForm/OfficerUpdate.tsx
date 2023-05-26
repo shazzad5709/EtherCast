@@ -26,7 +26,9 @@ interface FormProps {
       userId: voter?.userId || '',
       candidateId: null,
       isCandidate: voter?.isCandidate || false,
-      electionId: null
+      electionId: null,
+      walletStatus: false,
+      officerId: null
     };
     await onUpdate(updatedVoter);
   };

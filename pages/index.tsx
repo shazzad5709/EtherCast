@@ -18,7 +18,7 @@ export default function Home() {
       {/* <Admin /> */}
       {/* <ElectionChairman /> */}
       {/* <Candidate /> */}
-      <ElectionOfficers />
+      {/* <ElectionOfficers /> */}
       {/* <div>Hello</div> */}
       {/* <Header label="Home" /> */}
       {/* <Avatar userId={''} /> */}

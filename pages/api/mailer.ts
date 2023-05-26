@@ -16,7 +16,7 @@ export const sendWelcomeEmail = async (email: string, link: string,otp:string) =
     to: email,
     subject: "Welcome to EtherCast",
     html: `
-      <h1>Welcome to EtherCast, the revolutionary blockchain-based e-voting system!</h1>
+      <h3>Welcome to EtherCast, the revolutionary blockchain-based e-voting system!</h3>
       <p>
         To get started, please click on the following link to access our login page: <a href="${link}">Login to EtherCast</a>
         and your OTP is : <b> "${otp}" </b>
@@ -56,7 +56,7 @@ export const sendRecoveryEmail = async (email: string,otp:string) => {
     to: email,
     subject: "Password Recovery for EtherCast Login",
     html: `
-      <h1>Welcome to EtherCast, the revolutionary blockchain-based e-voting system!</h1>
+      <h3>Welcome to EtherCast, the revolutionary blockchain-based e-voting system!</h3>
       <p>
         As you have requested for password recovery, this is your your OTP is :
         <h4> <b> "${otp}" </b> </h4>
@@ -91,9 +91,9 @@ export const sendCandidateEmail = async (email: string, link: string,otp:string)
   const mailOptions = {
     from: process.env.GMAIL,
     to: email,
-    subject: "Welcome to EtherCast",
+    subject: "Added as a Candidate in EtherCast",
     html: `
-      <h1>Welcome to EtherCast, the revolutionary blockchain-based e-voting system!</h1>
+      <h3>Welcome to EtherCast, the revolutionary blockchain-based e-voting system!</h3>
       <p>
       You have been registered as a candidate for the upcoming election.
         To get started, please click on the following link to access our login page: <a href="${link}">Login to EtherCast</a>

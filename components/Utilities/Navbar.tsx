@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import NavbarOptions from './NavbarOptions'
@@ -7,6 +7,7 @@ import { MdClose, MdLogout } from 'react-icons/md'
 import NavbarMenu from './NavbarMenu'
 import { HiOutlineMenuAlt1 } from 'react-icons/hi'
 import { signOut } from 'next-auth/react'
+import { Router, useRouter } from 'next/router'
 
 type Props = {
   NavbarItems: NavbarItem[]
@@ -16,11 +17,12 @@ export default function Navbar({ NavbarItems }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const items = [...NavbarItems]
 
-  
+  const router = useRouter()
 
   const signOutPrompt = () => {
     if (confirm('Are you sure you want to sign out?')) {
       // TODO Sign out functionality
+      router.push('/')
       console.log('Sign out')
     }
   }
