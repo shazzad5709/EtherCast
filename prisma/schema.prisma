@@ -53,8 +53,8 @@ model User {
   password String
   role     UserRole  @default(NONE)
   image    String?
-  symbol    String?
-  agenda    String?
+  symbol   String?
+  agenda   String?
   voter    Voter?
   officer  Officer?
   sessions Session[]
@@ -67,7 +67,7 @@ model Voter {
   employee_id String
   org_name    String
   name        String?
-  email       String? @unique
+  email       String?    @unique
   // address     String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   candidate   Candidate?
@@ -92,16 +92,16 @@ model Candidate {
 }
 
 model Officer {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String? @unique
-  org_name      String
-  employee_id   String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  election      Election? @relation(fields: [electionId], references: [id], onDelete: Cascade)
-  electionId    String?   @db.ObjectId
-  userId        String   @unique @db.ObjectId
-  privateKey    String?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String?
+  email       String?   @unique
+  org_name    String
+  employee_id String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  election    Election? @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  electionId  String?   @db.ObjectId
+  userId      String    @unique @db.ObjectId
+  privateKey  String?
   // election_code Int      @unique
 }
 
@@ -118,15 +118,16 @@ model OTP {
 
 
 model Chairman {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  org_name   String
-  name       String?
-  email      String? @unique
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  electionId String?   @unique @db.ObjectId
-  election   Election? @relation(fields: [electionId], references: [id], onDelete: Cascade)
-  userId     String   @unique @db.ObjectId
-  privateKey String?
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  org_name        String
+  name            String?
+  email           String?   @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  electionId      String?   @unique @db.ObjectId
+  election        Election? @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  userId          String    @unique @db.ObjectId
+  privateKey      String?
+  electionCreated Boolean   @default(false)
   // election_code Int       @unique
 }
 
@@ -134,7 +135,6 @@ model Election {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   title    String?
   org_name String
-  // election_code Int       @unique @default(auto())
   voterIds String[]  @db.ObjectId
   // voter                 Voter[]     @relation(fields: [voterIds], references: [id])
   // candidates            Candidate[] 

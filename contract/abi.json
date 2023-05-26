@@ -163,6 +163,25 @@
 				"type": "uint256"
 			}
 		],
+		"name": "getElection",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_electionCode",
+				"type": "uint256"
+			}
+		],
 		"name": "getResults",
 		"outputs": [
 			{

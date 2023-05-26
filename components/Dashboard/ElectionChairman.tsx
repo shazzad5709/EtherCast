@@ -7,7 +7,6 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import Chairman from "../MainWork/Chairman";
 
 const ElectionChairman = () => {
-    const [isOpen, setIsOpen] = useState(false);
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
         { id: 2, label: 'Create Election', icon: MdOutlineHowToVote , href: '/chairman/create-election' },

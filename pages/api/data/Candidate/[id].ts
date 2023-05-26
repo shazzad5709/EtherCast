@@ -38,12 +38,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
   else if(req.method === 'PUT'){
     const { id } = req.query;
-  const { name, email,agenda,symbol } = req.body;
+    const candidate = req.body;
+    const { name, agenda, symbol } = candidate;
 
   try {
     const updatedData = await prisma.candidate.update({
       where: { id: String(id) },
-      data: { name, email, agenda,symbol },
+      data: { name, agenda,symbol },
     });
     res.status(200).json(updatedData);
   } catch (error) {

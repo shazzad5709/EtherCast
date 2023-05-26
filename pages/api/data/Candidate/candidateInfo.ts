@@ -8,9 +8,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { currentUser } = await serverAuth(req, res);
- 
+
   if (req.method === "GET") {
-    
+
     try {
 
       const candidate = await prisma.candidate.findUnique(
@@ -20,9 +20,7 @@ export default async function handler(
           },
         },
       );
-      
-      // const candidate = await prisma.candidate.findMany();
-     
+
       if (candidate) {
         return res.status(200).json(candidate);
       } else {
@@ -33,54 +31,70 @@ export default async function handler(
       return res.status(500).json({ message: "Something went wrong" });
     }
   }
-//   else if (req.method === "POST") {
-//     const { name, email, org_name,employee_id } = req.body;
+  //   else if (req.method === "POST") {
+  //     const { name, email, org_name,employee_id } = req.body;
 
-//     let user = await prisma.user.findUnique({
-//       where: {
-//         email: email,
-//       },
-//     });
+  //     let user = await prisma.user.findUnique({
+  //       where: {
+  //         email: email,
+  //       },
+  //     });
 
-//     if (user) {
-//       console.log("Email already exists");
-//     } else {
-//       user = await prisma.user.create({
-//         data: {
-//           name: name,
-//           email: email,
-//           password: "123456",
-//           role: "CANDIDATE",
-//         },
-//       });
-//       console.log("Email is unique");
-//     }
+  //     if (user) {
+  //       console.log("Email already exists");
+  //     } else {
+  //       user = await prisma.user.create({
+  //         data: {
+  //           name: name,
+  //           email: email,
+  //           password: "123456",
+  //           role: "CANDIDATE",
+  //         },
+  //       });
+  //       console.log("Email is unique");
+  //     }
 
-//     try {
-//       const officer = await prisma.candidate.create({
-//         data: {
-//           id: user.id,
-//           name: user.name,
-//           email: user.email,
-//           symbol: "symbol",
-//           agenda: "agenda",
-          
-//         },
-//         include: {
-//           user: true,
-          
-//         }
-//       });
-      
-//       return res.status(200).json({ message: "Candidate created successfully" });
-//     } catch (error) {
-//       console.log('Error:', error);
-//       console.log("kenooo")
-//       return res.status(500).json({ message: "Something went wrong" });
-//     }
-//   }
-  else if(req.method === 'DELETE') {
-    
+  //     try {
+  //       const officer = await prisma.candidate.create({
+  //         data: {
+  //           id: user.id,
+  //           name: user.name,
+  //           email: user.email,
+  //           symbol: "symbol",
+  //           agenda: "agenda",
+
+  //         },
+  //         include: {
+  //           user: true,
+
+  //         }
+  //       });
+
+  //       return res.status(200).json({ message: "Candidate created successfully" });
+  //     } catch (error) {
+  //       console.log('Error:', error);
+  //       console.log("kenooo")
+  //       return res.status(500).json({ message: "Something went wrong" });
+  //     }
+  //   }
+
+  else if (req.method === 'PUT') {
+    const { name, agenda, symbol, email } = req.body;
+
+    try {
+      const updatedData = await prisma.candidate.update({
+        where: { email: email },
+        data: { name, agenda, symbol },
+      });
+      res.status(200).json(updatedData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error updating data.' });
+    }
+  }
+
+  else if (req.method === 'DELETE') {
+
     const id = req.query.id;
     try {
       const deletedOfficer = await prisma.officer.delete({
@@ -91,9 +105,9 @@ export default async function handler(
     } catch (error) {
       res.status(500).json({ error: ' went wrong while deleting chairman.' });
     }
-    } 
-  
-  else{
+  }
+
+  else {
     res.status(405).end();
   }
 }
