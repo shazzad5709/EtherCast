@@ -12,19 +12,20 @@ export default async function createCandidate(req:any, res:any) {
       },
     });
 
-    const existingUser = await prisma.user.findUnique({ where: { email: req.body.email } });
-
     // Iterate over the candidates and create corresponding entries in the "candidate" table
     for (const candidate of candidates) {
-        if(existingUser?.email == candidate.email){
-            break}
+      const existingCandidate = await prisma.candidate.findUnique({ where: { email: candidate.email } });
+      
+      // Skip creating the candidate if it already exists
+      if (existingCandidate) {
+        continue;
+      }
+
       // Create a candidate in the "candidate" table using the required info
       const createdCandidate = await prisma.candidate.create({
         data: {
           name: candidate.name,
           email: candidate.email,
-          // employee_id lagbe ig
-
           voter: {
             connect: { userId: candidate.id },
           },

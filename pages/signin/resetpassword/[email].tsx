@@ -1,21 +1,81 @@
 import Link from 'next/link'
 import React, { FormEvent, useCallback, useState } from 'react'
 import useResetPass from '../../../hooks/useResetPass'
+import { is } from 'date-fns/locale'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { toast } from 'react-hot-toast'
 
 type Props = {}
 
 export default function ResetPassword({}: Props) {
 
+  const router = useRouter();
+  const email = router.query.email as string;
 
-  const handleProceed = (e: FormEvent) => {
-    e.preventDefault()
-    next()
-  }
+  const [otp, setOtp] = useState('');
+  const [newpassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isOTPValid, setIsOTPValid] = useState(false);
 
-  const handleReset = (e: FormEvent) => {
-    e.preventDefault()
-    alert('wheeee')
-  }
+  
+  
+  // Call the sendOTP function with the email address
+  
+
+  const handleProceed = async (e: FormEvent) => {
+    e.preventDefault();
+    // sendOTP(email);
+    try {
+      const response = await axios.post('/api/otp/checkOTP', {
+        otp,
+        email,
+      });
+      console.log("OTP checking")
+      if (response.status === 200) {
+        setIsOTPValid(true);
+        toast.success('OTP verified successfully');
+        next();
+        // router.push(`/signin/resetpassword/${email}`);
+      } else {
+        setIsOTPValid(false);
+      }
+    } catch (error) {
+      console.error('Error checking OTP:', error);
+      // Handle error case
+    }
+  };
+  
+
+
+  const handleReset = async (e: FormEvent) => {
+    e.preventDefault();
+  
+    if (newpassword !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+  
+    try {
+      const response = await axios.put('/api/users/updatePassword', {
+        email,
+        password: newpassword,
+      });
+  
+      if (response.status === 200) {
+        toast.success('Password updated successfully');
+        // Handle success case (e.g., redirect the user to a success page)
+        router.push('http://localhost:3000/signin');
+      } else {
+        toast.error('Failed to update password');
+        // Handle error case (e.g., show an error message to the user)
+      }
+    } catch (error) {
+      console.error('Error updating password:', error);
+      // Handle error case (e.g., show an error message to the user)
+    }
+  };
+  
 
   const {
     steps, currentStepIdx, step, next
@@ -45,6 +105,8 @@ export default function ResetPassword({}: Props) {
                   type='number'
                   name='otp'
                   id='otp'
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                   placeholder='123456'
                   required
@@ -101,6 +163,8 @@ export default function ResetPassword({}: Props) {
                   type='password'
                   name='newpassword'
                   id='newpassword'
+                  value={newpassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   placeholder='••••••••'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                   required
@@ -117,6 +181,8 @@ export default function ResetPassword({}: Props) {
                   type='password'
                   name='confirmpassword'
                   id='confirmpassword'
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder='••••••••'
                   className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                   required

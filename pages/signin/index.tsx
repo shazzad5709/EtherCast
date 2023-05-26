@@ -18,6 +18,7 @@ export default function SignIn({ }: Props) {
     router.push(`${(session?.user?.role).toLowerCase()}`)
 
   const handleSignin = async(event: React.FormEvent<HTMLFormElement>) => {
+    if(!email || !password) return toast.error("Please fill all the fields")
     event.preventDefault()
     const res: any =
       await signIn('credentials', {
@@ -27,11 +28,13 @@ export default function SignIn({ }: Props) {
         callbackUrl: `${window.location.origin}`
       })
 
-      // console.log(res);
-      
-      if(res.status !== 200) {
-        toast.error("Invalid Credentials")
+      console.log(res);
+      if(password==="12345"){
+        router.push('http://localhost:3000/signin/firstsignin')
       }
+      // if(res.status !== 200) {
+      //   toast.error("Invalid Credentials")
+      // }
   }
 
   return (
