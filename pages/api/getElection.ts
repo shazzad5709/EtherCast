@@ -4,6 +4,15 @@ const { ethers } = require('ethers')
 import fs from 'fs'
 import serverAuth from '../../libs/serverAuth'
 
+interface Election {
+  electionCode: string
+  electionName: string
+  regDeadlineDate: string
+  voteStartDate: string
+  voteEndDate: string
+  chairman: string
+}
+
 const abiFile = fs.readFileSync('./contract/abi.json')
 const abi = JSON.parse(abiFile.toString())
 
@@ -15,6 +24,14 @@ function convertToUint256(hexString: string): string {
   const paddedHexString = hexString.padStart(64, '0')
 
   return '0x' + paddedHexString
+}
+
+function convertToString(hexString: string): string {
+  if (hexString.startsWith('0x')) {
+    hexString = hexString.slice(2)
+  }
+
+  return hexString
 }
 
 export default async function handler(
@@ -41,10 +58,21 @@ export default async function handler(
   try {
     const index = await contract.getElection(election_code)
     const election = await contract.elections(index)
-    console.log('electionCode:', election.electionCode)
-    console.log('electionName:', election.electionName)
+    // console.log(election.chairman)
+    // console.log(Date.now())
 
-    return res.status(200).json({ election })
+    const _election: Election = {
+      electionCode: convertToString(election.electionCode._hex),
+      electionName: election.electionName,
+      regDeadlineDate: parseInt(election.registrationDeadline._hex, 16).toString(),
+      voteStartDate: parseInt(election.votingStartTime._hex, 16).toString(),
+      voteEndDate: parseInt(election.votingEndTime._hex, 16).toString(),
+      chairman: election.chairman,
+    }
+
+    console.log(_election)
+
+    return res.status(200).json({ _election })
   } catch (error) {
     console.error('Error retrieving election information:', error)
     throw error

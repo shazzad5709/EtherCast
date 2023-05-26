@@ -13,23 +13,23 @@ type Props = {}
 export default function Test({}: Props) {
   const [code, setCode] = React.useState('')
   const [title, setTitle] = React.useState('')
-  const [regDeadline, setRegDeadline] = React.useState('')
-  const [voteStart, setVoteStart] = React.useState('')
-  const [voteEnd, setVoteEnd] = React.useState('')
+  const [regDeadline, setRegDeadline] = React.useState(new Date())
+  const [voteStart, setVoteStart] = React.useState(new Date())
+  const [voteEnd, setVoteEnd] = React.useState(new Date())
   const [officers, setOfficers] = React.useState('')
   const [chairman, setChairman] = React.useState('')
 
   useEffect(() => {
     const getElection = async () => {
       const res = await axios.get('/api/getElection')
-      console.log(res.data.election)
-      setCode(res.data.electionCode)
-      setTitle(res.data.electionName)
-      setRegDeadline(res.data.regDeadline)
-      setVoteStart(res.data.voteStart)
-      setVoteEnd(res.data.voteEnd)
-      setOfficers(res.data.officers)
-      setChairman(res.data.chairman)
+      console.log(res.data._election)
+      setCode(res.data._election.electionCode)
+      setTitle(res.data._election.electionName)
+      setRegDeadline(new Date(parseInt(res.data._election.regDeadlineDate)))
+      setVoteStart(new Date(parseInt(res.data._election.voteStartDate)))
+      setVoteEnd(new Date(parseInt(res.data._election.voteEndDate)))
+      // setOfficers(res.data.officers)
+      setChairman(res.data._election.chairman)
     }
     getElection()
   }, [])
@@ -37,12 +37,12 @@ export default function Test({}: Props) {
   return (
     <div className='flex flex-col h-screen items-center justify-center'>
       <p>Code: {code}</p>
-      <p>Title: {code}</p>
-      <p>RegDead: {code}</p>
-      <p>VS: {code}</p>
-      <p>VE: {code}</p>
-      <p>Officers: {code}</p>
-      <p>Chairman: {code}</p>
+      <p>Title: {title}</p>
+      <p>RegDead: {regDeadline.toLocaleString()}</p>
+      <p>VS: {voteStart.toLocaleString()}</p>
+      <p>VE: {voteEnd.toLocaleString()}</p>
+      {/* <p>Officers: {code}</p> */}
+      <p>Chairman: {chairman}</p>
     </div>
   )
 }
