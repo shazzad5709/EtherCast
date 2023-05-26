@@ -43,7 +43,7 @@ export default function FirstSignIn({}: Props) {
             <h1 className='text-xl font-bold leading-tight tracking-tight md:text-2xl'>
               Set up new account
             </h1>
-            <form className='space-y-4 md:space-y-6' action='#'>
+            <form className='space-y-4 md:space-y-6' method='POST' onSubmit={handleReset}>
             <div>
                 <label
                   htmlFor='newpassword'

@@ -48,50 +48,13 @@ export default function Navbar({ NavbarItems }: Props) {
           ))}
         </div>
         
-        <div onClick={() => signOut( {callbackUrl: '/'} )} className='mt-auto mb-10 hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-green-light hover:text-green-dark hover:cursor-pointer hover:drop-shadow-md'>
+        <div onClick={() => signOut( {callbackUrl: './'} )} className='mt-auto mb-10 hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-green-light hover:text-green-dark hover:cursor-pointer hover:drop-shadow-md'>
           <div className='relative space-x-3 md:w-[36px] lg:w-fit flex items-start justify-center cursor-pointer'>
             <MdLogout size={24} />
             <p className='hidden lg:block text-xl'>Sign out</p>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      <div className='w-full md:hidden fixed top-0 left-0'>
-        {/* Add Menu open-close functionality */}
-        <div className='bg-green flex justify-between px-4 py-3'>
-          {isOpen && (
-            <HiOutlineMenuAlt1 className='text-white mt-1 hover:cursor-pointer' size={30} onClick={openMenu}/>
-          )}
-          <Link href='/test'>
-            <Image src='/ec-white-high.png' width={50} height={50} alt={''} />
-          </Link>
-          {isOpen && (
-            <button onClick={signOutPrompt}>
-              <MdLogout className='text-white mt-1 hover:cursor-pointer' size={30} />
-            </button>
-          )}
-          {!isOpen && (
-            <MdClose className='text-white mt-1 hover:cursor-pointer' size={30} onClick={openMenu}/>
-          )}
-        </div>
-
-        {/* Mobile Menu adha bidha hoise, tel nai, kaajer kaaj agey korbo */}
-        <div className='hidden bg-green h-screen'>
-          <div className='absolute w-full flex flex-col md:hidden justify-between items-center'>
-          {items.map((item) => (
-              <NavbarMenu 
-                key={item.id}
-                label={item.label}
-                icon={item.icon}
-                href={item.href}
-              />
-            ))} 
-          </div>
-        </div>
-      
-      </div>
     </>
-
   )
 }
