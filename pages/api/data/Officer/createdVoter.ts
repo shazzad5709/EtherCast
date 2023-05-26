@@ -1,6 +1,9 @@
 import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UserRole } from "@prisma/client";
+import { sendWelcomeEmail } from "../../mailer";
+import bcrypt from "bcrypt";
+import { linkSync } from "fs";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,9 +23,39 @@ export default async function handler(
       return res.status(500).json({ message: "Something went wrong" });
     }
   }
+  // else if (req.method === "POST") {
+  //   const { name, email } = req.body;
+  //   // const hashedPassword = await bcrypt.hash(password, 10);
+  //   // Generate an OTP (you can use any library or custom logic to generate the OTP)
+  //   const otp = generateOTP();
+
+  //   try {
+  //     // Save the user to the database
+  //     const user = await prisma.user.create({
+  //       data: {
+  //         name,
+  //         email,
+  //         password: "123456",
+  //         // other user fields
+  //       },
+  //     });
+
+  //     // Send the welcome email with the OTP
+  //     await sendWelcomeEmail(email, otp);
+
+  //     res.status(200).json({ message: "User created successfully" });
+  //   } catch (error) {
+  //     console.error("Error creating user:", error);
+  //     res.status(500).json({ error: "Failed to create user" });
+  //   }
+  // }
+
+
+// Function to generate OTP (example implementation)
+
   else if (req.method === "POST") {
     const { name, email, org_name,employee_id } = req.body;
-
+    const hashedPassword = await bcrypt.hash("12345", 10)
     let user = await prisma.user.findUnique({
       where: {
         email: email,
@@ -36,13 +69,14 @@ export default async function handler(
         data: {
           name: name,
           email: email,
-          password: "123456",
+          password:hashedPassword,
           role: "VOTER",
         },
       });
       console.log("Email is unique");
     }
-
+    const otp = '12345';
+    const link = "http://localhost:3000/signin";
     try {
       const voter = await prisma.voter.create({
         data: {
@@ -51,6 +85,7 @@ export default async function handler(
           name: user.name,
           email: user.email,
           employee_id:employee_id,
+
         
         },
         include: {
@@ -58,6 +93,7 @@ export default async function handler(
           
         }
       });
+      await sendWelcomeEmail(email, link,otp);
       
       return res.status(200).json({ message: "Voter created successfully" });
     } catch (error) {
@@ -76,11 +112,20 @@ export default async function handler(
 
       res.status(200).json("Delete Done");
     } catch (error) {
-      res.status(500).json({ error: ' went wrong while deleting chairman.' });
+      res.status(500).json({ error: ' went wrong while deleting voter.' });
     }
     } 
   
   else{
     res.status(405).end();
+  }
+
+  function generateOTP() {
+    const digits = "0123456789";
+    let otp = "";
+    for (let i = 0; i < 6; i++) {
+      otp += digits[Math.floor(Math.random() * 10)];
+    }
+    return otp;
   }
 }

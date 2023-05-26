@@ -131,8 +131,8 @@ const createCandidates = async () => {
   }
 };
 
-// Trigger the creation of candidates
-createCandidates();
+// // Trigger the creation of candidates
+// createCandidates();
 
 
   if (loading) {

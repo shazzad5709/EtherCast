@@ -33,7 +33,7 @@ export default async function handler(
 
   if(subject === 'Reset Password') {
     connectMongo()
-    const emailUser = await Accounts.findOne({ email: email });
+    const emailUser:any = await Accounts.findOne({ email: email });
 
     if (!emailUser) {
       return { error: "Account not found" };

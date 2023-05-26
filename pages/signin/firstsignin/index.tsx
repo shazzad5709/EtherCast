@@ -1,12 +1,33 @@
+import axios from 'axios'
 import Link from 'next/link'
 import React, { FormEvent } from 'react'
 
 type Props = {}
 
 export default function FirstSignIn({}: Props) {
-  const handleReset = (e: FormEvent) => {
-    alert('wheeee')
+  const handleReset = async (e: FormEvent) => {
+    e.preventDefault()
+
+    const newPassword = (document.getElementById('newpassword') as HTMLInputElement).value
+    const confirmPassword = (document.getElementById('confirmpassword') as HTMLInputElement)
+      .value
+
+    try {
+      // const email = await axios.get() // Replace with the user's email
+      const response = await axios.post('/api/resetPassword', {
+        newPassword,
+        confirmPassword,
+        
+      })
+
+      alert(response.data.message)
+    } catch (error) {
+      console.error(error)
+      alert('An error occurred while updating the password')
+    }
   }
+
+  // Your JS
 
   return (
     <div className='bg-gray-100 h-screen'>

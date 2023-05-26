@@ -2,6 +2,7 @@ import prisma from '../../../../libs/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
 import { UserRole } from '@prisma/client';
+import { sendWelcomeEmail } from '../../mailer';
 const ethers = require('ethers');
 
 function generateRandom(min = 12345, max = 98765) {
@@ -83,6 +84,8 @@ export default async function handler(
     }
 
     const wallet = await createWallet();
+    const link = "http://localhost:3000/signin";
+    const otp = '12345'
 
     try {
       const election = await prisma.election.create({
@@ -106,6 +109,7 @@ export default async function handler(
           election: true,
         },
       });
+      await sendWelcomeEmail(email, link,otp);
       return res
         .status(200)
         .json({ message: 'Chairman created successfully' });

@@ -24,7 +24,7 @@ export default async function handler(
   const { email, password } = req.body;
   
   const hashedPassword = await bcrypt.hash(password, 12)
-  const aaa = await Accounts.findOneAndUpdate({email: email} , {
+  const aa:any = await Accounts.findOneAndUpdate({email: email} , {
      password: hashedPassword,
   }, { new: true }
   )

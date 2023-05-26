@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 type Props = {
   buttonName: string;
@@ -17,7 +18,6 @@ interface FormData {
   candidate_id:string;
 }
 
-
 export default function Form({ buttonName }: Props) {
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
@@ -28,28 +28,32 @@ export default function Form({ buttonName }: Props) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const res = await axios
-      .post("./api/data/Officer/createdVoter", {
-        name: name,
-        email: email,
-        org_name: org_name,
-        employee_id: employee_id,
-       
-      })
-      .catch((err) => {
-        alert("You DEAD=========");
+  
+    try {
+      const res = await axios.post("./api/data/Officer/createdVoter", {
+        name,
+        email,
+        org_name,
+        employee_id,
       });
-    
-
-    setSelectedRecord(null);
-    setName("");
-    setEmail("");
-    setorg_name("");
-    toggleForm();
-  };
-
-
+  
+      if (res.status === 200) {
+        // User created successfully
+        toast.success("User created successfully!.Link sent to email.");
+        setSelectedRecord(null);
+        setName("");
+        setEmail("");
+        setorg_name("");
+        toggleForm();
+      } else {
+        // Handle error response
+        alert("Failed to create user. Please try again.");
+      }
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  }
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };

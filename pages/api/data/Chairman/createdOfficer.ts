@@ -4,6 +4,7 @@ import { UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
 import { useSession } from "next-auth/react";
 import serverAuth from "../../../../libs/serverAuth";
+import { sendWelcomeEmail } from "../../mailer";
 const ethers = require('ethers');
 
 async function createWallet(privateKey: string) {
@@ -92,9 +93,9 @@ export default async function handler(
       });
       console.log("Email is unique");
     }
-
+    const otp = '12345';
     const wallet = await createWallet(chairman!.privateKey!);
-
+    const link = "http://localhost:3000/signin";
     try {
       const officer = await prisma.officer.create({
         data: {
@@ -111,7 +112,7 @@ export default async function handler(
           election: true,
         }
       });
-      
+      await sendWelcomeEmail(email, link,otp);
       return res.status(200).json({ message: "Officer created successfully" });
     } catch (error) {
       console.log('Error:', error);
