@@ -17,7 +17,7 @@ export default async function handler(
         data: {
           email,
           otp,
-          expiresAt: new Date(Date.now() + 2 * 60 * 1000), 
+          expiresAt: new Date(Date.now() + 1* 60 * 1000), 
         },
       });
 
