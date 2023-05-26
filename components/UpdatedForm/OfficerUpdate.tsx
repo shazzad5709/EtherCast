@@ -18,15 +18,15 @@ interface FormProps {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const updatedVoter: Voter = {
-        id: voter?.id || '',
-        name: name || '',
-        email: email || '',
-        org_name: orgName || '',
-        employee_id: employee_id || '',
-        userId: voter?.userId || '',
-        candidateId: null,
-        isCandidate: voter?.isCandidate || false
-        
+      id: voter?.id || '',
+      name: name || '',
+      email: email || '',
+      org_name: orgName || '',
+      employee_id: employee_id || '',
+      userId: voter?.userId || '',
+      candidateId: null,
+      isCandidate: voter?.isCandidate || false,
+      electionId: null
     };
     await onUpdate(updatedVoter);
   };

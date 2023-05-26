@@ -23,6 +23,9 @@ interface FormProps {
       email: email || '',
       org_name: orgName || '',
       userId: chairman?.userId || '',
+      electionId: null,
+      privateKey: null,
+      electionCreated: false
     };
     await onUpdate(updatedChairman);
   };
