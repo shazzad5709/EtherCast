@@ -19,7 +19,7 @@ export default async function handler(
             where: { id: String(userId)},
         });
         
-        console.log(Number(existingUser!.id));
+        // console.log(Number(existingUser!.id));
         return res.status(200).json({...existingUser});
     } catch (error) {
         return res.status(400).end();}

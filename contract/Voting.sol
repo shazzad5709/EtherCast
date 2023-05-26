@@ -21,9 +21,9 @@ contract VotingContract {
     struct Election {
         uint256 electionCode;
         string electionName;
-        uint256 registrationDeadline;
-        uint256 votingStartTime;
-        uint256 votingEndTime;
+        uint registrationDeadline;
+        uint votingStartTime;
+        uint votingEndTime;
         address chairman;
         address[] officers;
         Voter[] voters;
@@ -65,12 +65,13 @@ contract VotingContract {
     }
 
     function getElection(uint256 _electionCode)
-        internal
+        public
         view
         returns (uint256)
     {
+        uint256 _code = _electionCode;
         for (uint256 i = 0; i < elections.length; i++) {
-            if (elections[i].electionCode == _electionCode) {
+            if (elections[i].electionCode == _code) {
                 return i;
             }
         }
@@ -115,33 +116,33 @@ contract VotingContract {
         _;
     }
 
-    modifier onlyRegisteredCandidate(uint256 _code, address _candidate) {
-        bool exists;
-        Election memory _election = elections[getElection(_code)];
-        for (uint256 i = 0; i < _election.candidates.length; i++) {
-            if (_election.candidates[i].candidateAddress == _candidate) {
-                exists = true;
-                break;
-            }
-        }
+    // modifier onlyRegisteredCandidate(uint256 _code, address _candidate) {
+    //     bool exists;
+    //     Election memory _election = elections[getElection(_code)];
+    //     for (uint256 i = 0; i < _election.candidates.length; i++) {
+    //         if (_election.candidates[i].candidateAddress == _candidate) {
+    //             exists = true;
+    //             break;
+    //         }
+    //     }
 
-        require(exists, "Candidate is not registered!");
-        _;
-    }
+    //     require(exists, "Candidate is not registered!");
+    //     _;
+    // }
 
-    modifier onlyUnregisteredCandidate(uint256 _code, address _candidate) {
-        bool exists;
-        Election memory _election = elections[getElection(_code)];
-        for (uint256 i = 0; i < _election.candidates.length; i++) {
-            if (_election.candidates[i].candidateAddress == _candidate) {
-                exists = true;
-                break;
-            }
-        }
+    // modifier onlyUnregisteredCandidate(uint256 _code, address _candidate) {
+    //     bool exists;
+    //     Election memory _election = elections[getElection(_code)];
+    //     for (uint256 i = 0; i < _election.candidates.length; i++) {
+    //         if (_election.candidates[i].candidateAddress == _candidate) {
+    //             exists = true;
+    //             break;
+    //         }
+    //     }
 
-        require(!exists, "Candidate not found!");
-        _;
-    }
+    //     require(!exists, "Candidate not found!");
+    //     _;
+    // }
 
     modifier onlyOfficer(uint256 _electionCode, address _officer) {
         bool exists;
@@ -189,29 +190,29 @@ contract VotingContract {
         _candidate.candidateAddress = _candidateAddress;
     }
 
-    modifier onlyDuringVoting(uint256 _electionCode) {
-        Election memory _election = elections[getElection(_electionCode)];
-        require(
-            block.timestamp >= _election.votingStartTime &&
-                block.timestamp <= _election.votingEndTime,
-            "Voting is not open"
-        );
-        _;
-    }
+    // modifier onlyDuringVoting(uint256 _electionCode) {
+    //     Election memory _election = elections[getElection(_electionCode)];
+    //     require(
+    //         block.timestamp >= _election.votingStartTime &&
+    //             block.timestamp <= _election.votingEndTime,
+    //         "Voting is not open"
+    //     );
+    //     _;
+    // }
 
-    modifier voteOnlyOnce(uint256 _electionCode, address _voterAddress) {
-        bool voted;
-        Election memory _election = elections[getElection(_electionCode)];
-        for (uint256 i = 0; i < _election.voters.length; i++) {
-            if (_election.voters[i].voterAddress == _voterAddress) {
-                voted = _election.voters[i].hasVoted;
-                break;
-            }
-        }
+    // modifier voteOnlyOnce(uint256 _electionCode, address _voterAddress) {
+    //     bool voted;
+    //     Election memory _election = elections[getElection(_electionCode)];
+    //     for (uint256 i = 0; i < _election.voters.length; i++) {
+    //         if (_election.voters[i].voterAddress == _voterAddress) {
+    //             voted = _election.voters[i].hasVoted;
+    //             break;
+    //         }
+    //     }
 
-        require(!voted, "Vote already casted!");
-        _;
-    }
+    //     require(!voted, "Vote already casted!");
+    //     _;
+    // }
 
     modifier onlyAfterVoting(uint256 _electionCode) {
         require(

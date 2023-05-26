@@ -12,13 +12,11 @@ type Props = {}
 
 export default function CreateElection({ }: Props) {
   const [name, setName] = useState('')
-  const [org, setOrg] = useState('')
   const [regDeadlineDate, setRegDeadlineDate] = useState(new Date())
   const [voteStartDate, setVoteStartDate] = useState(new Date())
   const [voteEndDate, setVoteEndDate] = useState(new Date())
   const [loading, setLoading] = useState(false)
-  console.log(Date.now())
-
+  // console.log(Date.now())
 
   const handleCreateElection = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -49,21 +47,20 @@ export default function CreateElection({ }: Props) {
     }
 
     setLoading(true)
-    const res = await axios.post('./api/create-election',
-      {
-        name: name,
-        org: org,
-        regDeadlineDate: regDeadlineDate,
-        voteStartDate: voteStartDate,
-        voteEndDate: voteEndDate
-      }
-    )
+    const res = await axios.post('/api/createElection', {
+      name: name,
+      regDeadlineDate: regDeadlineDate.getTime(),
+      voteStartDate: voteStartDate.getTime(),
+      voteEndDate: voteEndDate.getTime()
+    })
       .then((res) => {
         toast.success('Election created successfully')
       })
       .catch((err) => {
-        alert(err.response.data)
+        console.log(err)
+        alert('Error creating election')
       })
+      setLoading(false)
   }
 
   const navbarItems = [
@@ -99,7 +96,7 @@ export default function CreateElection({ }: Props) {
                   <div>
                     <label
                       htmlFor='name'
-                      className='block mb-2 text-sm font-medium'
+                      className='block mb-2 text-md font-medium'
                     >
                       Election Title
                     </label>
@@ -107,7 +104,7 @@ export default function CreateElection({ }: Props) {
                       type='text'
                       name='name'
                       id='name'
-                      className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                      className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm md:text-lg rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                       placeholder='Name'
                       required
                       value={name}
@@ -116,26 +113,8 @@ export default function CreateElection({ }: Props) {
                   </div>
                   <div>
                     <label
-                      htmlFor='org'
-                      className='block mb-2 text-sm font-medium'
-                    >
-                      Organization Name
-                    </label>
-                    <input
-                      type='text'
-                      name='org'
-                      id='org'
-                      className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                      placeholder='Your Organization Name'
-                      required
-                      value={org}
-                      onChange={(e) => setOrg(e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label
                       htmlFor='regDeadlineDate'
-                      className='block mb-2 text-sm font-medium text-gray-900'
+                      className='block mb-2 text-md font-medium text-gray-900'
                     >
                       Registration Deadline
                     </label>
@@ -145,7 +124,7 @@ export default function CreateElection({ }: Props) {
                         name='regDeadlineDate'
                         id='regDeadlineDate'
                         // placeholder='••••••••'
-                        className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                        className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm md:text-lg rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                         required
                         value={
                           regDeadlineDate.getFullYear().toString() +
@@ -166,7 +145,7 @@ export default function CreateElection({ }: Props) {
                   <div>
                     <label
                       htmlFor='voteStartDate'
-                      className='block mb-2 text-sm font-medium text-gray-900'
+                      className='block mb-2 text-md font-medium text-gray-900'
                     >
                       Voting Opens
                     </label>
@@ -175,7 +154,7 @@ export default function CreateElection({ }: Props) {
                       name='voteStartDate'
                       id='voteStartDate'
                       // placeholder='••••••••'
-                      className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                      className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm md:text-lg rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                       required
                       value={
                         voteStartDate.getFullYear().toString() +
@@ -194,7 +173,7 @@ export default function CreateElection({ }: Props) {
                   <div>
                     <label
                       htmlFor='voteEndDate'
-                      className='block mb-2 text-sm font-medium text-gray-900'
+                      className='block mb-2 text-md font-medium text-gray-900'
                     >
                       Voting Closes
                     </label>
@@ -203,7 +182,7 @@ export default function CreateElection({ }: Props) {
                       name='voteEndDate'
                       id='voteEndDate'
                       // placeholder='••••••••'
-                      className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                      className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm md:text-lg rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
                       required
                       value={
                         voteEndDate.getFullYear().toString() +
@@ -221,7 +200,7 @@ export default function CreateElection({ }: Props) {
                   </div>
                   <button
                     type='submit'
-                    className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+                    className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-md px-5 py-2 text-center'
                   >
                     Create Election
                   </button>
