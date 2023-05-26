@@ -60,15 +60,14 @@ export default function Form({ buttonName }: Props) {
       });
   
       if (res.status === 200) {
-        // User created successfully
         toast.success("User created successfully!.Link sent to email.");
         setSelectedRecord(null);
         setName("");
         setEmail("");
         setorg_name("");
+        setEmpCode("");
         toggleForm();
       } else {
-        // Handle error response
         alert("Failed to create user. Please try again.");
       }
     } 

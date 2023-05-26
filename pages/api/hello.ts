@@ -1,10 +1,18 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import connectMongo from '../../database/conn'
+import { NextApiRequest, NextApiResponse } from 'next'
+import crypto from 'crypto';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  connectMongo()
-  res.status(200).json({ name: 'John Doe' })
+
+  function generateOpenSSLSecret(length: number): string {
+    const buffer = crypto.randomBytes(length);
+    const secret = buffer.toString('hex');
+    return secret;
+  }
+  
+  const secret = generateOpenSSLSecret(32);
+  console.log(secret);
+  
 }

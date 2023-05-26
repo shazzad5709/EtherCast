@@ -62,7 +62,7 @@ const ChairmanTable = () => {
     setShowForm(!showForm);
   };
 
-  const fetchOfficers = async () => {
+  const fetchVoters = async () => {
     try {
       const response = await axios.get('/api/data/Officer/createdVoter');
       setVoters(response.data);
@@ -74,11 +74,11 @@ const ChairmanTable = () => {
   };
 
   useEffect(() => {
-    fetchOfficers();
-    const interval = setInterval(fetchOfficers, 50000);
+    fetchVoters();
+    // const interval = setInterval(fetchOfficers, 50000);
 
-    return () => clearInterval(interval);
-  }, []);
+    // return () => clearInterval(interval);
+  }, [voters]);
 
   const fetchUsers = async () => {
     try {
@@ -93,10 +93,10 @@ const ChairmanTable = () => {
 
   useEffect(() => {
     fetchUsers();
-    const interval = setInterval(fetchUsers, 50);
+    // const interval = setInterval(fetchUsers, 50);
 
-    return () => clearInterval(interval);
-  }, []);
+    // return () => clearInterval(interval);
+  }, [user]);
 
   const handleEdit = (id: string) => {
     const voter = voters.find((voter) => voter.id === id);
@@ -107,7 +107,7 @@ const ChairmanTable = () => {
   const handleUpdate = async (updatedVoter: Voter) => {
     try {
       await axios.put(`/api/data/Officer/${updatedVoter.id}`, updatedVoter);
-      fetchOfficers();
+      fetchVoters();
       setSelectedVoter(null);
       toggleForm();
     } catch (error) {
@@ -118,7 +118,7 @@ const ChairmanTable = () => {
   const handleDelete = async (id: string) => {
     try {
       await axios.delete(`/api/data/Officer/${id}`);
-      fetchOfficers();
+      fetchVoters();
     } catch (error) {
       console.log('Something went wrong while deleting Voterssssss.');
     }

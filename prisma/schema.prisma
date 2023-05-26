@@ -63,18 +63,20 @@ model User {
 }
 
 model Voter {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  employee_id String
-  org_name    String
-  name        String?
-  email       String?    @unique
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  candidate   Candidate?
-  isCandidate Boolean    @default(false)
-  userId      String     @unique @db.ObjectId
-  candidateId String?    @db.ObjectId
-  election    Election?  @relation(fields: [electionId], references: [id], onDelete: Cascade)
-  electionId  String?    @db.ObjectId
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  employee_id  String
+  org_name     String
+  name         String?
+  email        String?    @unique
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  candidate    Candidate?
+  isCandidate  Boolean    @default(false)
+  userId       String     @unique @db.ObjectId
+  candidateId  String?    @db.ObjectId
+  election     Election?  @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  electionId   String?    @db.ObjectId
+  walletStatus Boolean    @default(false)
+  officerId    String?    @db.ObjectId
 }
 
 model Candidate {
@@ -131,4 +133,11 @@ model Election {
   officer  Officer[]
   voter    Voter[]
   chairman Chairman?
+}
+
+model Secret {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  secret     String
+  status     Boolean @default(false)
+  electionId String? @db.ObjectId
 }
