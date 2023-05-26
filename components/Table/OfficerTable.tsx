@@ -5,6 +5,7 @@ import Form from '../UpdatedForm/ChairmanUpdate';
 import { InfinitySpin } from "react-loader-spinner";
 
 import { TiTick } from 'react-icons/ti';
+import { toast } from 'react-hot-toast';
 
 interface Voter {
   id: string;
@@ -34,6 +35,28 @@ const ChairmanTable = () => {
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [selectedVoter, setSelectedVoter] = useState<Voter | null>(null);
+  const [showButton,setShowButton] = useState(false);
+
+  useEffect(() => {
+    const fetchChairmen = async () => {
+      try {
+        const response = await axios.get('/api/data/Admin/check');
+        const data = response.data;
+        
+        if (data) {
+          
+          setShowButton(true); //  show button
+        } else {
+          setShowButton(false); // don't Show the button
+        }
+      } catch (error) {
+        // setLoading(false);
+      }
+    };
+
+    fetchChairmen();
+    
+  }, []);
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -106,7 +129,7 @@ const ChairmanTable = () => {
       await axios.put(`/api/data/User/${id}`, { role: 'CANDIDATE' });
 
       fetchUsers();
-      alert('User is now a candidate');
+      toast.success('User is now a candidate');
     } catch (error) {
       console.log('Something went wrong while updating the role.');
     }
@@ -145,7 +168,7 @@ const ChairmanTable = () => {
         {showForm && (
           <Form
             buttonName="Update User"
-            officer={selectedVoter}
+            voter={selectedVoter}
             onUpdate={handleUpdate}
           />
         )}
@@ -168,12 +191,16 @@ const ChairmanTable = () => {
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Employee Code
                 </th>
+                {showButton && (
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Candidacy
                 </th>
+                )}
+                {showButton && (
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Action
                 </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -191,6 +218,7 @@ const ChairmanTable = () => {
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     {voter.employee_id}
                   </td>
+                  {showButton && (
                   <td className="px-5 py-5 border-b flex items-center justify-center border-gray-200 bg-white text-sm">
                     <button type="button" onClick={() => handleCandidacy(voter.id)}>
                       {!voter.isCandidate ? (
@@ -201,6 +229,8 @@ const ChairmanTable = () => {
                       )}
                     </button>
                   </td>
+                  )}
+                  {showButton && (
                   <td className="px-5 py-5 border-b  border-gray-200 bg-white text-sm">
                     <button type="button" onClick={() => handleEdit(voter.id)}>
                       <BiEdit size={25} color="rgb(0, 131, 143)" />
@@ -212,6 +242,7 @@ const ChairmanTable = () => {
                       <BiTrashAlt size={25} color="rgb(244,63,94)" />
                     </button>
                   </td>
+                  )}
                 </tr>
               ))}
             </tbody>

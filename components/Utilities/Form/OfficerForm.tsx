@@ -25,6 +25,28 @@ export default function Form({ buttonName }: Props) {
   const [org_name, setorg_name] = useState("");
   const [employee_id, setEmpCode] = useState("");
   const [showForm, setShowForm] = useState(false); // initial state is false
+  const [showButton,setShowButton] = useState(false);
+
+  useEffect(() => {
+    const fetchChairmen = async () => {
+      try {
+        const response = await axios.get('/api/data/Admin/check');
+        const data = response.data;
+        
+        if (data) {
+          
+          setShowButton(true); //  show button
+        } else {
+          setShowButton(false); // don't Show the button
+        }
+      } catch (error) {
+        // setLoading(false);
+      }
+    };
+
+    fetchChairmen();
+    
+  }, []); //
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -74,10 +96,11 @@ export default function Form({ buttonName }: Props) {
   return (
     <>
       <div>
+        {showButton && (
         <div className="flex flex-col">
           <button onClick={toggleForm}>Add Voter</button>
         </div>
-
+        )}
         <div>
           {showForm && (
             <form onSubmit={handleSubmit}>

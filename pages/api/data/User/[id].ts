@@ -1,5 +1,6 @@
 import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
+import { sendCandidateEmail } from "../../mailer";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -19,7 +20,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   else if (req.method === 'PUT') {
     const { id } = req.query;
     const { role } = req.body;
-    
+    const otp = '12345';
+    const link = "http://localhost:3000/signin";
+    const { email } = req.body;
   
     try {
       const existingUser = await prisma.voter.findUnique({ where: { id:id as string } });
@@ -40,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data: { isCandidate: true },
       });
 
-      
+      await sendCandidateEmail(email, link, otp);
       res.status(200).json(updatedUser);
     } catch (error) {
       console.error(error);

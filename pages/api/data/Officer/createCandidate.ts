@@ -1,7 +1,9 @@
 import prisma from '../../../../libs/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { sendCandidateEmail, sendWelcomeEmail } from '../../mailer';
 
 export default async function createCandidate(req:NextApiRequest, res:NextApiResponse) {
+ 
   try {
     const candidates = await prisma.user.findMany({
       where: {
@@ -15,7 +17,7 @@ export default async function createCandidate(req:NextApiRequest, res:NextApiRes
       if (existingCandidate) {
         continue;
       }
-
+      
       const createdCandidate = await prisma.candidate.create({
         data: {
           name: candidate.name,
@@ -28,7 +30,7 @@ export default async function createCandidate(req:NextApiRequest, res:NextApiRes
 
       console.log('Created Candidate:', createdCandidate);
     }
-
+    
     res.status(200).json({ message: 'Candidates created successfully.' });
   } catch (error) {
     console.error('Error creating candidates:', error);
