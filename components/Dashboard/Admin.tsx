@@ -21,8 +21,8 @@ const Admin = () => {
     <div className="bg-gray-50 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        {/* <AdminTotal /> */}
-        <Test />
+        <AdminTotal />
+        {/* <Test /> */}
       </div>
       
     </div>

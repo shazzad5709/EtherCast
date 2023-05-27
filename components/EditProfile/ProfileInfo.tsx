@@ -25,10 +25,13 @@ export default function Profile() {
 
   if (status === "authenticated") {
     return (
-      <>
-        <div className="flex flex-col items-center justify-center">
-          <InfinitySpin width="200" color="#4fa94d" />
-        </div>
+      <>  
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
+      </div>
       </>
     );
   }

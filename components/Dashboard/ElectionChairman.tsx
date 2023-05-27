@@ -5,6 +5,7 @@ import { MdOutlineHowToVote } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import Chairman from "../MainWork/Chairman";
+import Test from "../../pages/test";
 
 const ElectionChairman = () => {
     const navbarItems = [
@@ -18,7 +19,8 @@ const ElectionChairman = () => {
     <div className="bg-gray-300 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        <Chairman />
+        {/* <Chairman /> */}
+        <Test />
       </div>
     </div>
   );
