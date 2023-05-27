@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 const { ethers } = require('ethers')
 import fs from 'fs'
 import serverAuth from '../../libs/serverAuth'
+import { UserRole } from '@prisma/client'
 
 interface Election {
   electionCode: string
@@ -44,14 +45,40 @@ export default async function handler(
 
   const { currentUser } = await serverAuth(req, res)
 
-  const chairman = await prisma.chairman.findUnique({
+  // 1. search in user by email
+  // 2. get userrole
+  // 3. search for electionId according to role
+
+  const user = await prisma.user.findUnique({
     where: {
       email: currentUser.email,
     },
   })
 
+  let query;
+
+  if(user!.role === UserRole.CHAIRMAN) {
+    query = await prisma.chairman.findUnique({
+      where: {
+        email: currentUser.email,
+      },
+    })
+  } else if(user!.role === UserRole.VOTER || user!.role === UserRole.CANDIDATE) {
+    query = await prisma.voter.findUnique({
+      where: {
+        email: currentUser.email,
+      },
+    })
+  } else if(user!.role === UserRole.OFFICER) {
+    query = await prisma.officer.findUnique({
+      where: {
+        email: currentUser.email,
+      },
+    })
+  }
+
   const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY)
-  const election_code = convertToUint256(chairman!.electionId!)
+  const election_code = convertToUint256(query!.electionId!)
   // console.log('election_code:', election_code)
   const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS!, abi, provider)
   
