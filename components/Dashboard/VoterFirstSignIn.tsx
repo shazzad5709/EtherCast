@@ -64,7 +64,10 @@ export default function VoterFirstsignin({ }: Props) {
 
     console.log('Starting transaction');
     const tx = await signer.sendTransaction({
-      to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+      // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+      // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+      // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+      to: wallet.address,
       value: ethers.utils.parseEther('0.0001'),
     });
 
@@ -96,14 +99,18 @@ export default function VoterFirstsignin({ }: Props) {
     setLoading(true);
     const option = options.find((item) => item.secret === selectedOption?.secret)
     if (typeof window !== 'undefined') {
-      console.log(officerPrivateKey)
+      console.log('before: ' + localStorage.getItem('voterPrivateKey'))
       const signer = await createWallet(officerPrivateKey)
       localStorage.setItem('voterPrivateKey', signer.privateKey);
+      console.log(signer.privateKey)
       const { messageHashBytes, v, r, s } = await signMessage(signer);
       const messageString = ethers.utils.hexlify(messageHashBytes)
       const res = await axios.post('/api/data/voter/registerVoter', {
         secret: option,
-        voterAddress: '0x7285A4d191b033dd5830d1B158e89BBD57221428',
+        // voterAddress: '0x7285A4d191b033dd5830d1B158e89BBD57221428',
+        // voterAddress: '0x7285A4d191b033dd5830d1B158e89BBD57221428',
+        // voterAddress: '0x7285A4d191b033dd5830d1B158e89BBD57221428',
+        voterAddress: signer.address,
         messageHashBytes: messageString,
         v: v,
         r: r,
@@ -112,6 +119,7 @@ export default function VoterFirstsignin({ }: Props) {
         .then(async (res) => {
           setLoading(false);
           toast.success('Voter account created successfully');
+          console.log('after: ' + localStorage.getItem('voterPrivateKey'))
           if (status === 'authenticated') {
             await router.push(`${(session?.user?.role).toLowerCase()}`);
           }

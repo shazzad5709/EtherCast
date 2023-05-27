@@ -99,17 +99,33 @@ export default async function handler(
       
       await sendWelcomeEmail(email, link, otp);
 
-      if(isCandidate){
+      if(isCandidate === true){
         const candidate = await prisma.candidate.create({
           data: {
             name,
             email,
-            
             voter: {
-              connect: { email:email }, // Connect the candidate to the corresponding voter using the voterId
+              connect: { email: email }, // Connect the candidate to the corresponding voter using the voterId
             },
           },
         });
+        const user = await prisma.user.update({
+          where: {
+            email: email,
+          },
+          data: {
+            role: UserRole.CANDIDATE,
+          },
+        });
+        const voter = await prisma.voter.update({
+          where: {
+            email: email,
+          },
+          data: {
+            candidateId: candidate.id,
+          },
+        });
+      }
 
       const existingSecrets = await prisma.secret.findMany({
         where: {
