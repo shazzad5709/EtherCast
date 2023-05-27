@@ -13,11 +13,15 @@ export default function Testmail({ }: Props) {
   const sendmail = async (e: any) => {
     e.preventDefault()
 
-    await axios.get('./api/hello')
-    .then()
-    .catch((err)=>{
-      toast.error('Uh-oh!')
-    })
+    if (typeof window !== 'undefined')
+      localStorage.setItem('Ok', 'ksndfvklfsvk');
+    alert(localStorage.getItem('Ok'))
+
+    // await axios.get('./api/hello')
+    // .then()
+    // .catch((err)=>{
+    //   toast.error('Uh-oh!')
+    // })
     // console.log(res.data.secret[0].secret)
     // console.log(res.data.secret.status)
   }

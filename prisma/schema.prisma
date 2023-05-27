@@ -80,14 +80,14 @@ model Voter {
 }
 
 model Candidate {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  symbol    String?
-  agenda    String?
-  name      String?
-  email     String? @unique
-  voter     Voter   @relation(fields: [voterId], references: [id], onDelete: Cascade)
-  voterId   String  @unique @db.ObjectId
-  voteCount Int     @default(0)
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  symbol  String?
+  agenda  String?
+  name    String?
+  email   String? @unique
+  voter   Voter   @relation(fields: [voterId], references: [id], onDelete: Cascade)
+  voterId String  @unique @db.ObjectId
+  address String?
 }
 
 model Officer {
