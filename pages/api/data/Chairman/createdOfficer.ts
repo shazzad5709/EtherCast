@@ -2,7 +2,6 @@ import prisma from "../../../../libs/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UserRole } from "@prisma/client";
 import bcrypt from 'bcrypt';
-import { useSession } from "next-auth/react";
 import serverAuth from "../../../../libs/serverAuth";
 import { sendWelcomeEmail } from "../../mailer";
 const ethers = require('ethers');
