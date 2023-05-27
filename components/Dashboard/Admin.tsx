@@ -4,6 +4,7 @@ import Input from "../Utilities/Input";
 import { FiUserPlus } from "react-icons/fi";
 import AdminTotal from "../MainWork/Admin";
 import { FaUserCircle } from "react-icons/fa";
+import Test from "../../pages/test";
 
 const Admin = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -17,11 +18,13 @@ const Admin = () => {
   // Event handler for input value change
   return (
     
-    <div className="bg-gray-200 flex">
+    <div className="bg-gray-50 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        <AdminTotal />
+        {/* <AdminTotal /> */}
+        <Test />
       </div>
+      
     </div>
   );
 };

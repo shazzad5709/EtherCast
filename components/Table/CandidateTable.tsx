@@ -1,171 +1,211 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { BiEdit, BiTrashAlt } from 'react-icons/bi';
-import user from '../../model/user';
-import Form from '../UpdatedForm/CanidateUpdate';
-import {InfinitySpin} from "react-loader-spinner";
+import { BiEdit, BiTrashAlt, BiAddToQueue } from 'react-icons/bi';
+// import Form from '../UpdatedForm/ChairmanUpdate';
+import { InfinitySpin } from "react-loader-spinner";
+
+import { TiTick } from 'react-icons/ti';
+import { toast } from 'react-hot-toast';
 
 interface Candidate {
   id: string;
-  agenda:string | null,
-  symbol:string | null,
-  name: string | null ; // Add the name property here
-  email: string | null ; // Add the email property here
-  userId: string ;
-  voterId: string | null;
-  voteCount: number;
+  symbol: string;
+  agenda: string;
+  name: string | null;
+  email: string | null;
+  
+}
+interface User {
+  id: string;
+  org_name: string;
+  employee_id: string;
+  name: string | null;
+  email: string | null;
+  userId: string;
+  role: string;
 }
 
 
 
-const CandidateTable = () => {
-  const [candidates, setCandidates] = useState<Candidate>();
+const ChairmanTable = () => {
+  const [voters, setVoters] = useState<Candidate[]>([]);
+  const [user, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+  const [selectedVoter, setSelectedVoter] = useState<Candidate | null>(null);
+  const [showButton,setShowButton] = useState(false);
+
+
+  useEffect(() => {
+    const fetchChairmen = async () => {
+      try {
+        const response = await axios.get('/api/data/Admin/check');
+        const data = response.data;
+        
+        if (data) {
+          
+          setShowButton(true); //  show button
+        } else {
+          setShowButton(false); // don't Show the button
+        }
+      } catch (error) {
+        // setLoading(false);
+      }
+    };
+
+    fetchChairmen();
+    
+  }, []);
 
   const toggleForm = () => {
     setShowForm(!showForm);
   };
 
-  const fetchCandidate = async () => {
+  const fetchVoters = async () => {
     try {
-      const response = await axios.get('/api/data/Candidate/candidateInfo');
-      setCandidates(response.data);
+      const response = await axios.get('/api/data/Officer/createCandidate');
+      setVoters(response.data);
       setLoading(false);
     } catch (error) {
-      setError('Something went wrong while fetching Officers.');
+      setError('Something went wrong while fetching Voters.');
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCandidate();
-    const interval = setInterval(fetchCandidate, 50);
+    fetchVoters();
+    // const interval = setInterval(fetchOfficers, 50000);
 
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(interval);
-  }, []);
+    // return () => clearInterval(interval);
+  }, [voters]);
 
-  const handleEdit = (id: string) => {
-    
-    setSelectedCandidate(candidates !== undefined ? candidates : null);
-    toggleForm();
-  };
-
-  const handleUpdate = async (updatedCandidate: Candidate) => {
+  const fetchUsers = async () => {
     try {
-      await axios.put(`/api/data/Candidate/${updatedCandidate.id}`, updatedCandidate);
-      fetchCandidate(); // Fetch the updated data after updating
-      setSelectedCandidate(null);
-      toggleForm();
+      const response = await axios.get('/api/data/User/createdUser');
+      setUsers(response.data);
+      setLoading(false);
     } catch (error) {
-      console.log('Something went wrong while updating Officer.');
+      setError('Something went wrong while fetching Voters.');
+      setLoading(false);
     }
   };
 
-//   const handleDelete = async (id: string) => {
-//     try {
-//       await axios.delete(`/api/data/Chairman/${id}`);
-//       fetchCandidate(); // Fetch the updated data after deleting
-//     } catch (error) {
-//       console.log('Something went wrong while deleting Officer.');
-//     }
-//   };
+  useEffect(() => {
+    fetchUsers();
+    // const interval = setInterval(fetchUsers, 50);
+
+    // return () => clearInterval(interval);
+  }, [user]);
+
+  const handleEdit = (id: string) => {
+    const voter = voters.find((voter) => voter.id === id);
+    setSelectedVoter(voter !== undefined ? voter : null);
+    toggleForm();
+  };
+
+
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`/api/data/Officer/${id}`);
+      fetchVoters();
+    } catch (error) {
+      console.log('Something went wrong while deleting Voterssssss.');
+    }
+  };
+
+
 
   if (loading) {
     return (
       <div className='flex h-screen items-center justify-center text-2xl'>
-      <InfinitySpin 
-        width='200'
-        color="#4fa94d"
-      />
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
       </div>
     )
   }
 
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
+  // if (error) {
+  //   // return <p>Error: {error}</p>;
+  //   alert(error);
+  // }
 
-  return(
+  return (
     <>
-    <p>{candidates?.name}</p>
-    <p>{candidates?.agenda} </p>
-    <p>{candidates?.email} </p>
-    <p>{candidates?.symbol} </p>
-    <button type="button" onClick={() => handleEdit(candidates)} />
+      <div>
+        {/* {showForm && (
+          <Form
+            buttonName="Update User"
+            voter={selectedVoter}
+            onUpdate={handleUpdate}
+          />
+        )} */}
+      </div>
+
+      <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+        <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+          <table className="min-w-full leading-normal">
+            <thead>
+              <tr>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Email
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                 Agenda
+                </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Symbol
+                </th>
+                
+                {/* {showButton && (
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Action
+                </th>
+                )} */}
+              </tr>
+            </thead>
+            <tbody>
+              {voters.map((voter) => (
+                <tr key={voter.id}>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {voter.name}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {voter.email}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {voter.agenda}
+                  </td>
+                  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {voter.symbol}
+                  </td>
+                  
+                  {/* {showButton && (
+                  <td className="px-5 py-5 border-b  border-gray-200 bg-white text-sm">
+                    <button type="button" onClick={() => handleEdit(voter.id)}>
+                      <BiEdit size={25} color="rgb(0, 131, 143)" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(voter.id)}
+                    >
+                      <BiTrashAlt size={25} color="rgb(244,63,94)" />
+                    </button>
+                  </td>
+                  )} */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
-  )
-  // return (
-  //   <>
-  //   <div>
-  //   {showForm && (
-  //       <Form
-  //         buttonName="Update User"
-  //         candidate={selectedCandidate}
-  //         onUpdate={handleUpdate}
-  //       />
-  //     )}
-  //   </div>
-  //   <br /><br />
-  //   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-  //     <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-  //       <table className="min-w-full leading-normal">
-  //         <thead>
-  //           <tr>
-  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-  //               Name
-  //             </th>
-  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-  //               Email
-  //             </th>
-  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-  //               Agenda
-  //             </th>
-  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-  //               Symbol
-  //             </th>
-  //             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-  //               Action
-  //             </th>
-  //           </tr>
-  //         </thead>
-  //         <tbody>
-  //           {candidates.map((candidate) => (
-  //             <tr key={candidate.id}>
-  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-  //                 {candidate.name}
-  //               </td>
-  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-  //                 {candidate.email}
-  //               </td>
-  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-  //                 {candidate.agenda}
-  //               </td>
-  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-  //                 {candidate.symbol}
-  //               </td>
-  //               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-  //                 <button type="button" onClick={() => handleEdit(candidate.id)}>
-  //                   <BiEdit size={25} color="rgb(0, 131, 143)" />
-  //                 </button>
-  //                 {/* <button
-  //                   type="button"
-  //                   onClick={() => handleDelete(candidate.id)}
-  //                 >
-  //                   <BiTrashAlt size={25} color="rgb(244,63,94)" />
-  //                 </button> */}
-  //               </td>
-  //             </tr>
-  //           ))}
-  //         </tbody>
-  //       </table>
-  //     </div>
-  //   </div>
-  //   </>
-  // );
+  );
 };
 
-export default CandidateTable;
+export default ChairmanTable;

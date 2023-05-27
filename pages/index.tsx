@@ -14,6 +14,8 @@ import Candidate from '../components/Dashboard/Candidate'
 export default function Home() {
   return (
     <>            
+      {/* <Landing />   */}
+      {/* <Example /> */}
       <Landing />  
       {/* <Admin /> */}
       {/* <Timer /> */}
