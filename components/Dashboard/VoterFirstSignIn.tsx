@@ -63,16 +63,21 @@ export default function VoterFirstsignin({ }: Props) {
     const signer = new ethers.Wallet(privateKey, provider);
 
     console.log('Starting transaction');
-    const tx = await signer.sendTransaction({
-      // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
-      // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
-      // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
-      to: wallet.address,
-      value: ethers.utils.parseEther('0.0001'),
-    });
+    if(window !== undefined) {
+      const tx = await signer.sendTransaction({
+        // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+        // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+        // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+        // to: wallet.address,
+        to: new ethers.Wallet(localStorage.getItem('privateKey')!).address,
+        value: ethers.utils.parseEther('0.0001'),
+      });
 
-    await tx.wait();
-    console.log('sent');
+      await tx.wait();
+      console.log('sent');
+    }
+
+    
     return wallet;
   }
 
@@ -100,9 +105,12 @@ export default function VoterFirstsignin({ }: Props) {
     const option = options.find((item) => item.secret === selectedOption?.secret)
     if (typeof window !== 'undefined') {
       console.log('before: ' + localStorage.getItem('voterPrivateKey'))
-      const signer = await createWallet(officerPrivateKey)
-      localStorage.setItem('voterPrivateKey', signer.privateKey);
+      // const signer = await createWallet(officerPrivateKey)
+      // localStorage.setItem('voterPrivateKey', signer.privateKey);
+
+      const signer = new ethers.Wallet(localStorage.getItem('voterPrivateKey')!, new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY));
       console.log(signer.privateKey)
+      
       const { messageHashBytes, v, r, s } = await signMessage(signer);
       const messageString = ethers.utils.hexlify(messageHashBytes)
       const res = await axios.post('/api/data/voter/registerVoter', {
