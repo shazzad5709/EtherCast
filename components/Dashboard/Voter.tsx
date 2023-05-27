@@ -3,6 +3,7 @@ import Navbar from "../Utilities/Navbar";
 import { FaUserCircle} from "react-icons/fa";
 import { MdOutlineHowToVote } from "react-icons/md";
 import {BsFillHandIndexThumbFill} from "react-icons/bs"
+import VoterCard from "../Card/Voter";
 
 const Voter = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,9 +14,12 @@ const Voter = () => {
         ];
 
   return (
-    <div>
-        <Navbar NavbarItems={navbarItems} />
-        
+    <div className="bg-gray-50 flex">
+      <Navbar NavbarItems={navbarItems} />
+      <div className="flex w-full justify-center items-center">
+        {/* <ElectionOfficer /> */}
+        <VoterCard />
+      </div>
     </div>
   );
 };

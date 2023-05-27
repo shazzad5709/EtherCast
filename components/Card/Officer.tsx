@@ -2,15 +2,13 @@ import  {useState, useEffect } from "react";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import axios from "axios";
-import { resolvePtr } from "dns";
-import CandidateTable from "../components/Table/CandidateTable";
-import OfficerTable from "../components/CardTable/OfficerTable";
-import VoterTable from "../components/CardTable/VoterTable";
+import CandidateTable from "../Table/CandidateTable";
+import VoterTable from "../CardTable/VoterTable";
 
 
 type Props = {};
 
-export default function Test({}: Props) {
+export default function Officer({}: Props) {
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
   const [regDeadline, setRegDeadline] = useState(new Date());
@@ -33,10 +31,7 @@ export default function Test({}: Props) {
     showVoterTable ? setShowVoterTable(true) : setShowVoterTable(false);
     toggleVoter();
   }
-  const handleOfficer = async () => {
-    showOfficerTable ? setShowOfficerTable(true) : setShowOfficerTable(false);
-    toggleOfficer();
-  }
+  
 
   useEffect(() => {
     const getElection = async () => {
@@ -49,10 +44,10 @@ export default function Test({}: Props) {
       setVoteEnd(new Date(parseInt(res.data._election.voteEndDate)));
       // setOfficers(res.data.officers)
       setChairman(res.data._election.chairman);
-      const response = await axios.get("/api/data/Chairman/chairman");
-      console.log("sdgsdfsd");
-      console.log(response.data);
-      console.log(response.data.name)
+      const response = await axios.get("/api/data/Officer/officer");
+    //   console.log("sdgsdfsd");
+    //   console.log(response.data);
+    //   console.log(response.data.name)
       setElectionCode(response.data.electionId)
 
       setChairman(res.data.name)
@@ -67,9 +62,7 @@ export default function Test({}: Props) {
   const toggleVoter = () => {
     setShowVoterTable(!showVoterTable);
   };
-  const toggleOfficer = () => {
-    setShowOfficerTable(!showOfficerTable);
-  };
+ 
 
   return (
     <>
@@ -91,22 +84,17 @@ export default function Test({}: Props) {
           </div>
           <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
             <div className="flex justify-between item-center">
-              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-black hidden md:block">
-                <button onClick={handleOfficer} className="text-black font-medium hidden md:block">
-                  
-                  Officer List
-                </button>
-              </div>
+             
               {/* <p className="text-gray-500 font-medium hidden md:block">Vacations</p> */}
-              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-gray-800 hidden md:block">
-                <button onClick={handleCandidate} className="text-gray-500 font-medium hidden md:block">
+              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-black hidden md:block">
+                <button onClick={handleCandidate} className="text-black font-medium hidden md:block">
                   
                   Candidate List
                 </button>
               </div>
 
-              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-gray-800 hidden md:block">
-                <button onClick={handleVoter} className="text-gray-500 font-medium hidden md:block">
+              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-black hidden md:block">
+                <button onClick={handleVoter} className="text-black font-medium hidden md:block">
                   Voter List
                 </button>
               </div>
@@ -117,7 +105,7 @@ export default function Test({}: Props) {
             </p>
             <p className="px-1 py-1 block mb-2 text-md font-medium ">
               
-              <b>Title of the Election:</b> {title}
+              <b>Election Name:</b> {title}
             </p>
             <p className="px-1 py-1 block mb-2 text-md font-medium ">
               <b>Registration Deadline:</b> {regDeadline.toLocaleString()}
@@ -134,8 +122,7 @@ export default function Test({}: Props) {
         </div>
         {/* </div> */}
         <div>
-        {showOfficerTable &&
-         (<OfficerTable />)}
+        
          {showCandidateTable &&
          (<CandidateTable />)}
          {showVoterTable &&

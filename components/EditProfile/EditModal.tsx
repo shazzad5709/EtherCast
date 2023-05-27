@@ -54,9 +54,9 @@ const EditModal = () => {
         disabled={isLoading}  
       />
       <Input
-        placeholder="Password"
+        type="password"
         onChange={(e) => setPassword(e.target.value)}
-        value={password}
+        value={"*******"}
         disabled={isLoading}  
       />
     </div>
