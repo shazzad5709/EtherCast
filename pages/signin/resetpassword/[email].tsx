@@ -5,6 +5,8 @@ import { is } from 'date-fns/locale'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { toast } from 'react-hot-toast'
+import Timer from '../../../components/Utilities/Timer'
+import { set } from 'mongoose'
 
 type Props = {}
 
@@ -17,11 +19,7 @@ export default function ResetPassword({}: Props) {
   const [newpassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isOTPValid, setIsOTPValid] = useState(false);
-
-  
-  
-  // Call the sendOTP function with the email address
-  
+  const [clicked, setClicked] = useState(false);
 
   const handleProceed = async (e: FormEvent) => {
     e.preventDefault();
@@ -46,6 +44,26 @@ export default function ResetPassword({}: Props) {
     }
   };
   
+  const resendOTP = async (e:FormEvent) => {
+    setClicked(true);
+    e.preventDefault();
+    try {
+      const response = await axios.post('/api/otp/resendOTP', {
+        email,
+      });
+      if (response.status === 200) {
+        toast.success('OTP sent successfully');
+        // Handle success case (e.g., redirect the user to a success page)
+      } else {
+        toast.error('Failed to send OTP');
+        // Handle error case (e.g., show an error message to the user)
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      // Handle error case (e.g., show an error message to the user)
+    }
+  };
+
 
 
   const handleReset = async (e: FormEvent) => {
@@ -126,9 +144,12 @@ export default function ResetPassword({}: Props) {
                     <Link
                       href='#'
                       className='font-semibold text-primary-600 hover:underline'
+                      onClick={resendOTP}
                     >
+                      
                       Resend code
                     </Link>
+                    {/* <Timer /> */}
                   </p>
                 </div>
               </div>
@@ -211,3 +232,4 @@ export default function ResetPassword({}: Props) {
     </>
   )
 }
+

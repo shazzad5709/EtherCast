@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import axios from "axios";
-import { Chairman } from "@prisma/client";
 import { render } from "react-dom";
 import useSWR from "swr";
 import ChairmanTable from "../../Table/AdminTable";
 import { toast } from "react-hot-toast";
 import { InfinitySpin } from "react-loader-spinner";
+import { set, trusted } from "mongoose";
 
 type Props = {
   buttonName: string;
@@ -21,20 +21,57 @@ interface FormData {
   employee_id: string;
   election_id: string;
 }
+interface Chairman {
+  id: string;
+  org_name: string;
+  name: string | null;
+  email: string | null;
+  userId: string; // Add the userId property here
+  electionCreated: string;
+}
 
 
 export default function Form({ buttonName }: Props) {
+  const [chairmen, setChairmen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<FormData | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [org_name, setorg_name] = useState("");
   const [employee_id, setEmpCode] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [showButton,setShowButton] = useState(false);
   const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    const fetchChairmen = async () => {
+      try {
+        const response = await axios.get('/api/data/Admin/check');
+        const data = response.data;
+        // console.log(data);
+        setChairmen(data);
+        setLoading(false);
 
+        // Check the value of chairmen
+        if (data) {
+          
+          setShowButton(false); // Don't show the form
+        } else {
+          setShowButton(true); // Show the form
+        }
+      } catch (error) {
+        setLoading(false);
+      }
+    };
+
+    fetchChairmen();
+    
+  }, []); // Call fetchChairmen on component mount (empty dependency array)
+  
+  
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+    
     const res = await axios
       .post("./api/data/Chairman/createdOfficer", {
         name: name,
@@ -49,7 +86,6 @@ export default function Form({ buttonName }: Props) {
       .catch((err) => {
         toast.error(err.response.data);
       });
-
 
     setSelectedRecord(null);
     setName("");
@@ -75,8 +111,11 @@ export default function Form({ buttonName }: Props) {
   };
 
   const toggleForm = () => {
-    setShowForm(!showForm);
+    setShowForm((prevShowForm) => !prevShowForm);
   };
+    
+  
+  // fetchChairmen()
 
   if (loading) {
     return (
@@ -88,16 +127,26 @@ export default function Form({ buttonName }: Props) {
       </div>
     )
   }
-
+  
   return (
     <>
+
       <div>
+        {showButton && (
+          
         <div className="flex flex-col">
           <button
             type='submit'
             className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
             onClick={toggleForm}>Add Officer</button>
+        
+        </div>)}
+        {!showButton && (
+          <div className="bg-white-500 text-center text-red font-semibold rounded-lg p-4">
+          Election has been created. Can't Add Officers
         </div>
+        
+        )}
         <div>
           {showForm && (
             <div >
