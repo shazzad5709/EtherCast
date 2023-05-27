@@ -1,10 +1,14 @@
 import axios from 'axios'
 import Link from 'next/link'
-import React, { FormEvent } from 'react'
+import React, { FormEvent, useState } from 'react'
+import { InfinitySpin } from "react-loader-spinner";
 
 type Props = {}
 
 export default function FirstSignIn({}: Props) {
+
+  const [loading, setLoading] = useState(false)
+  
   const handleReset = async (e: FormEvent) => {
     e.preventDefault()
 
@@ -27,7 +31,16 @@ export default function FirstSignIn({}: Props) {
     }
   }
 
-  // Your JS
+  if (loading) {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
+      </div>
+    )
+  }
 
   return (
     <div className='bg-gray-100 h-screen'>
