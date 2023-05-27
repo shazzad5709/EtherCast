@@ -7,7 +7,7 @@ export default function CandidateInfo(){
         <div>
            
         {/* <Form buttonName="Add Agenda & Symbol" /> */}
-         <CandidateTable/>
+         <CandidateTable />
 
         </div>
          

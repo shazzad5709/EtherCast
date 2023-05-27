@@ -10,13 +10,12 @@ import ElectionOfficers from '../components/Dashboard/ElectionOfficers'
 import Header from '../components/EditProfile/Header'
 import Avatar from '../components/EditProfile/Avatar'
 import Candidate from '../components/Dashboard/Candidate'
-import Timer from './timer'
 
 export default function Home() {
   return (
     <>            
-      {/* <Landing />   */}
-      <Admin />
+      <Landing />  
+      {/* <Admin /> */}
       {/* <Timer /> */}
       {/* <ElectionChairman /> */}
       {/* <Candidate /> */}

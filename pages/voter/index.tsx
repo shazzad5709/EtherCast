@@ -4,9 +4,9 @@ import { useSession } from 'next-auth/react';
 import Unauthenticated from '../../components/PageComponents/Unauthenticated';
 import Unauthorized from '../../components/PageComponents/Unauthorized';
 import axios from 'axios';
-import FirstSignIn from '../signin/firstsignin';
 import { useRouter } from 'next/router';
 import Voter from '../../components/Dashboard/Voter';
+import VoterFirstSignIn from '../../components/Dashboard/VoterFirstSignIn';
 
 type Props = {}
 
@@ -18,19 +18,17 @@ export default function VoterLanding({ }: Props) {
   const getActiveStatus = async () => {
     if (status === 'authenticated') {
       if (session?.user?.role === 'VOTER') {
-        const res = await axios.get('./api/data/voter/activeStatus')
-        setActive(Boolean(res.data.msg))
-        if (active === false) {
-          router.push('/voter/firstsignin')
-        }
+        await axios.get('./api/data/voter/activeStatus')
+          .then((res) => {
+            console.log(res.data.msg)
+            setActive(Boolean(res.data.msg))
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     }
   }
-
-  // useEffect(() => {
-  //   getActiveStatus()
-  // }, [])
-
 
   if (status === 'loading') {
     return (
@@ -46,8 +44,11 @@ export default function VoterLanding({ }: Props) {
   if (status === 'authenticated') {
     if (session?.user?.role === 'VOTER') {
       getActiveStatus()
+      console.log(active)
       return (
-        <Voter />
+        <>
+          {active ? <Voter /> : <VoterFirstSignIn />}
+        </>
       )
     }
     return (

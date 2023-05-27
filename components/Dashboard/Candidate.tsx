@@ -17,7 +17,7 @@ const Candidate = () => {
     <div className="bg-gray-100 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
-        {/* <CandidateInfo /> */}
+        <CandidateInfo />
       </div>
     </div>
   );
