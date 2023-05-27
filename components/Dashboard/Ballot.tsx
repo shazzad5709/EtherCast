@@ -98,9 +98,17 @@ export default function Ballot({ }: Props) {
                 }`}
               onClick={() => handleOptionClick(option.email)}
             >
-              <img src={option.image} className='rounded-full' width={80} height={80} alt={''} />
-              <div>
+              {!option.image && (
+                
+                <img className="w-32 h-32 rounded-full" src="/images/placeholder.png" alt="Profile picture">
+                  </img>
+                  )}
+                  {option.image && (
+                    <img src={option.image} className='rounded-full' width={80} height={80} alt={''} />
+                  )}
+              <div className='space-y-2'>
                 <h2 className="text-xl font-bold">{option.name}</h2>
+                <p className="text-gray-800 text-lg">{option.symbol}</p>
                 <p className="text-gray-600">{option.agenda}</p>
               </div>
             </div>

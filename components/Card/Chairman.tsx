@@ -3,14 +3,14 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import axios from "axios";
 import { resolvePtr } from "dns";
-import CandidateTable from "../components/Table/CandidateTable";
-import OfficerTable from "../components/CardTable/OfficerTable";
-import VoterTable from "../components/CardTable/VoterTable";
+import CandidateTable from "../Table/CandidateTable";
+import OfficerTable from "../CardTable/OfficerTable";
+import VoterTable from "../CardTable/VoterTable";
 
 
 type Props = {};
 
-export default function Test({}: Props) {
+export default function Chairman({}: Props) {
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
   const [regDeadline, setRegDeadline] = useState(new Date());
@@ -98,15 +98,15 @@ export default function Test({}: Props) {
                 </button>
               </div>
               {/* <p className="text-gray-500 font-medium hidden md:block">Vacations</p> */}
-              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-gray-800 hidden md:block">
-                <button onClick={handleCandidate} className="text-gray-500 font-medium hidden md:block">
+              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-black hidden md:block">
+                <button onClick={handleCandidate} className="text-black font-medium hidden md:block">
                   
                   Candidate List
                 </button>
               </div>
 
-              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-gray-800 hidden md:block">
-                <button onClick={handleVoter} className="text-gray-500 font-medium hidden md:block">
+              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-black hidden md:block">
+                <button onClick={handleVoter} className="text-black font-medium hidden md:block">
                   Voter List
                 </button>
               </div>
@@ -117,7 +117,7 @@ export default function Test({}: Props) {
             </p>
             <p className="px-1 py-1 block mb-2 text-md font-medium ">
               
-              <b>Title of the Election:</b> {title}
+              <b>Election Name:</b> {title}
             </p>
             <p className="px-1 py-1 block mb-2 text-md font-medium ">
               <b>Registration Deadline:</b> {regDeadline.toLocaleString()}

@@ -28,7 +28,7 @@ interface User {
 
 
 
-const OfficerTable = () => {
+const VoterTable = () => {
   const [voters, setVoters] = useState<Voter[]>([]);
   const [user, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,7 +65,7 @@ const OfficerTable = () => {
 
   const fetchVoters = async () => {
     try {
-      const response = await axios.get('/api/data/Officer/createdVoter');
+      const response = await axios.get('/api/data/Officer/voter');
       setVoters(response.data);
       setLoading(false);
     } catch (error) {
@@ -99,43 +99,6 @@ const OfficerTable = () => {
     // return () => clearInterval(interval);
   }, [user]);
 
-  const handleEdit = (id: string) => {
-    const voter = voters.find((voter) => voter.id === id);
-    setSelectedVoter(voter !== undefined ? voter : null);
-    toggleForm();
-  };
-
-  const handleUpdate = async (updatedVoter: Voter) => {
-    try {
-      await axios.put(`/api/data/Officer/${updatedVoter.id}`, updatedVoter);
-      fetchVoters();
-      setSelectedVoter(null);
-      toggleForm();
-    } catch (error) {
-      console.log('Something went wrong while updating Votersssssss');
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      await axios.delete(`/api/data/Officer/${id}`);
-      fetchVoters();
-    } catch (error) {
-      console.log('Something went wrong while deleting Voterssssss.');
-    }
-  };
-
-  const handleCandidacy = async (id: any) => {
-    try {
-      await axios.put(`/api/data/User/${id}`, { role: 'CANDIDATE' });
-
-      fetchUsers();
-      toast.success('User is now a candidate');
-    } catch (error) {
-      console.log('Something went wrong while updating the role.');
-    }
-    // createCandidates();
-  };
 
 
   if (loading) {
@@ -156,15 +119,7 @@ const OfficerTable = () => {
 
   return (
     <>
-      <div>
-        {showForm && (
-          <Form
-            buttonName="Update User"
-            voter={selectedVoter}
-            onUpdate={handleUpdate}
-          />
-        )}
-      </div>
+      
 
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -183,12 +138,7 @@ const OfficerTable = () => {
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Employee Code
                 </th>
-                
-                {showButton && (
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Action
-                </th>
-                )}
+               
               </tr>
             </thead>
             <tbody>
@@ -207,19 +157,7 @@ const OfficerTable = () => {
                     {voter.employee_id}
                   </td>
                   
-                  {showButton && (
-                  <td className="px-5 py-5 border-b  border-gray-200 bg-white text-sm">
-                    <button type="button" onClick={() => handleEdit(voter.id)}>
-                      <BiEdit size={25} color="rgb(0, 131, 143)" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(voter.id)}
-                    >
-                      <BiTrashAlt size={25} color="rgb(244,63,94)" />
-                    </button>
-                  </td>
-                  )}
+                 
                 </tr>
               ))}
             </tbody>
@@ -230,4 +168,4 @@ const OfficerTable = () => {
   );
 };
 
-export default OfficerTable;
+export default VoterTable;

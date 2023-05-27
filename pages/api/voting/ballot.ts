@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from '../../../libs/serverAuth'
 import prisma from '../../../libs/prisma'
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
