@@ -97,7 +97,7 @@ export default async function handler(
       chairman: election.chairman,
     }
 
-    console.log(_election)
+    // console.log(_election)
 
     return res.status(200).json({ _election })
   } catch (error) {

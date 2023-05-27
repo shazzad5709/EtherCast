@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import serverAuth from "../../../../libs/serverAuth";
 import { UserRole } from "@prisma/client";
 import crypto from 'crypto';
+import { is } from "date-fns/locale";
 
 function generateOpenSSLSecret(): string {
   const buffer = crypto.randomBytes(10);
@@ -56,15 +57,17 @@ export default async function handler(
           .status(400)
           .json({ message: "Already in another election" });
       }
-      console.log("Email already exists");
-      user = await prisma.user.update({
-        where: {
-          email: email,
-        },
-        data: {
-          role: UserRole.VOTER,
-        },
-      });
+      // console.log("Email already exists");
+      else{
+        user = await prisma.user.update({
+          where: {
+            email: email,
+          },
+          data: {
+            role: UserRole.VOTER,
+          },
+        });
+      }
     } else {
       user = await prisma.user.create({
         data: {

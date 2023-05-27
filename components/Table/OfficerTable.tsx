@@ -37,6 +37,7 @@ const ChairmanTable = () => {
   const [selectedVoter, setSelectedVoter] = useState<Voter | null>(null);
   const [showButton,setShowButton] = useState(false);
 
+
   useEffect(() => {
     const fetchChairmen = async () => {
       try {
@@ -133,18 +134,9 @@ const ChairmanTable = () => {
     } catch (error) {
       console.log('Something went wrong while updating the role.');
     }
-    createCandidates();
+    // createCandidates();
   };
 
-
-  const createCandidates = async () => {
-    try {
-      const response = await axios.post('/api/data/Officer/createCandidate');
-      console.log('Response:', response.data);
-    } catch (error) {
-      console.error('Error creating candidates:', error);
-    }
-  };
 
   if (loading) {
     return (
@@ -191,11 +183,7 @@ const ChairmanTable = () => {
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Employee Code
                 </th>
-                {showButton && (
-                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Candidacy
-                </th>
-                )}
+                
                 {showButton && (
                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                   Action
@@ -218,18 +206,7 @@ const ChairmanTable = () => {
                   <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                     {voter.employee_id}
                   </td>
-                  {showButton && (
-                  <td className="px-5 py-5 border-b flex items-center justify-center border-gray-200 bg-white text-sm">
-                    <button type="button" onClick={() => handleCandidacy(voter.id)}>
-                      {!voter.isCandidate ? (
-
-                        <BiAddToQueue size={25} color="rgb(27, 166, 43)" />
-                      ) : (
-                        <TiTick size={37} color="rgb(0, 131, 143)" />
-                      )}
-                    </button>
-                  </td>
-                  )}
+                  
                   {showButton && (
                   <td className="px-5 py-5 border-b  border-gray-200 bg-white text-sm">
                     <button type="button" onClick={() => handleEdit(voter.id)}>
