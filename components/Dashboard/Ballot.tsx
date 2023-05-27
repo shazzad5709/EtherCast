@@ -1,5 +1,4 @@
 import React, { FormEvent, useEffect, useState } from 'react'
-import Image from 'next/image'
 import axios from 'axios'
 import { ethers } from 'ethers'
 import VotingContract from '../../contract/abi.json'
