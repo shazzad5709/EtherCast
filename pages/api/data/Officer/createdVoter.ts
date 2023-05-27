@@ -42,7 +42,7 @@ export default async function handler(
   }
 
   else if (req.method === "POST") {
-    const { name, email, org_name, employee_id } = req.body;
+    const { name, email, org_name, employee_id, isCandidate } = req.body;
     const hashedPassword = await bcrypt.hash("12345", 10)
 
     let user = await prisma.user.findUnique({
@@ -90,7 +90,7 @@ export default async function handler(
           name: user.name,
           email: user.email,
           employee_id: employee_id,
-          
+          isCandidate: isCandidate,
           userId: user.id,
           electionId: officer!.electionId,
           officerId: officer!.id,          
@@ -98,6 +98,18 @@ export default async function handler(
       });
       
       await sendWelcomeEmail(email, link, otp);
+
+      if(isCandidate){
+        const candidate = await prisma.candidate.create({
+          data: {
+            name,
+            email,
+            
+            voter: {
+              connect: { email:email }, // Connect the candidate to the corresponding voter using the voterId
+            },
+          },
+        });
 
       const existingSecrets = await prisma.secret.findMany({
         where: {
