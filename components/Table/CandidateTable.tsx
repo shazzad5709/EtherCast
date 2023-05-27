@@ -27,7 +27,7 @@ interface User {
 
 
 
-const ChairmanTable = () => {
+const CandidateTable = () => {
   const [voters, setVoters] = useState<Candidate[]>([]);
   const [user, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -208,4 +208,4 @@ const ChairmanTable = () => {
   );
 };
 
-export default ChairmanTable;
+export default CandidateTable;
