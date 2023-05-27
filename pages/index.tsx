@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>            
       {/* <Landing />   */}
-      <Example />
+      {/* <Example /> */}
       <Landing />  
       {/* <Admin /> */}
       {/* <Timer /> */}
