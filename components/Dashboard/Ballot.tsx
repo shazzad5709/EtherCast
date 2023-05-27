@@ -53,6 +53,11 @@ export default function Ballot({ }: Props) {
               }`}
               onClick={() => handleOptionClick(option.candidate)}
             >
+              {!option.image && (
+                <div className="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
+                <img className="w-32 h-32 rounded-full mx-auto" src="/images/placeholder.png" alt="Profile picture">
+                  </img>
+                  </div>)}
               <img src={option.image} className='rounded-full' width={80} height={80} alt={''} />
               <div>
                 <h2 className="text-xl font-bold">{option.candidate}</h2>

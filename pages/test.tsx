@@ -23,9 +23,9 @@ export default function Test({}: Props) {
   const [showCandidateTable, setShowCandidateTable] = useState(true);
 
   const handleCandidate = async () => {
-    return(
-      <> <CandidateTable /> </>
-    )
+    showCandidateTable ? setShowCandidateTable(true) : setShowCandidateTable(false);
+    toggleCandidate();
+    
   }
   useEffect(() => {
     const getElection = async () => {
@@ -41,14 +41,18 @@ export default function Test({}: Props) {
       const response = await axios.get("/api/data/Chairman/chairman");
       console.log("sdgsdfsd");
       console.log(response.data);
-      // console.log(response.data.name)
-      // setElectionCode(response.data.electionId)
+      console.log(response.data.name)
+      setElectionCode(response.data.electionId)
 
-      // setChairman(res.data.name)
-      // setOrgName(response.data.org_name)
+      setChairman(res.data.name)
+      setOrgName(response.data.org_name)
     };
     getElection();
   }, []);
+
+  const toggleCandidate = () => {
+    setShowCandidateTable(!showCandidateTable);
+  };
 
   return (
     <>
@@ -70,23 +74,23 @@ export default function Test({}: Props) {
           </div>
           <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
             <div className="flex justify-between item-center">
-              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-gray-800 hidden md:block">
-                <button className="text-gray-500 font-medium hidden md:block">
-                  {" "}
-                  Officer List{" "}
+              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-black hidden md:block">
+                <button className="text-black font-medium hidden md:block">
+                  
+                  Officer List
                 </button>
               </div>
               {/* <p className="text-gray-500 font-medium hidden md:block">Vacations</p> */}
               <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-gray-800 hidden md:block">
                 <button onClick={handleCandidate} className="text-gray-500 font-medium hidden md:block">
-                  {" "}
-                  Candidate List{" "}
+                  
+                  Candidate List
                 </button>
               </div>
 
               <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-gray-800 hidden md:block">
                 <button className="text-gray-500 font-medium hidden md:block">
-                  Voter List{" "}
+                  Voter List
                 </button>
               </div>
             </div>
@@ -112,7 +116,12 @@ export default function Test({}: Props) {
           </div>
         </div>
         {/* </div> */}
+        <div>
+        {showCandidateTable &&
+         (<CandidateTable />)}
       </div>
+      </div>
+      
     </>
   );
 }

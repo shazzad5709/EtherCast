@@ -16,7 +16,7 @@ const ElectionChairman = () => {
        ];
 
   return (
-    <div className="bg-gray-300 flex">
+    <div className="bg-gray-50 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
         {/* <Chairman /> */}
