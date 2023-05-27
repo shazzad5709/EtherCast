@@ -4,16 +4,16 @@ import axios from 'axios'
 
 type Props = {}
 
-interface Option {
+interface Candidate {
   id: number
   candidate: string
-  agenda?: string
-  image?: string
+  agenda: string | null
+  image: string
 }
 
 export default function Ballot({ }: Props) {
   const [selected, setSelected] = useState('')
-  const [options, setOptions] = useState<Option[]>([])
+  const [candidates, setCandidates] = useState<Candidate[]>([])
   const [loading, setLoading] = useState(true)
 
   const handleOptionClick = (option: string) => {
@@ -26,9 +26,11 @@ export default function Ballot({ }: Props) {
   }
 
   const fetchCandidates = async () => {
-    await axios.get('/api/voting/ballot')
+    const res = await axios.get('/api/voting/ballot')
     .then((res) => {
-      setOptions(res.data.options)
+      console.log(res.data.candidates)
+      setCandidates(res.data)
+      console.log(candidates)
       setLoading(false)
     })
     .catch((err) => {
@@ -46,7 +48,7 @@ export default function Ballot({ }: Props) {
       <h1 className="text-2xl w-full lg:w-fit font-bold mb-4">Choose Candidate</h1>
       <form className="flex flex-col w-full items-center" onSubmit={handleVote}>
         <div className='lg:grid lg:grid-cols-2 xl:grid-cols-3 w-full gap-10 lg:px-10 xl:px-20'>
-          {options.map((option) => (
+          {candidates.map((option) => (
           <div key={option.id}
               className={`bg-white w-full border-2 border-gray-300 flex space-x-10 items-center shadow-md space-y-2 rounded-lg mb-4 p-4 cursor-pointer hover:bg-green-light hover:border-green-light ${
                 selected === `${option.candidate}` ? "border-green-dark bg-green-light hover:border-green-dark" : ""
