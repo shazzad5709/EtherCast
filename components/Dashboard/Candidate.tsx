@@ -10,7 +10,7 @@ const Candidate = () => {
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
         { id: 2, label: 'Candidacy', icon: BsFillHandIndexThumbFill , href: '/candidacy' },
-        { id: 3, label: 'Vote', icon: MdOutlineHowToVote , href: '/election' },
+        { id: 3, label: 'Vote', icon: MdOutlineHowToVote , href: '/voting' },
         ];
 
   return (

@@ -1,10 +1,20 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
+import axios from 'axios'
 
 type Props = {}
 
+interface Option {
+  id: number
+  candidate: string
+  agenda?: string
+  image?: string
+}
+
 export default function Ballot({ }: Props) {
   const [selected, setSelected] = useState('')
+  const [options, setOptions] = useState<Option[]>([])
+  const [loading, setLoading] = useState(true)
 
   const handleOptionClick = (option: string) => {
     setSelected(option)
@@ -12,41 +22,30 @@ export default function Ballot({ }: Props) {
 
   const handleVote = (e: FormEvent) => {
     e.preventDefault()
-    console.log('Voted for', selected)
+    alert('Voted for' + selected)
   }
 
-  const options = [
-    {
-      id: 1,
-      candidate: 'Option 1',
-      agenda: 'Description of option 1.',
-      image: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',
-    },
-    {
-      id: 2,
-      candidate: 'Option 2',
-      agenda: 'Description of option 2.',
-      image: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',
-    },
-    {
-      id: 3,
-      candidate: 'Option 3',
-      agenda: 'Description of option 3.',
-      image: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',
-    },
-    {
-      id: 4,
-      candidate: 'Option 4',
-      agenda: 'Description of option 4.',
-      image: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png',
-    },
-  ]
+  const fetchCandidates = async () => {
+    await axios.get('/api/voting/ballot')
+    .then((res) => {
+      setOptions(res.data.options)
+      setLoading(false)
+    })
+    .catch((err) => {
+      console.log(err)
+      setLoading(false)
+    })
+  }
+
+  useEffect(() => {
+    fetchCandidates()
+  }, [])
 
   return (
     <div className="flex flex-col w-screen px-4 md:px-8 py-8 items-center lg:justify-center min-h-screen">
       <h1 className="text-2xl w-full lg:w-fit font-bold mb-4">Choose Candidate</h1>
       <form className="flex flex-col w-full items-center" onSubmit={handleVote}>
-        <div className='lg:grid lg:grid-cols-2 xl:grid-cols-3 w-full gap-10'>
+        <div className='lg:grid lg:grid-cols-2 xl:grid-cols-3 w-full gap-10 lg:px-10 xl:px-20'>
           {options.map((option) => (
           <div key={option.id}
               className={`bg-white w-full border-2 border-gray-300 flex space-x-10 items-center shadow-md space-y-2 rounded-lg mb-4 p-4 cursor-pointer hover:bg-green-light hover:border-green-light ${

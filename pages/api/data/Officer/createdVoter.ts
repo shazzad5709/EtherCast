@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 import serverAuth from "../../../../libs/serverAuth";
 import { UserRole } from "@prisma/client";
 import crypto from 'crypto';
-import { is } from "date-fns/locale";
 
 function generateOpenSSLSecret(): string {
   const buffer = crypto.randomBytes(10);

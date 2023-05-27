@@ -1,122 +1,61 @@
-import React, { useState } from 'react'
-import Navbar from '../../components/Utilities/Navbar'
-import { FaUserTie } from 'react-icons/fa'
-import { MdHowToVote } from 'react-icons/md'
-import { RiGovernmentFill } from 'react-icons/ri'
-import { NavbarItem } from '../../types/interfaces'
-import ElectionList from '../../components/Utilities/ElectionList'
+import React, { useEffect, useState } from 'react'
+import { InfinitySpin } from "react-loader-spinner";
+import { useSession } from 'next-auth/react';
+import Unauthenticated from '../../components/PageComponents/Unauthenticated';
+import Unauthorized from '../../components/PageComponents/Unauthorized';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import Ballot from '../../components/Dashboard/Ballot';
+import VoterFirstSignIn from '../../components/Dashboard/VoterFirstSignIn';
 
 type Props = {}
 
-type ButtonProps = {
-  label: string
-  isActive: boolean
-  onClick: () => void
-}
+export default function VotingLanding({ }: Props) {
+  const { data: session, status } = useSession()
+  const [active, setActive] = useState<boolean>(false)
+  const router = useRouter()
 
-const Button = ({ label, isActive, onClick }: ButtonProps) => {
-  const activeClass = isActive ? 'bg-green text-white hover:bg-green-dark' : 'bg-white hover:bg-green-light hover:text-green-dark'
-
-  return (
-    <button
-      className={`py-2 w-full ${activeClass}`}
-      onClick={onClick}
-    >
-      <p className='text-lg'>{label}</p>
-    </button>
-  )
-}
-
-export default function Elections({ }: Props) {
-  const [active, setActive] = useState(true)
-
-  const handleAllClick = () => {
-    setActive(true)
-  }
-
-  const handleMyClick = () => {
-    setActive(false)
-  }
-
-  const started = [
-    {
-      code: 1,
-      name: 'Election 1',
-      org: 'Org 1',
-      applyDeadline: '2023-05-01',
-      voteStart: '2023-05-02',
-    },
-    {
-      code: 2,
-      name: 'Election 2',
-      org: 'Org 2',
-      applyDeadline: '2023-05-01',
-      voteStart: '2023-05-02',
-    },
-  ]
-
-  const VoterNavItems: NavbarItem[] = [
-    {
-      id: 1,
-      label: 'Profile',
-      icon: FaUserTie,
-      href: '/profile',
-    },
-    {
-      id: 2,
-      label: 'Elections',
-      icon: RiGovernmentFill,
-      href: '/elections',
-    },
-    {
-      id: 3,
-      label: 'Vote',
-      icon: MdHowToVote,
-      href: '/vote',
+  const getActiveStatus = async () => {
+    if (status === 'authenticated') {
+      if (session?.user?.role === 'VOTER' || session?.user?.role === 'CANDIDATE') {
+        await axios.get('./api/data/voter/activeStatus')
+          .then((res) => {
+            console.log(res.data.msg)
+            setActive(Boolean(res.data.msg))
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     }
-  ]
+  }
 
-  return (
-    <div>
-      <div className='bg-gray-200 flex'>
-        <Navbar NavbarItems={VoterNavItems} />
-        <div className='w-full h-screen space-y-4'>
-          {/* <div className='sticky flex left-0 top-0 right-0 bg-white ml-[-24px] justify-end'>
-            <p className='mr-16 py-2 text-2xl font-semibold'>Voter 1</p>
-          </div> */}
-          <div>
-            <div className='sticky left-0 top-0 right-0 flex bg-white mt-2 space-x-2 mr-0 md:mr-6 justify-center'>
-              <Button label='Ongoing Poll' isActive={active} onClick={handleAllClick} />
-              <Button label='Live Result' isActive={!active} onClick={handleMyClick} />
-            </div>
-            <div className="bg-white scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white overflow-y-scroll h-[calc(100vh-90px)] mb-4 border border-gray-200 shadow-sm lg:mb-12 mr-0 md:mr-6 mt-4">
-              {active ? started.map((election) => (
-                <ElectionList
-                  key={election.code}
-                  code={election.code}
-                  name={election.name}
-                  org={election.org}
-                  applyDeadline={election.applyDeadline}
-                  voteStart={election.voteStart}
-                  started
-                />
-              )) : <></> 
-              // participating.map((election) => (
-              //   <ElectionList
-              //     key={election.code}
-              //     code={election.code}
-              //     name={election.name}
-              //     org={election.org}
-              //     applyDeadline={election.applyDeadline}
-              //     voteStart={election.voteStart}
-              //     applied
-              //   />
-              // ))
-              }
-            </div>
-          </div>
-        </div>
+  if (status === 'loading') {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
       </div>
-    </div>
+    )
+  }
+
+  if (status === 'authenticated') {
+    if (session?.user?.role === 'VOTER' || session?.user?.role === 'CANDIDATE') {
+      getActiveStatus()
+      console.log(active)
+      return (
+        <>
+          {active ? <Ballot /> : <VoterFirstSignIn />}
+        </>
+      )
+    }
+    return (
+      <Unauthorized path={(session?.user?.role).toLowerCase()} />
+    )
+  }
+  return (
+    <Unauthenticated />
   )
 }
