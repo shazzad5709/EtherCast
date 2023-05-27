@@ -18,8 +18,7 @@ export default function Home() {
   return (
     <>            
       {/* <Landing />   */}
-      {/* <Example /> */}
-      {/* <Card /> */}
+      <Example />
       {/* <Admin /> */}
       {/* <Timer /> */}
       {/* <ElectionChairman /> */}
