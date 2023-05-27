@@ -48,7 +48,7 @@ export default function Navbar({ NavbarItems }: Props) {
           ))}
         </div>
         
-        <div onClick={() => signOut( {callbackUrl: './'} )} className='mt-auto mb-10 hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-green-light hover:text-green-dark hover:cursor-pointer hover:drop-shadow-md'>
+        <div onClick={() => signOut( {callbackUrl: '/'} )} className='mt-auto mb-10 hidden lg:w-full p-3 lg:pr-8 md:flex rounded-lg lg:flex-row items-center hover:bg-green-light hover:text-green-dark hover:cursor-pointer hover:drop-shadow-md'>
           <div className='relative space-x-3 md:w-[36px] lg:w-fit flex items-start justify-center cursor-pointer'>
             <MdLogout size={24} />
             <p className='hidden lg:block text-xl'>Sign out</p>

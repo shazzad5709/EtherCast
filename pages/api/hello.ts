@@ -14,5 +14,9 @@ export default async function handler(
   
   const secret = generateOpenSSLSecret(32);
   console.log(secret);
-  
+  if(typeof window !== 'undefined') {
+    localStorage.setItem('secret', secret);
+    console.log(localStorage.getItem('secret'));
+  }
+
 }

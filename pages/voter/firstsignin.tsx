@@ -12,24 +12,43 @@ export default function Firstsignin({ }: Props) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const router = useRouter()
+  const [toggleForm, setToggleForm] = useState(true)
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
-    if(password.length < 5) {
+    if (password.length < 5) {
       toast.error('Password must be at least 5 characters long');
       return;
     }
 
-    const option = options.find((item) => item.secret === selectedOption?.secret)
-
     const res = await axios.post('/api/data/voter/activeStatus', {
-      password,
-      optionId: option?.id,
+      password
+    })
+      .then((res) => {
+        toast.success('Password Updated');
+        if (typeof window !== 'undefined')
+          localStorage.setItem('voterPrivateKey', res.data.msg.privateKey);
+        setToggleForm(false)
       })
+      .catch((err) => {
+        toast.error('Error updating password');
+      });
+  }
+
+  const handleFinish = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const option = options.find((item) => item.secret === selectedOption?.secret)
+    if (typeof window !== 'undefined')
+      localStorage.getItem('voterPrivateKey');
+
+    const res = await axios.post('/api/data/voter/registerVoter', {
+      option
+    })
       .then(async (res) => {
         toast.success('Voter account created successfully');
         await router.push('/voter');
@@ -37,11 +56,13 @@ export default function Firstsignin({ }: Props) {
       .catch((err) => {
         toast.error('Error creating voter account');
       });
-    }
+  }
+
+
 
   useEffect(() => {
     fetchOptions();
-  }, []);
+  }, [toggleForm]);
 
   const fetchOptions = async () => {
     try {
@@ -65,77 +86,91 @@ export default function Firstsignin({ }: Props) {
             <h1 className='text-lg font-bold leading-tight tracking-tight md:text-2xl'>
               Set up new voter account
             </h1>
-            <form className='space-y-4 md:space-y-6' onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor='newpassword'
-                  className='block mb-2 text-md font-medium text-gray-900'
-                >
-                  New Password
-                </label>
-                <input
-                  type='password'
-                  name='newpassword'
-                  id='newpassword'
-                  placeholder='••••••••'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor='confirmpassword'
-                  className='block mb-2 text-md font-medium text-gray-900'
-                >
-                  Confirm Password
-                </label>
-                <input
-                  type='password'
-                  name='confirmpassword'
-                  id='confirmpassword'
-                  placeholder='••••••••'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor='secret'
-                  className='block mb-2 text-md font-medium text-gray-900'
-                >
-                  Choose a secret
-                </label>
-                <select
-                  className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                  name="select"
-                  id="select"
-                  required
-                  value={selectedOption?.secret} onChange={handleOptionChange}
-                >
-                  <option value="" disabled>
-                    Select an option
-                  </option>
-                  {options.map((option, index) => (
-                    <option className='' key={index} value={option.secret}>{option.secret}</option>
-                  ))}
-                </select>
-              </div>
-              <div className='py-2'>
-                <button
-                  type='submit'
-                  className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-                >
-                  Set New Password
-                </button>
-              </div>
-            </form>
+            {toggleForm ? (
+              <form className='space-y-4 md:space-y-6' onSubmit={handlePasswordSubmit}>
+
+                <div>
+                  <label
+                    htmlFor='newpassword'
+                    className='block mb-2 text-md font-medium text-gray-900'
+                  >
+                    New Password
+                  </label>
+                  <input
+                    type='password'
+                    name='newpassword'
+                    id='newpassword'
+                    placeholder='••••••••'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor='confirmpassword'
+                    className='block mb-2 text-md font-medium text-gray-900'
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    type='password'
+                    name='confirmpassword'
+                    id='confirmpassword'
+                    placeholder='••••••••'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+                <div className='py-2'>
+                  <button
+                    type='submit'
+                    className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+                  >
+                    Set New Password
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <form className='space-y-4 md:space-y-6' onSubmit={handleFinish}>
+                <div>
+                  <label
+                    htmlFor='secret'
+                    className='block mb-2 text-md font-medium text-gray-900'
+                  >
+                    Choose a secret
+                  </label>
+                  <select
+                    className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                    name="select"
+                    id="select"
+                    required
+                    value={selectedOption?.secret} onChange={handleOptionChange}
+                  >
+                    <option value="" disabled>
+                      Select an option
+                    </option>
+                    {options.map((option, index) => (
+                      <option className='' key={index} value={option.secret}>{option.secret}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className='py-2'>
+                  <button
+                    type='submit'
+                    className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+                  >
+                    Finish
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }

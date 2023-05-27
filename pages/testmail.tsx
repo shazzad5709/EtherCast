@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import router from 'next/router';
 import React, { useState } from 'react'
+import { toast } from 'react-hot-toast';
 
 type Props = {}
 
@@ -11,18 +12,14 @@ export default function Testmail({ }: Props) {
 
   const sendmail = async (e: any) => {
     e.preventDefault()
-    if (status === 'authenticated') {
-      if (session?.user?.role === 'VOTER') {
-        const res = await axios.get('./api/data/voter/secret')
-        console.log(res.data.secret[0].secret)
-        console.log(res.data.secret.status)
-        // // setActiveStatus(res.data.msg)
-        // console.log(res.data.msg)
-        // if ((res.data.msg) === false)
-        //   console.log('false')
-        //   await router.push('/signin/firstsignin')
-      }
-    }
+
+    await axios.get('./api/hello')
+    .then()
+    .catch((err)=>{
+      toast.error('Uh-oh!')
+    })
+    // console.log(res.data.secret[0].secret)
+    // console.log(res.data.secret.status)
   }
 
   return (
