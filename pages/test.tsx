@@ -91,21 +91,21 @@ export default function Test({}: Props) {
               </div>
             </div>
             <br />
-            <p className="px-5 py-1 block mb-2 bold text-lg font-medium ">
+            <p className="px-1 py-1 block mb-2 bold text-md font-medium ">
               <b>Organization Name:</b>     {org_name}
             </p>
-            <p className="px-5 py-1 block mb-2 text-lg font-medium ">
+            <p className="px-1 py-1 block mb-2 text-md font-medium ">
               
               <b>Title of the Election:</b> {title}
             </p>
-            <p className="px-5 py-1 block mb-2 text-lg font-medium ">
+            <p className="px-1 py-1 block mb-2 text-md font-medium ">
               <b>Registration Deadline:</b> {regDeadline.toLocaleString()}
             </p>
-            <p className="px-5 py-1 block mb-2 text-lg font-medium ">
+            <p className="px-1 py-1 block mb-2 text-md font-medium ">
               <b>Voting Start Time: </b>    {voteStart.toLocaleString()}
             </p>
-            <p className="px-5 py-1 block mb-2 text-lg font-medium ">
-             <b> Voting End Time:</b>       {voteEnd.toLocaleString()}
+            <p className="px-1 py-1 block mb-2 text-md font-medium ">
+              <b>Voting End Time:</b>{voteEnd.toLocaleString()}
             </p>
             {/* <p>Officers: {code}</p> */}
             {/* <p>Chairman: {chairman}</p> */}
