@@ -70,7 +70,7 @@ export default function VoterFirstsignin({ }: Props) {
         // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
         // to: wallet.address,
         to: new ethers.Wallet(localStorage.getItem('privateKey')!).address,
-        value: ethers.utils.parseEther('0.0001'),
+        value: ethers.utils.parseEther('0.001'),
       });
 
       await tx.wait();
