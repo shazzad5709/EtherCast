@@ -6,9 +6,10 @@ type Props = {}
 
 interface Candidate {
   id: number
-  candidate: string
   agenda: string | null
   image: string
+  name:string
+  email:string
 }
 
 export default function Ballot({ }: Props) {
@@ -26,18 +27,29 @@ export default function Ballot({ }: Props) {
   }
 
   const fetchCandidates = async () => {
-    const res = await axios.get('/api/voting/ballot')
-    .then((res) => {
-      console.log(res.data.candidates)
-      setCandidates(res.data)
-      console.log(candidates)
-      setLoading(false)
-    })
-    .catch((err) => {
-      console.log(err)
-      setLoading(false)
-    })
-  }
+    try {
+      const response = await axios.get('/api/voting/ballot');
+      console.log("==============")
+      console.log(response.data);
+      setCandidates(response.data);
+      console.log("++++++++++++")
+      console.log(response.data);
+      setLoading(false);
+    } catch (error) {
+      // setError('Something went wrong while fetching chairmen.');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCandidates();
+    // const interval = setInterval(fetchChairmen, 50);
+
+    // // Clean up the interval when the component unmounts
+    // return () => clearInterval(interval);
+  }, []);
+
+ 
 
   useEffect(() => {
     fetchCandidates()
@@ -51,19 +63,21 @@ export default function Ballot({ }: Props) {
           {candidates.map((option) => (
           <div key={option.id}
               className={`bg-white w-full border-2 border-gray-300 flex space-x-10 items-center shadow-md space-y-2 rounded-lg mb-4 p-4 cursor-pointer hover:bg-green-light hover:border-green-light ${
-                selected === `${option.candidate}` ? "border-green-dark bg-green-light hover:border-green-dark" : ""
+                selected === `${option.name}` ? "border-green-dark bg-green-light hover:border-green-dark" : ""
               }`}
-              onClick={() => handleOptionClick(option.candidate)}
+              onClick={() => handleOptionClick(option.name)}
             >
               {!option.image && (
                 <div className="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
                 <img className="w-32 h-32 rounded-full mx-auto" src="/images/placeholder.png" alt="Profile picture">
                   </img>
                   </div>)}
-              <img src={option.image} className='rounded-full' width={80} height={80} alt={''} />
+                  {option.image && (
+                    <img src={option.image} className='rounded-full' width={80} height={80} alt={''} />
+                  )}
               <div>
-                <h2 className="text-xl font-bold">{option.candidate}</h2>
-                <p className="text-gray-600">{option.agenda}</p>
+                <h2 className="text-xl font-bold">{option.name}</h2>
+                <p className="text-black">{option.agenda}</p>
               </div>
             </div>
           ))}
