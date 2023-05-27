@@ -52,18 +52,7 @@ export default async function handler(
     });
 
     if (user) {
-      if(user.role === UserRole.CANDIDATE){
-        // isCandidate = true;
-        user = await prisma.user.update({
-          where: {
-            email: email,
-          },
-          data: {
-            role: UserRole.CANDIDATE,
-          },
-        });
-      }
-      else if (user.role !== UserRole.NONE) {
+      if (user.role !== UserRole.NONE) {
         return res
           .status(400)
           .json({ message: "Already in another election" });

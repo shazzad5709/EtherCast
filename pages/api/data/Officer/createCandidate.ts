@@ -23,7 +23,7 @@ export default async function handler(
   
   else if (req.method === 'POST') {
     const { name, email } = req.body;
-
+    console.log("candidate+++++++++++++++")
     let user = await prisma.user.findUnique({
       where: {
         email: email,
@@ -34,12 +34,14 @@ export default async function handler(
     const hashedPassword = await bcrypt.hash('12345', 10);
 
     if (user) {
-      if (user.role !== UserRole.NONE) {
+      if (user.role === UserRole.CANDIDATE ) {
         return res
           .status(400)
           .json({ message: 'Already in another election' });
       }
       console.log('Email already exists');
+      // console.log("candidate==============")
+      if(user.role === UserRole.VOTER){
       user = await prisma.user.update({
         where: {
           email: email,
@@ -48,7 +50,39 @@ export default async function handler(
           role: UserRole.CANDIDATE,
         },
       });
-    } else {
+
+      const link = "http://localhost:3000/signin";
+      const otp = '12345'
+  
+      try {
+        // const election = await prisma.election.create({
+        //   data: {
+        //     org_name: org_name,
+        //   }
+        // });
+        const candidate = await prisma.candidate.create({
+          data: {
+            name,
+            email,
+            
+            voter: {
+              connect: { email:email }, // Connect the candidate to the corresponding voter using the voterId
+            },
+          },
+        });       
+        await sendWelcomeEmail(email, link,otp);
+        await sendCandidateEmail(email, link,otp);
+        return res
+          .status(200)
+          .json({ message: 'Candidate created successfully' });
+      } catch (error) {
+        console.log('Error:', error);
+        return res.status(500).json({ message: 'Something went wrong' });
+      }
+    }
+  }
+    
+     else {
       user = await prisma.user.create({
         data: {
           name: name,
@@ -58,43 +92,11 @@ export default async function handler(
         },
       });
       console.log('Email is unique');
+      console.log("candidate==============")
     }
 
     
-    const link = "http://localhost:3000/signin";
-    const otp = '12345'
-
-    try {
-      // const election = await prisma.election.create({
-      //   data: {
-      //     org_name: org_name,
-      //   }
-      // });
-      const candidate = await prisma.candidate.create({
-        data: {
-          name: name,
-          email: email,
-          symbol: '',
-          agenda: '',
-          voter: {
-            connect: {
-              id: user.id,
-            },
-          },
-        },
-
-      });
-                 
-      
-      await sendWelcomeEmail(email, link,otp);
-      await sendCandidateEmail(email, link,otp);
-      return res
-        .status(200)
-        .json({ message: 'Candidate created successfully' });
-    } catch (error) {
-      console.log('Error:', error);
-      return res.status(500).json({ message: 'Something went wrong' });
-    }
+   
   } else if (req.method === 'DELETE') {
     const id = req.query.id;
     try {

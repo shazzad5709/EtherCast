@@ -57,28 +57,7 @@ export default function Form({ buttonName }: Props) {
     event.preventDefault();
     setLoading(true);
     try {
-      if(isCandidate){
-        // handleCandidacy();
-        const res = await axios.post("./api/data/Officer/createdCandidate", {
-          name,
-          email,
-          
-
-        });
-        if (res.status === 200) {
-          toast.success("User created successfully!.Link sent to email.");
-          setSelectedRecord(null);
-          setName("");
-          setEmail("");
-          setorg_name("");
-          setEmpCode("");
-          setIsCandidate(false);
-          toggleForm();
-          setLoading(false);
-        } else {
-          alert("Failed to create user. Please try again.");
-        }
-      }
+      
       if(isCandidate === false || isCandidate === true){
         const res = await axios.post("./api/data/Officer/createdVoter", {
           name,
@@ -97,7 +76,30 @@ export default function Form({ buttonName }: Props) {
           setIsCandidate(false);
           toggleForm();
           setLoading(false);
-        } else {
+        }
+        if(isCandidate){
+        
+          // handleCandidacy();
+          const res = await axios.post("./api/data/Officer/createCandidate", {
+            name,
+            email,
+          });
+          if (res.status === 200) {
+  
+            toast.success("User created successfully!.Link sent to email.");
+            setSelectedRecord(null);
+            setName("");
+            setEmail("");
+            setorg_name("");
+            setEmpCode("");
+            setIsCandidate(false);
+            toggleForm();
+            setLoading(false);
+          } else {
+            alert("Failed to create user. Please try again.");
+          }
+        }
+         else {
           alert("Failed to create user. Please try again.");
         }
       }
