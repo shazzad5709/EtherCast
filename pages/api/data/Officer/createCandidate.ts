@@ -1,43 +1,114 @@
 import prisma from '../../../../libs/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import bcrypt from 'bcrypt';
+import { UserRole } from '@prisma/client';
 import { sendCandidateEmail, sendWelcomeEmail } from '../../mailer';
+const ethers = require('ethers');
 
-export default async function createCandidate(req:NextApiRequest, res:NextApiResponse) {
- 
-  try {
-    const candidates = await prisma.user.findMany({
+
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === 'GET') {
+    try {
+      const chairman = await prisma.candidate.findMany();
+
+      return res.status(200).json(chairman);
+    } catch (error) {
+      return res.status(500).json({ message: 'Something went wrong' });
+    }
+  } 
+  
+  else if (req.method === 'POST') {
+    const { name, email } = req.body;
+
+    let user = await prisma.user.findUnique({
       where: {
-        role: 'CANDIDATE',
+        email: email,
       },
     });
-    const otp = '12345';
-    const link = "http://localhost:3000/signin";
-    let email1 = '';
 
-    for (const candidate of candidates) {
-      const existingCandidate = await prisma.candidate.findUnique({ where: { email: candidate.email } });
-      
-      if (existingCandidate) {
-        continue;
+    // const hashedPassword = await bcrypt.hash(generateRandom().toString(), 10)
+    const hashedPassword = await bcrypt.hash('12345', 10);
+
+    if (user) {
+      if (user.role !== UserRole.NONE) {
+        return res
+          .status(400)
+          .json({ message: 'Already in another election' });
       }
-      
-      const createdCandidate = await prisma.candidate.create({
+      console.log('Email already exists');
+      user = await prisma.user.update({
+        where: {
+          email: email,
+        },
         data: {
-          name: candidate.name,
-          email: candidate.email,
-          voter: {
-            connect: { userId: candidate.id },
-          },
+          role: UserRole.CANDIDATE,
         },
       });
-      email1 = candidate.email;
-      console.log(email1);
-      // console.log('Created Candidate:', createdCandidate);
+    } else {
+      user = await prisma.user.create({
+        data: {
+          name: name,
+          email: email,
+          password: hashedPassword,
+          role: UserRole.CANDIDATE,
+        },
+      });
+      console.log('Email is unique');
     }
-    await sendCandidateEmail(email1,link,otp);
-    res.status(200).json({ message: 'Candidates created successfully.' });
-  } catch (error) {
-    console.error('Error creating candidates:', error);
-    res.status(500).json({ error: 'Internal server error.' });
+
+    
+    const link = "http://localhost:3000/signin";
+    const otp = '12345'
+
+    try {
+      // const election = await prisma.election.create({
+      //   data: {
+      //     org_name: org_name,
+      //   }
+      // });
+      const candidate = await prisma.candidate.create({
+        data: {
+          name: name,
+          email: email,
+          symbol: '',
+          agenda: '',
+          voter: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+
+      });
+                 
+      
+      await sendWelcomeEmail(email, link,otp);
+      await sendCandidateEmail(email, link,otp);
+      return res
+        .status(200)
+        .json({ message: 'Candidate created successfully' });
+    } catch (error) {
+      console.log('Error:', error);
+      return res.status(500).json({ message: 'Something went wrong' });
+    }
+  } else if (req.method === 'DELETE') {
+    const id = req.query.id;
+    try {
+      const deletedChairman = await prisma.candidate.delete({
+        where: { id: String(id) },
+      });
+
+      res.status(200).json('Delete Done');
+    } catch (error) {
+      res.status(500).json({
+        error: 'Something went wrong while deleting candidate.',
+      });
+    }
+  } else {
+    res.status(405).end();
   }
 }

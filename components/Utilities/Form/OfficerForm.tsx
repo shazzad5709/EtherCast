@@ -4,6 +4,8 @@ import { BiUser, BiIdCard, BiEdit, BiTrashAlt } from "react-icons/bi";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { InfinitySpin } from "react-loader-spinner";
+import { set } from "mongoose";
+import { is } from "date-fns/locale";
 
 type Props = {
   buttonName: string;
@@ -28,6 +30,9 @@ export default function Form({ buttonName }: Props) {
   const [showForm, setShowForm] = useState(false); // initial state is false
   const [showButton, setShowButton] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isCandidate, setIsCandidate] = useState(false);
+
+  
 
   useEffect(() => {
     const fetchChairmen = async () => {
@@ -52,25 +57,53 @@ export default function Form({ buttonName }: Props) {
     event.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("./api/data/Officer/createdVoter", {
-        name,
-        email,
-        org_name,
-        employee_id,
-      });
+      if(isCandidate){
+        // handleCandidacy();
+        const res = await axios.post("./api/data/Officer/createdCandidate", {
+          name,
+          email,
+          
 
-      if (res.status === 200) {
-        toast.success("User created successfully!.Link sent to email.");
-        setSelectedRecord(null);
-        setName("");
-        setEmail("");
-        setorg_name("");
-        setEmpCode("");
-        toggleForm();
-        setLoading(false);
-      } else {
-        alert("Failed to create user. Please try again.");
+        });
+        if (res.status === 200) {
+          toast.success("User created successfully!.Link sent to email.");
+          setSelectedRecord(null);
+          setName("");
+          setEmail("");
+          setorg_name("");
+          setEmpCode("");
+          setIsCandidate(false);
+          toggleForm();
+          setLoading(false);
+        } else {
+          alert("Failed to create user. Please try again.");
+        }
       }
+      if(isCandidate === false || isCandidate === true){
+        const res = await axios.post("./api/data/Officer/createdVoter", {
+          name,
+          email,
+          org_name,
+          employee_id,
+          
+        });
+        if (res.status === 200) {
+          toast.success("User created successfully!.Link sent to email.");
+          setSelectedRecord(null);
+          setName("");
+          setEmail("");
+          setorg_name("");
+          setEmpCode("");
+          setIsCandidate(false);
+          toggleForm();
+          setLoading(false);
+        } else {
+          alert("Failed to create user. Please try again.");
+        }
+      }
+      
+
+      
     } catch (error) {
       console.log(error);
     }
@@ -86,6 +119,11 @@ export default function Form({ buttonName }: Props) {
   };
   const handleorg_nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setorg_name(event.target.value);
+  };
+
+  const handleCandidateChange = (event: any) => {
+    const { value } = event.target;
+    setIsCandidate(value === "true");
   };
 
   const toggleForm = () => {
@@ -202,6 +240,46 @@ export default function Form({ buttonName }: Props) {
                           onChange={handleEmpCodeChange}
                         />
                       </div>
+                      
+                        
+                        <div className="flex items-center">
+                          <label
+                         
+                          className="block mb-2 text-sm font-medium"
+                        >
+                            Candidate
+                          </label>
+                          <input
+                            type="radio"
+                            id="is-candidate-true"
+                            name="isCandidate"
+                            value="true"
+                            checked={isCandidate}
+                            onChange={handleCandidateChange}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                          
+                          required
+                          />
+                          <label htmlFor="is-candidate-true" className="block mb-2 text-sm font-medium" >
+                            Yes
+                          </label>
+
+                          <input
+                            type="radio"
+                            id="is-candidate-false"
+                            name="isCandidate"
+                            value="false"
+                            checked={!isCandidate}
+                            onChange={handleCandidateChange}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            
+                            required
+                          />
+                          <label htmlFor="is-candidate-false" className="block mb-2 text-sm font-medium">No</label>
+                        </div>
+
+                       
+                      
 
                       <div className="relative">
                         <button

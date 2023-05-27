@@ -37,6 +37,7 @@ const ChairmanTable = () => {
   const [selectedVoter, setSelectedVoter] = useState<Voter | null>(null);
   const [showButton,setShowButton] = useState(false);
 
+
   useEffect(() => {
     const fetchChairmen = async () => {
       try {
@@ -133,18 +134,9 @@ const ChairmanTable = () => {
     } catch (error) {
       console.log('Something went wrong while updating the role.');
     }
-    createCandidates();
+    // createCandidates();
   };
 
-
-  const createCandidates = async () => {
-    try {
-      const response = await axios.post('/api/data/Officer/createCandidate');
-      console.log('Response:', response.data);
-    } catch (error) {
-      console.error('Error creating candidates:', error);
-    }
-  };
 
   if (loading) {
     return (
