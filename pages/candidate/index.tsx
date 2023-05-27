@@ -1,26 +1,59 @@
-import { useState } from "react";
-import Navbar from "../../components/Utilities/Navbar";
-import { FaUserCircle } from "react-icons/fa";
-import { MdOutlineHowToVote } from "react-icons/md";
-import {BsFillHandIndexThumbFill} from "react-icons/bs"
-import CandidateInfo from "../../components/MainWork/Candidate";
+import React, { useState } from 'react'
+import Candidate from '../../components/Dashboard/Candidate'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
+import { InfinitySpin } from 'react-loader-spinner'
+import VoterFirstSignIn from '../../components/Dashboard/VoterFirstSignIn'
+import Unauthenticated from '../../components/PageComponents/Unauthenticated'
+import Unauthorized from '../../components/PageComponents/Unauthorized'
 
-const Candidate = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const navbarItems = [
-        { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
-        { id: 2, label: 'Candidacy', icon: BsFillHandIndexThumbFill , href: '/candidacy' },
-        { id: 3, label: 'Vote', icon: MdOutlineHowToVote , href: '/election' },
-        ];
+type Props = {}
 
-  return (
-    <div className="bg-gray-100 flex">
-      <Navbar NavbarItems={navbarItems} />
-      <div className="flex w-full justify-center items-center">
-        <CandidateInfo />
+export default function CandidateLanding({}: Props) {
+  const { data: session, status } = useSession()
+  const [active, setActive] = useState<boolean>(false)
+
+  const getActiveStatus = async () => {
+    if (status === 'authenticated') {
+      if (session?.user?.role === 'CANDIDATE') {
+        await axios.get('./api/data/voter/activeStatus')
+          .then((res) => {
+            console.log(res.data.msg)
+            setActive(Boolean(res.data.msg))
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    }
+  }
+
+  if (status === 'loading') {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
       </div>
-    </div>
-  );
-};
+    )
+  }
 
-export default Candidate;
+  if (status === 'authenticated') {
+    if (session?.user?.role === 'CANDIDATE') {
+      getActiveStatus()
+      // console.log(active)
+      return (
+        <>
+          {active ? <Candidate /> : <VoterFirstSignIn />}
+        </>
+      )
+    }
+    return (
+      <Unauthorized path={(session?.user?.role).toLowerCase()} />
+    )
+  }
+  return (
+    <Unauthenticated />
+  )
+}

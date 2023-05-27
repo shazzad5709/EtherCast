@@ -25,7 +25,7 @@ export default async function handler(
     return res.status(405).json({ message: 'Method not allowed' });
   }
   const { currentUser } = await serverAuth(req, res);
-  const { secret, voterAddress, messageHashByte, v, r, s } = req.body;
+  const { secret, voterAddress, messageHashBytes, v, r, s } = req.body;
 
   const voter = await prisma.voter.findUnique({
     where: {
@@ -54,11 +54,13 @@ export default async function handler(
   const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY);
   const signer = new ethers.Wallet(officer!.privateKey!, provider);
   const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS!, abi, signer);
-
+  const messageHashBytesArray = ethers.utils.hexlify(messageHashBytes);
   try {
-    const tx = await contract.registerVoter(election_code, voterAddress, messageHashByte, v, r, s);
+    console.log(typeof messageHashBytes)
+    const tx = await contract.registerVoter(election_code, voterAddress, messageHashBytesArray, v, r, s);
     await tx.wait();
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: 'Voter could not be registered' });
   }
 
@@ -76,6 +78,7 @@ export default async function handler(
         },
       });
     } catch (error) {
+      console.log('Line 80\n' + error);
       return res.status(500).json({ message: 'Candidate could not be registered' });
     }
   }
@@ -98,8 +101,10 @@ export default async function handler(
         status: true,
       },
     });
+    return res.status(200).json({ message: 'Voter registered successfully' });
   }
   catch (error) {
+    console.log('Line 105\n' + error);
     return res.status(500).json({ message: 'Something went wrong' });
   } 
 }
