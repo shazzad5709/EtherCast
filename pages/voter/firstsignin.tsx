@@ -4,6 +4,9 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Secret } from '@prisma/client'
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { Wallet, BigNumber, ethers } from "ethers";
+
 type Props = {}
 
 export default function Firstsignin({ }: Props) {
@@ -39,15 +42,45 @@ export default function Firstsignin({ }: Props) {
       });
   }
 
+  async function signMessage(signer: SignerWithAddress | Wallet) {
+    let messageHash = ethers.utils.id("Earthasys");
+
+    let messageHashBytes = ethers.utils.arrayify(messageHash);
+
+    // Sign the binary data
+    let flatSig = await signer.signMessage(messageHashBytes);
+
+    // For Solidity, we need the expanded-format of a signature
+    let sig = ethers.utils.splitSignature(flatSig);
+
+    // split signature
+    const v = sig.v;
+    const r = sig.r;
+    const s = sig.s;
+
+    return { messageHashBytes, v, r, s };
+  }
+
   const handleFinish = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const option = options.find((item) => item.secret === selectedOption?.secret)
-    if (typeof window !== 'undefined')
-      localStorage.getItem('voterPrivateKey');
+    let privateKey;
+    if (typeof window !== 'undefined') {
+      privateKey = localStorage.getItem('voterPrivateKey');
+    }
+
+    const provider = new ethers.providers.JsonRpcProvider(process.env.ALCHEMY);
+    const signer = new ethers.Wallet(privateKey!, provider);
+    const { messageHashBytes, v, r, s } = await signMessage(signer);
 
     const res = await axios.post('/api/data/voter/registerVoter', {
-      option
+      secret: option,
+      voterAddress: signer.address,
+      messageHashBytes: messageHashBytes,
+      v: v,
+      r: r,
+      s: s
     })
       .then(async (res) => {
         toast.success('Voter account created successfully');
