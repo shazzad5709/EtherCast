@@ -6,6 +6,7 @@ import { Chairman } from "@prisma/client";
 import { render } from "react-dom";
 import useSWR from "swr";
 import ChairmanTable from "../../Table/AdminTable";
+import { InfinitySpin } from "react-loader-spinner";
 import toast from "react-hot-toast";
 
 type Props = {
@@ -27,10 +28,11 @@ export default function Form({ buttonName }: Props) {
   const [email, setEmail] = useState("");
   const [org_name, setorg_name] = useState("");
   const [showForm, setShowForm] = useState(false); // initial state is false
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setLoading(true);
     const res = await axios
       .post("./api/data/Admin/createdChairman", {
         name: name,
@@ -50,6 +52,7 @@ export default function Form({ buttonName }: Props) {
     setEmail("");
     setorg_name("");
     toggleForm();
+    setLoading(false);
   };
 
 
@@ -66,6 +69,17 @@ export default function Form({ buttonName }: Props) {
   const toggleForm = () => {
     setShowForm(!showForm);
   };
+
+  if (loading) {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
+      </div>
+    )
+  }
 
   return (
     <>

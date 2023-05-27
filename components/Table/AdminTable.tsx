@@ -84,6 +84,17 @@ const AdminTable = () => {
     return <p>Error: {error}</p>;
   }
 
+  if (loading) {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+        <InfinitySpin
+          width='200'
+          color="#4fa94d"
+        />
+      </div>
+    )
+  }
+
   return (
     <>
     <div>
