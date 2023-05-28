@@ -68,9 +68,9 @@ export default function VoterFirstsignin({ }: Props) {
         // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
         // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
         // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
-        // to: wallet.address,
-        to: new ethers.Wallet(localStorage.getItem('privateKey')!).address,
-        value: ethers.utils.parseEther('0.0001'),
+        to: wallet.address,
+        // to: new ethers.Wallet(localStorage.getItem('privateKey')!).address,
+        value: ethers.utils.parseEther('0.001'),
       });
 
       await tx.wait();
@@ -105,10 +105,10 @@ export default function VoterFirstsignin({ }: Props) {
     const option = options.find((item) => item.secret === selectedOption?.secret)
     if (typeof window !== 'undefined') {
       console.log('before: ' + localStorage.getItem('voterPrivateKey'))
-      // const signer = await createWallet(officerPrivateKey)
+      const signer = await createWallet(officerPrivateKey)
       // localStorage.setItem('voterPrivateKey', signer.privateKey);
 
-      const signer = new ethers.Wallet(localStorage.getItem('voterPrivateKey')!, new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY));
+      // const signer = new ethers.Wallet(localStorage.getItem('voterPrivateKey')!, new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY));
       console.log(signer.privateKey)
       
       const { messageHashBytes, v, r, s } = await signMessage(signer);

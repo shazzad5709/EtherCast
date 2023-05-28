@@ -47,7 +47,7 @@ export default function Ballot({ }: Props) {
       const signer = new ethers.Wallet(localStorage.getItem('voterPrivateKey')!, new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY));
       const contract = new ethers.Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, VotingContract, signer);
       const election_code = convertToUint256(vote.voter.electionId)
-
+      console.log(election_code)
       try {
         const tx = contract.voting(election_code, vote.address)
         await tx.wait()

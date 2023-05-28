@@ -46,12 +46,16 @@ export default function CreateElection({ }: Props) {
       return
     }
 
+    const gmtRegDeadlineDate = new Date(regDeadlineDate.toISOString()).getTime()
+    const gmtVoteStartDate = new Date(voteStartDate.toISOString()).getTime()
+    const gmtVoteEndDate = new Date(voteEndDate.toISOString()).getTime()
+
     setLoading(true)
     const res = await axios.post('/api/createElection', {
       name: name,
-      regDeadlineDate: regDeadlineDate.getTime(),
-      voteStartDate: voteStartDate.getTime(),
-      voteEndDate: voteEndDate.getTime()
+      regDeadlineDate: gmtRegDeadlineDate,
+      voteStartDate: gmtVoteStartDate,
+      voteEndDate: gmtVoteEndDate
     })
       .then((res) => {
         toast.success('Election created successfully')

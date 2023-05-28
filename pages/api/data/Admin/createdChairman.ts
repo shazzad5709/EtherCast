@@ -22,7 +22,7 @@ async function createWallet() {
 
   const tx = await signer.sendTransaction({
     to: '0xE23a987239d869d88597fFDd4ed117816B422fA5', //change this 'address' to wallet.address
-    value: ethers.utils.parseEther('0.001'),
+    value: ethers.utils.parseEther('0.1'),
   });
 
   await tx.wait();
