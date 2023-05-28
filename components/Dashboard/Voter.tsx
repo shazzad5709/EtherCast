@@ -6,6 +6,7 @@ import {BsFillHandIndexThumbFill} from "react-icons/bs"
 import VoterCard from "../Card/Voter";
 import axios from "axios";
 import CandidateInfo from "../MainWork/Candidate";
+import { FaCheckCircle } from 'react-icons/fa';
 const Voter = () => {
   const [loading, setLoading] = useState(true);
   // const [showForm, setShowForm] = useState(false);
@@ -15,6 +16,7 @@ const Voter = () => {
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
         { id: 2, label: 'Vote', icon: MdOutlineHowToVote , href: '/voting' },
+        { id: 3, label: 'Result', icon: FaCheckCircle , href: '/result' },
         ];
 
   return (

@@ -29,16 +29,28 @@ export default function Ballot({ }: Props) {
   const [loading, setLoading] = useState(true)
   const [voteStart, setVoteStart] = useState(new Date());
   const [voteEnd, setVoteEnd] = useState(new Date());
-  const [votingEnd, setVotingEnd] = useState(false);
-  const [votingStart, setVotingStart] = useState(false);
+  // const [votingEnd, setVotingEnd] = useState(false);
+  // const [votingStart, setVotingStart] = useState(false);
   const { data: fetchedUser, isLoading } = useUser(userId as string);
 
-  const votingEndShow = async () => {
-    voteEnd ? setVotingEnd(true) : setVotingEnd(false);
-  }
-  const votingStratShow = async () => {
-    voteStart ? setVotingStart(true) : setVotingStart(false);
-  }
+  const currentTime = new Date().toLocaleTimeString();
+
+  let votingEnd = currentTime < voteEnd.toLocaleTimeString();
+  let votingStart = currentTime < voteStart.toLocaleTimeString();
+  // console.log(votingNotEnd+"eeeeeeeeeeeee");
+  // console.log(votingStart+"ssssssssss");
+  
+
+    const getElection = async () => {
+      const res = await axios.get("/api/getElection");
+      // console.log(res.data._election)
+      
+      setVoteStart(new Date(1000*parseInt(res.data._election.voteStartDate)));
+      setVoteEnd(new Date(1000*parseInt(res.data._election.voteEndDate)));
+      // setOfficers(res.data.officers)
+
+     
+    }
 
   function convertToUint256(hexString: string): string {
     if (hexString.startsWith('0x')) {
@@ -99,7 +111,7 @@ export default function Ballot({ }: Props) {
 
   useEffect(() => {
     fetchCandidates()
-    // getElection();
+    getElection();
   }, [])
 
   //TODO: Add loading spinner
@@ -110,7 +122,7 @@ export default function Ballot({ }: Props) {
   return (
 
     <>
-     {/* {!votingStart && (
+     {!votingStart && (
       <>
       <Header showBackArrow label={fetchedUser?.name} />
       <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
@@ -118,12 +130,13 @@ export default function Ballot({ }: Props) {
       </div>
       </>
     )}
-    {votingEnd && (
+    {!votingEnd && (
       <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
         Voting Ended 
       </div>
-    )} */}
+    )}
     
+    {votingStart && votingEnd && (
     <div className="flex flex-col w-screen px-4 md:px-8 py-8 items-center lg:justify-center min-h-screen">
       <h1 className="text-2xl w-full lg:w-fit font-bold mb-4">Choose Candidate</h1>
       <form className="flex flex-col w-full items-center" onSubmit={handleVote}>
@@ -160,7 +173,7 @@ export default function Ballot({ }: Props) {
         </button>
       </form>
     </div>
-    {/* )} */}
+     )} 
     </>
   )
 }

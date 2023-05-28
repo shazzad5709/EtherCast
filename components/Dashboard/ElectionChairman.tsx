@@ -1,5 +1,5 @@
 import Navbar from "../Utilities/Navbar";
-import { FaUserCircle } from "react-icons/fa";
+import { FaCheckCircle, FaUserCircle } from "react-icons/fa";
 import { MdOutlineHowToVote } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import { HiOutlineDocumentReport } from "react-icons/hi";
@@ -43,6 +43,7 @@ const ElectionChairman = () => {
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
         { id: 2, label: 'Create Election', icon: MdOutlineHowToVote , href: '/chairman/create-election' },
         { id: 3, label: 'Add Election Officer', icon: FiUserPlus, href: '/chairman/addEC' },
+        { id: 4, label: 'Result', icon: FaCheckCircle , href: '/result' },
        ];
 
   return (
