@@ -41,7 +41,7 @@ export default function CreateElection({ }: Props) {
       return
     }
 
-    if ((voteStartDate.getTime() - voteEndDate.getTime()) >= (5 * 60 * 1000)) {
+    if ((voteEndDate.getTime() - voteStartDate.getTime()) >= (5 * 60 * 1000)) {
       alert('Voting should be open for at least 5 minutes')
       return
     }
