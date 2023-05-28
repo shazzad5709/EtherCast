@@ -24,7 +24,7 @@ export default async function createCandidate(
       
       const secrets = await prisma.secret.findMany({
         where: {
-          electionId: voter!.electionId,
+          // electionId: voter!.electionId,
           status: false
         },
       });

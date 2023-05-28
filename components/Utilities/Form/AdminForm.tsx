@@ -84,7 +84,7 @@ export default function Form({ buttonName }: Props) {
   return (
     <>
       <div>
-        <div className="flex pl-64 flex-col">
+        <div className="flex pl-44 flex-col">
           <button
             type='submit'
             className='w-40 text-white bg-green hover:bg-primary-700 font-medium

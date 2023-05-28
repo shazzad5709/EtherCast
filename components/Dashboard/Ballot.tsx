@@ -3,6 +3,9 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import VotingContract from '../../contract/abi.json'
 import toast from 'react-hot-toast'
+import Header from '../EditProfile/Header'
+import useUser from '../../hooks/useUser'
+import { useRouter } from 'next/router'
 
 type Props = {}
 
@@ -18,12 +21,24 @@ interface Candidate {
 }
 
 export default function Ballot({ }: Props) {
+  const router = useRouter();
+  const { userId } = router.query;
 
   const [selected, setSelected] = useState('')
   const [candidates, setCandidates] = useState<Candidate[]>([])
   const [loading, setLoading] = useState(true)
-  const [votingStart, setVotingStart] = useState(false)
-  const [votingEnd, setVotingEnd] = useState(false)
+  const [voteStart, setVoteStart] = useState(new Date());
+  const [voteEnd, setVoteEnd] = useState(new Date());
+  const [votingEnd, setVotingEnd] = useState(false);
+  const [votingStart, setVotingStart] = useState(false);
+  const { data: fetchedUser, isLoading } = useUser(userId as string);
+
+  const votingEndShow = async () => {
+    voteEnd ? setVotingEnd(true) : setVotingEnd(false);
+  }
+  const votingStratShow = async () => {
+    voteStart ? setVotingStart(true) : setVotingStart(false);
+  }
 
   function convertToUint256(hexString: string): string {
     if (hexString.startsWith('0x')) {
@@ -56,6 +71,7 @@ export default function Ballot({ }: Props) {
 
         toast.success('Vote submitted successfully')
         setLoading(false)
+        router.push('/result')
       }      
       catch (err) {
         console.log(err)
@@ -64,6 +80,8 @@ export default function Ballot({ }: Props) {
       }
     }
   }
+
+  
 
   const fetchCandidates = async () => {
     const res = await axios.get('/api/voting/ballot')
@@ -81,6 +99,7 @@ export default function Ballot({ }: Props) {
 
   useEffect(() => {
     fetchCandidates()
+    // getElection();
   }, [])
 
   //TODO: Add loading spinner
@@ -89,6 +108,22 @@ export default function Ballot({ }: Props) {
   // }
 
   return (
+
+    <>
+     {/* {!votingStart && (
+      <>
+      <Header showBackArrow label={fetchedUser?.name} />
+      <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
+        Voting Didn't Start Yet
+      </div>
+      </>
+    )}
+    {votingEnd && (
+      <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
+        Voting Ended 
+      </div>
+    )} */}
+    
     <div className="flex flex-col w-screen px-4 md:px-8 py-8 items-center lg:justify-center min-h-screen">
       <h1 className="text-2xl w-full lg:w-fit font-bold mb-4">Choose Candidate</h1>
       <form className="flex flex-col w-full items-center" onSubmit={handleVote}>
@@ -125,5 +160,7 @@ export default function Ballot({ }: Props) {
         </button>
       </form>
     </div>
+    {/* )} */}
+    </>
   )
 }

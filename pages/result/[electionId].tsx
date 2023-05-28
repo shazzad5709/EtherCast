@@ -85,14 +85,14 @@ export default function Election({ }: Props) {
           <tbody>
             {candidates.map((candidate) => (
               <tr key={candidate.id}>
-                <td className="px-5 py-5 border-b border-green bg-white text-md">
+                <td className="px-5 py-5  border-b border-green bg-white text-md">
                   {candidate.image}
                 </td>
                 <td className="px-5 py-5 border-b border-green bg-white text-md">
                   {candidate.name}
                 </td>
                 <td className="px-5 py-5 border-b border-green bg-white text-md">
-                  {voteCounts[addresses.indexOf(candidate.address)]? voteCounts[addresses.indexOf(candidate.address)] : 0}
+                  {voteCounts[addresses.indexOf(candidate.address)]? Number(voteCounts[addresses.indexOf(candidate.address)]) : 0}
                 </td>
               </tr>
             ))}

@@ -15,6 +15,7 @@ export default function VotingLanding({ }: Props) {
   const [active, setActive] = useState<boolean>(false)
   const router = useRouter()
 
+
   const getActiveStatus = async () => {
     if (status === 'authenticated') {
       if (session?.user?.role === 'VOTER' || session?.user?.role === 'CANDIDATE') {

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import Navbar from "../Utilities/Navbar";
+import Navbar from "../../components/Utilities/Navbar";
 import { FaUserCircle} from "react-icons/fa";
 import { MdOutlineHowToVote } from "react-icons/md";
 import {BsFillHandIndexThumbFill} from "react-icons/bs"
-import VoterCard from "../Card/Voter";
+import VoterCard from "../../components/Card/Voter";
 import axios from "axios";
-import CandidateInfo from "../MainWork/Candidate";
+
 const Voter = () => {
   const [loading, setLoading] = useState(true);
   // const [showForm, setShowForm] = useState(false);

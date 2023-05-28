@@ -3,7 +3,7 @@ import Navbar from "../Utilities/Navbar";
 import { FaUserCircle } from "react-icons/fa";
 import { MdOutlineHowToVote } from "react-icons/md";
 import {BsFillHandIndexThumbFill} from "react-icons/bs"
-import CandidateInfo from "../MainWork/Candidate";
+import CandidateInfo from "../Card/Candidate";
 
 const Candidate = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +14,7 @@ const Candidate = () => {
         ];
 
   return (
-    <div className="bg-gray-100 flex">
+    <div className="bg-gray-50 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
         <CandidateInfo />

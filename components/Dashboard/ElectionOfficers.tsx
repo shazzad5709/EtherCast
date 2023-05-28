@@ -22,7 +22,7 @@ const ElectionOfficers = () => {
       <Navbar NavbarItems={navbarItems} />
       <div className="flex w-full justify-center items-center">
         <ElectionOfficer />
-        <Officer />
+        {/* <Officer /> */}
       </div>
     </div>
   );
