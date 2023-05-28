@@ -64,17 +64,21 @@ export default function VoterFirstsignin({ }: Props) {
 
     console.log('Starting transaction');
     if(window !== undefined) {
-      const tx = await signer.sendTransaction({
-        // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
-        // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
-        // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
-        to: wallet.address,
-        // to: new ethers.Wallet(localStorage.getItem('privateKey')!).address,
-        value: ethers.utils.parseEther('0.001'),
-      });
-
-      await tx.wait();
-      console.log('sent');
+      try {
+        const tx = await signer.sendTransaction({
+          // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+          // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+          // to: '0x7285A4d191b033dd5830d1B158e89BBD57221428', //change this 'address' to wallet.address
+          to: wallet.address,
+          // to: new ethers.Wallet(localStorage.getItem('privateKey')!).address,
+          value: ethers.utils.parseEther('0.001'),
+        });
+  
+        await tx.wait();
+        console.log('sent');
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     
