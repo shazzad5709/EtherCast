@@ -66,7 +66,7 @@ export default function Ballot({ }: Props) {
       const election_code = convertToUint256(vote.voter.electionId)
       console.log(election_code)
       try {
-        const tx = contract.voting(election_code, vote.address)
+        const tx = await contract.voting(election_code, vote.address)
         await tx.wait()
 
         toast.success('Vote submitted successfully')
