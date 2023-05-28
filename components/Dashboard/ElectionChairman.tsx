@@ -42,7 +42,7 @@ const ElectionChairman = () => {
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
         { id: 2, label: 'Create Election', icon: MdOutlineHowToVote , href: '/chairman/create-election' },
-        { id: 3, label: 'Add Election Officer', icon: FiUserPlus, href: '/chairman/addEO' },
+        { id: 3, label: 'Add Election Officer', icon: FiUserPlus, href: '/chairman/addEC' },
        ];
 
   return (

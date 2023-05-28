@@ -18,7 +18,7 @@ export default function ({ }: Props) {
           </p>
           <div className='flex space-x-6 pt-2 md:pt-5 md:space-x-8'>
             <Link href='/signin'><Button label='Sign In' large /></Link>
-            <Link href='/Guest'><Button label='Sign Up' large /></Link>
+            {/* <Link href='/Guest'><Button label='Sign Up' large /></Link> */}
             <Link href='/result'><Button label='Guest User' large dynamic/></Link>
           </div>
           {/* <div className='flex pt-2 md:pt-5'>
@@ -26,8 +26,8 @@ export default function ({ }: Props) {
           </div> */}
         </div>
         <div className='flex flex-col md:flex-row'>
-          <Image src={'/hero.jpg'} className='animate-monitor opacity-0 z-0' alt={''} height={400} width={450} />
-          <Image src={'/eth.svg'} className='hidden absolute w-[12%] mt-[9.5%] ml-[18%] animate-eth opacity-0 z-2 xl:block' alt={'eth img'} height={100} width={100} />
+          <Image src={'/S.jpg'} className='animate-monitor opacity-0 z-0' alt={''} height={400} width={450} />
+          {/* <Image src={'/eth.svg'} className='hidden absolute w-[12%] mt-[9.5%] ml-[18%] animate-eth opacity-0 z-2 xl:block' alt={'eth img'} height={100} width={100} /> */}
         </div>
       </div>
     </div>

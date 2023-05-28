@@ -10,7 +10,7 @@ const Admin = () => {
   const [isOpen, setIsOpen] = useState(true);
   const navbarItems = [
    { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
-   { id: 2, label: 'Add Election Chairman', icon: FiUserPlus, href: '/admin/addEC' },
+   { id: 2, label: 'Add Election Commissioner', icon: FiUserPlus, href: '/admin' },
   ];
 
   const [inputValue, setInputValue] = useState(''); // Declare state for input value

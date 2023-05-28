@@ -49,9 +49,9 @@ export default function Chairman({}: Props) {
       setLoading(true);
       setCode(res.data._election.electionCode);
       setTitle(res.data._election.electionName);
-      setRegDeadline(new Date(parseInt(res.data._election.regDeadlineDate)));
-      setVoteStart(new Date(parseInt(res.data._election.voteStartDate)));
-      setVoteEnd(new Date(parseInt(res.data._election.voteEndDate)));
+      setRegDeadline(new Date(1000*parseInt(res.data._election.regDeadlineDate)));
+      setVoteStart(new Date(1000*parseInt(res.data._election.voteStartDate)));
+      setVoteEnd(new Date(1000*parseInt(res.data._election.voteEndDate)));
       // setOfficers(res.data.officers)
       setChairman(res.data._election.chairman);
       const response = await axios.get("/api/data/Chairman/chairman");
@@ -61,7 +61,7 @@ export default function Chairman({}: Props) {
       setElectionCode(response.data.electionId)
       setChairman(res.data.name)
       setOrgName(response.data.org_name)
-      // setLoading(false);
+      setLoading(false);
     };
     getElection();
     setLoading(false);

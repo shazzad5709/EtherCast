@@ -39,9 +39,9 @@ export default function Officer({}: Props) {
       // console.log(res.data._election)
       setCode(res.data._election.electionCode);
       setTitle(res.data._election.electionName);
-      setRegDeadline(new Date(parseInt(res.data._election.regDeadlineDate)));
-      setVoteStart(new Date(parseInt(res.data._election.voteStartDate)));
-      setVoteEnd(new Date(parseInt(res.data._election.voteEndDate)));
+      setRegDeadline(new Date(1000*parseInt(res.data._election.regDeadlineDate)));
+      setVoteStart(new Date(1000*parseInt(res.data._election.voteStartDate)));
+      setVoteEnd(new Date(1000*parseInt(res.data._election.voteEndDate)));
       // setOfficers(res.data.officers)
       setChairman(res.data._election.chairman);
       const response = await axios.get("/api/data/Officer/officer");

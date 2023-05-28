@@ -20,7 +20,7 @@ const Timer = () => {
       </div>
       
       ) : (
-        <span>Time remaining: {seconds} seconds</span>
+        <span>Time remaining : {seconds} seconds</span>
       )}
     </div>
   );

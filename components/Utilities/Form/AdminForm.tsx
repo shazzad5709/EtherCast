@@ -84,12 +84,12 @@ export default function Form({ buttonName }: Props) {
   return (
     <>
       <div>
-        <div className="flex w-full flex-col">
-          <button
-            type='submit'
-            className='w-40 text-white bg-green hover:bg-primary-700 font-medium
-            rounded-lg text-md px-5 py-2.5 text-center'
-            onClick={toggleForm}>Add Chairman</button>
+        
+        <div className="flex flex-col">
+        <button
+                type='submit'
+                className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+               onClick={toggleForm}>Add Election Commissioner</button>
         
         </div>
         <br />
@@ -101,14 +101,14 @@ export default function Form({ buttonName }: Props) {
 
                 <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
                   <h4 className='text-xl font-bold leading-tight tracking-tight md:text-xl'>
-                    Add New Chairman
+                    Add New Election Commissioner
                   </h4>
 
                   <form className='space-y-4 md:space-y-6' method='POST' onSubmit={handleSubmit}>
                     <div>
                       <label
                         htmlFor='name'
-                        className='block mb-2 text-sm font-medium'
+                        className='block mb-2 text-md font-medium'
                       >
                         Name
                       </label>
@@ -126,7 +126,7 @@ export default function Form({ buttonName }: Props) {
                     <div>
                       <label
                         htmlFor='email'
-                        className='block mb-2 text-sm font-medium'
+                        className='block mb-2 text-md font-medium'
                       >
                         Email
                       </label>
@@ -145,7 +145,7 @@ export default function Form({ buttonName }: Props) {
                     <div>
                       <label
                         htmlFor='org_name'
-                        className='block mb-2 text-sm font-medium'
+                        className='block mb-2 text-md font-medium'
                       >
                         Organization Name
                       </label>

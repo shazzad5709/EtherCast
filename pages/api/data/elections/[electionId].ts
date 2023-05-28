@@ -22,6 +22,7 @@ export default async function handler(
         id: true,
         name: true,
         address: true,
+        symbol: true,
         voter: {
           select: {
             user: {

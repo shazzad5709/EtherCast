@@ -13,6 +13,7 @@ interface Candidate {
   image: string
   voteCount: number
   address: string
+  symbol:string
 }
 
 export default function Election({ }: Props) {
@@ -72,7 +73,7 @@ export default function Election({ }: Props) {
           <thead>
             <tr>
               <th className="px-5 py-3 border-b-2 border-green bg-green-dark text-left text-sm font-semibold text-white uppercase tracking-[2px]">
-                Image
+                Symbol
               </th>
               <th className="px-5 py-3 border-b-2 border-green bg-green-dark text-left text-sm font-semibold text-white uppercase tracking-[2px]">
                 Name
@@ -86,7 +87,7 @@ export default function Election({ }: Props) {
             {candidates.map((candidate) => (
               <tr key={candidate.id}>
                 <td className="px-5 py-5  border-b border-green bg-white text-md">
-                  {candidate.image}
+                  {candidate.symbol}
                 </td>
                 <td className="px-5 py-5 border-b border-green bg-white text-md">
                   {candidate.name}
