@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { BiArrowBack } from "react-icons/bi";
@@ -9,10 +10,11 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({showBackArrow, label }) => {
   const router = useRouter();
+  const {data: session} = useSession();
 
   const handleBack = useCallback(() => {
-    router.back();
-  }, [router]);
+      router.push(`/${session?.user?.role?.toLowerCase()}`);
+  }, []);
 
   return (
     <div className="border-b-[1px] border-neutral-800 p-5">
