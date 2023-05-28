@@ -22,6 +22,8 @@ export default function Ballot({ }: Props) {
   const [selected, setSelected] = useState('')
   const [candidates, setCandidates] = useState<Candidate[]>([])
   const [loading, setLoading] = useState(true)
+  const [votingStart, setVotingStart] = useState(false)
+  const [votingEnd, setVotingEnd] = useState(false)
 
   function convertToUint256(hexString: string): string {
     if (hexString.startsWith('0x')) {

@@ -26,8 +26,6 @@ export default function Chairman({}: Props) {
 
   const handleCandidate = async () => {
     showCandidateTable ? setShowCandidateTable(true) : setShowCandidateTable(false);
-    showCandidateTable ? setShowVoterTable(false) : '';
-    showCandidateTable ? setShowOfficerTable(false) : '';
     toggleCandidate();
   }
 

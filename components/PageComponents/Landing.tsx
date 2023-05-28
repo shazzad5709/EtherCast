@@ -19,6 +19,7 @@ export default function ({ }: Props) {
           <div className='flex space-x-6 pt-2 md:pt-5 md:space-x-8'>
             <Link href='/signin'><Button label='Sign In' large /></Link>
             <Link href='/Guest'><Button label='Sign Up' large /></Link>
+            <Link href='/result'><Button label='Guest User' large dynamic/></Link>
           </div>
           {/* <div className='flex pt-2 md:pt-5'>
             <Link href='/Guest'><Button label='Continue as Guest' large dynamic /></Link>
