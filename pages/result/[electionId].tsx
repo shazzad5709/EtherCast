@@ -1,7 +1,10 @@
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import { Bar } from 'react-chartjs-2';
 import VotingContract from '../../contract/abi.json'
+import Testing from './testing';
+import Result from '../../components/Utilities/Result/DynamicDonought';
 
 type Props = {}
 
@@ -13,8 +16,12 @@ interface Candidate {
 }
 
 export default function Election({ }: Props) {
+  const [chartData, setChartData] = useState(null);
+
   const { electionId } = useRouter().query
   const [candidates, setCandidates] = useState<[]>([])
+
+  
 
   const fetchVoteCounts = async () => {
     // fetch data about the election from contract
@@ -28,6 +35,8 @@ export default function Election({ }: Props) {
     // set candidates
   }, [])
 
+  
+
   function convertToUint256(hexString: string): string {
     if (hexString.startsWith('0x')) {
       hexString = hexString.slice(2)
@@ -39,7 +48,8 @@ export default function Election({ }: Props) {
   }
 
   return (
-    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+    <>
+    {/* <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
         <table className="min-w-full leading-normal">
           <thead>
@@ -75,6 +85,9 @@ export default function Election({ }: Props) {
           </tbody>
         </table>
       </div>
-    </div>
+    </div> */}
+    <Testing />
+    {/* <Result /> */}
+      </>
   )
 }

@@ -107,7 +107,7 @@ export default function Officer({}: Props) {
               
               <b>Election Name:</b> {title}
             </p>
-            <p className="px-1 py-1 block mb-2 text-md font-medium ">
+            <p className="px-1 py-1 block mb-2 text-md font-medium text-red">
               <b>Registration Deadline:</b> {regDeadline.toLocaleString()}
             </p>
             <p className="px-1 py-1 block mb-2 text-md font-medium ">
