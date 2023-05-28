@@ -14,12 +14,21 @@ export default function VoterCard({}: Props) {
   const [regDeadline, setRegDeadline] = useState(new Date());
   const [voteStart, setVoteStart] = useState(new Date());
   const [voteEnd, setVoteEnd] = useState(new Date());
+  console.log(voteEnd);
   const [officers, setOfficers] = useState("");
   const [chairman, setChairman] = useState("");
   const [electionCode, setElectionCode] = useState("");
   const [org_name, setOrgName] =useState("");
   const [showCandidateTable, setShowCandidateTable] = useState(false);
+  const [votingEnd, setVotingEnd] = useState(false);
+  const [votingStart, setVotingStart] = useState(false);
 
+  const votingEndShow = async () => {
+    voteEnd ? setVotingEnd(true) : setVotingEnd(false);
+  }
+  const votingStratShow = async () => {
+    voteStart ? setVotingStart(true) : setVotingStart(false);
+  }
 
   const handleCandidate = async () => {
     showCandidateTable ? setShowCandidateTable(true) : setShowCandidateTable(false);
@@ -57,6 +66,17 @@ export default function VoterCard({}: Props) {
 
   return (
     <>
+    {!votingStart && (
+      <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
+        Voting Didn't Start Yet
+      </div>
+    )}
+    {votingEnd && (
+      <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
+        Voting Ended at {voteEnd.toLocaleString()}
+      </div>
+    )}
+    {votingStart && !votingEnd && (
       <div className="flex flex-col bg-gray-50 h-screen items-center justify-center">
         {/* <div className="flex flex-col bg-gray-100 justify-center h-screen"> */}
         <div
@@ -114,7 +134,7 @@ export default function VoterCard({}: Props) {
          (<CandidateTable />)}
          
       </div>
-      </div>
+      </div>)}
       
     </>
   );

@@ -6,12 +6,14 @@ import { resolvePtr } from "dns";
 import CandidateTable from "../Table/CandidateTable";
 import OfficerTable from "../CardTable/OfficerTable";
 import VoterTable from "../CardTable/VoterTable";
+import {InfinitySpin} from "react-loader-spinner";
 
 
 type Props = {};
 
 export default function Chairman({}: Props) {
   const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [regDeadline, setRegDeadline] = useState(new Date());
   const [voteStart, setVoteStart] = useState(new Date());
@@ -44,6 +46,7 @@ export default function Chairman({}: Props) {
     const getElection = async () => {
       const res = await axios.get("/api/getElection");
       // console.log(res.data._election)
+      setLoading(true);
       setCode(res.data._election.electionCode);
       setTitle(res.data._election.electionName);
       setRegDeadline(new Date(parseInt(res.data._election.regDeadlineDate)));
@@ -56,11 +59,12 @@ export default function Chairman({}: Props) {
       console.log(response.data);
       console.log(response.data.name)
       setElectionCode(response.data.electionId)
-
       setChairman(res.data.name)
       setOrgName(response.data.org_name)
+      // setLoading(false);
     };
     getElection();
+    setLoading(false);
   }, []);
 
   const toggleCandidate = () => {
@@ -72,6 +76,17 @@ export default function Chairman({}: Props) {
   const toggleOfficer = () => {
     setShowOfficerTable(!showOfficerTable);
   };
+
+  if (loading) {
+    return (
+      <div className='flex h-screen items-center justify-center text-2xl'>
+      <InfinitySpin 
+        width='200'
+        color="#4fa94d"
+      />
+      </div>
+    )
+  }
 
   return (
     <>

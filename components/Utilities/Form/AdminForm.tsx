@@ -84,14 +84,15 @@ export default function Form({ buttonName }: Props) {
   return (
     <>
       <div>
-        <div className="flex flex-col">
+        <div className="flex pl-64 flex-col">
           <button
             type='submit'
-            className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-            onClick={toggleForm}>Add Officer</button>
+            className='w-40 text-white bg-green hover:bg-primary-700 font-medium
+            rounded-lg text-md px-5 py-2.5 text-center'
+            onClick={toggleForm}>Add Chairman</button>
         
         </div>
-
+        <br />
         <div>
           {showForm && (
             <div >
@@ -100,7 +101,7 @@ export default function Form({ buttonName }: Props) {
 
                 <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
                   <h4 className='text-xl font-bold leading-tight tracking-tight md:text-xl'>
-                    Add New Officer
+                    Add New Chairman
                   </h4>
 
                   <form className='space-y-4 md:space-y-6' method='POST' onSubmit={handleSubmit}>
