@@ -89,7 +89,7 @@ export default function CreateElection({ }: Props) {
   }
 
   return (
-    <div className="bg-gray-300 flex">
+    <div className="bg-gray-100 flex">
       <Navbar NavbarItems={navbarItems} />
       <div className="w-full justify-center items-center">
         <div className='h-screen'>

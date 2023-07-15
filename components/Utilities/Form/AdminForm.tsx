@@ -84,109 +84,109 @@ export default function Form({ buttonName }: Props) {
   return (
     <>
       <div>
-        
-        <div className="flex flex-col">
-        <button
-                type='submit'
-                className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-               onClick={toggleForm}>Add Election Commissioner</button>
-        
+        <div className="flex px-44 flex-col">
+          <button
+            type='submit'
+            className='mt-44 w-full text-white bg-green hover:bg-primary-700 font-medium
+            rounded-lg text-md px-5 py-2.5 text-center'
+            onClick={toggleForm}>Add Chairman</button>
+
         </div>
         <br />
-        <div>
+        <div className="pt-6">
           {showForm && (
-            <div >
-            <div className='flex flex-col items-center justify-center px-6 py-4 mx-auto h-screen lg:py-0'>
-              <div className='w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0'>
+            
+              <div className='flex flex-col items-center justify-center px-6 py-8 mb-44 h-fit lg:py-0'>
+                <div className='w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0'>
 
-                <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
-                  <h4 className='text-xl font-bold leading-tight tracking-tight md:text-xl'>
-                    Add New Election Commissioner
-                  </h4>
+                  <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
+                    <h4 className='text-xl font-bold leading-tight tracking-tight md:text-xl'>
+                      Add New Chairman
+                    </h4>
 
-                  <form className='space-y-4 md:space-y-6' method='POST' onSubmit={handleSubmit}>
-                    <div>
-                      <label
-                        htmlFor='name'
-                        className='block mb-2 text-md font-medium'
-                      >
-                        Name
-                      </label>
-                      <input
-                        type='text'
-                        name='name'
-                        id='name'
-                        className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                        placeholder='Name'
-                        required
-                        value={name}
-                        onChange={handleNameChange}
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor='email'
-                        className='block mb-2 text-md font-medium'
-                      >
-                        Email
-                      </label>
-                      <input
-                        type='email'
-                        name='email'
-                        id='email'
-                        className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                        placeholder='username@example.com'
-                        required
-                        value={email}
-                        onChange={handleEmailChange}
-                      />
-                    </div>
+                    <form className='space-y-4 md:space-y-6' method='POST' onSubmit={handleSubmit}>
+                      <div>
+                        <label
+                          htmlFor='name'
+                          className='block mb-2 text-sm font-medium'
+                        >
+                          Name
+                        </label>
+                        <input
+                          type='text'
+                          name='name'
+                          id='name'
+                          className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                          placeholder='Name'
+                          required
+                          value={name}
+                          onChange={handleNameChange}
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor='email'
+                          className='block mb-2 text-sm font-medium'
+                        >
+                          Email
+                        </label>
+                        <input
+                          type='email'
+                          name='email'
+                          id='email'
+                          className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                          placeholder='username@example.com'
+                          required
+                          value={email}
+                          onChange={handleEmailChange}
+                        />
+                      </div>
 
-                    <div>
-                      <label
-                        htmlFor='org_name'
-                        className='block mb-2 text-md font-medium'
-                      >
-                        Organization Name
-                      </label>
-                      <input
-                        type='text'
-                        name='org_name'
-                        id="org_name"
-                        className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
-                        placeholder='IIT'
-                        required
-                        value={org_name}
-                        onChange={handleorg_nameChange}
-                      />
-                    </div>
+                      <div>
+                        <label
+                          htmlFor='org_name'
+                          className='block mb-2 text-sm font-medium'
+                        >
+                          Organization Name
+                        </label>
+                        <input
+                          type='text'
+                          name='org_name'
+                          id="org_name"
+                          className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5'
+                          placeholder='IIT'
+                          required
+                          value={org_name}
+                          onChange={handleorg_nameChange}
+                        />
+                      </div>
 
-                    <div className="relative">
-                      <button
-                        type='submit'
-                        className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-                      >
-                        {selectedRecord ? "Update Info" : "Add Chairman"}
-                      </button>
-                      {/* <button type="submit">
+                      <div className="relative">
+                        <button
+                          type='submit'
+                          className='w-full text-white bg-green hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+                        >
+                          {selectedRecord ? "Update Info" : "Add Chairman"}
+                        </button>
+                        {/* <button type="submit">
                             {selectedRecord ? "Update Info" : "Create"}
                           </button> */}
-                      {selectedRecord && (
-                        <button type="button" onClick={() => setSelectedRecord(null)}>
-                          Cancel
-                        </button>
-                      )}
-                    </div>
-                  </form>
+                        {selectedRecord && (
+                          <button type="button" onClick={() => setSelectedRecord(null)}>
+                            Cancel
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            
           )}
         </div>
-        
-        </div>
-      
+
+      </div>
+
     </>
   );
 }

@@ -81,6 +81,7 @@ const AdminTable = () => {
     )
   }
 
+
   if (error) {
     return <p>Error: {error}</p>;
   }
