@@ -5,7 +5,7 @@ export default function AdminTotal() {
     return (
         <>
             <div>
-                <Form buttonName="Add Chairman" />
+                {/* <Form buttonName="Add Chairman" /> */}
                 <AdminTable />
             </div>
         </>

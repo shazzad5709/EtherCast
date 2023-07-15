@@ -122,21 +122,21 @@ export default function Ballot({ }: Props) {
   return (
 
     <>
-     {!votingStart && (
-      <>
+     {/* {!votingStart && ( */}
+      {/* <>
       <Header showBackArrow label={fetchedUser?.name} />
       <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
         Voting Didn't Start Yet
       </div>
       </>
-    )}
+    )} */}
     {/* {!votingEnd && (
       <div className="flex flex-col bg-gray-50 h-screen font-semibold text-red items-center justify-center">
         Voting Ended 
       </div>
     )} */}
     
-    {votingStart && !votingEnd && (
+    {/* {votingStart && !votingEnd && ( */}
     <div className="flex flex-col w-screen px-4 md:px-8 py-8 items-center lg:justify-center min-h-screen">
       <h1 className="text-2xl w-full lg:w-fit font-bold mb-4">Choose Candidate</h1>
       <form className="flex flex-col w-full items-center" onSubmit={handleVote}>
@@ -173,7 +173,7 @@ export default function Ballot({ }: Props) {
         </button>
       </form>
     </div>
-     )} 
+     {/* )}  */}
     </>
   )
 }

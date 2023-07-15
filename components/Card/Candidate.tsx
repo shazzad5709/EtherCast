@@ -67,7 +67,7 @@ export default function VoterCard({}: Props) {
   return (
     <>
     
-      <div className="flex flex-col bg-gray-50 h-screen items-center justify-center">
+    <div className="flex flex-col bg-gray-50 h-screen items-center justify-center">
         {/* <div className="flex flex-col bg-gray-100 justify-center h-screen"> */}
         <div
           className="relative flex flex-col md:flex-row md:space-x-10 space-y-3 
@@ -85,7 +85,16 @@ export default function VoterCard({}: Props) {
           </div>
           <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3">
             <div className="flex justify-between item-center">
-           
+             
+              {/* <p className="text-gray-500 font-medium hidden md:block">Vacations</p> */}
+              <div className="bg-[#a7daa7] px-3 py-1 rounded-full text-sm font-medium text-black hidden md:block">
+                <button onClick={handleCandidate} className="text-black font-medium hidden md:block">
+                  
+                  Candidate List
+                </button>
+              </div>
+
+              
             </div>
             <br />
             <p className="px-1 py-1 block mb-2 bold text-md font-medium ">
@@ -111,6 +120,8 @@ export default function VoterCard({}: Props) {
         {/* </div> */}
         <div>
         
+         {showCandidateTable &&
+         (<CandidateTable />)}
          
       </div>
       </div>

@@ -143,7 +143,7 @@ export default function Form({ buttonName }: Props) {
   return (
     <>
       <div>
-        {showButton && (
+        {/* {showButton && ( */}
           <div className="flex flex-col">
             <button
               type="submit"
@@ -153,7 +153,7 @@ export default function Form({ buttonName }: Props) {
               Add Voter
             </button>
           </div>
-        )}
+        {/* )} */}
         <div>
           {showForm && (
             <div>

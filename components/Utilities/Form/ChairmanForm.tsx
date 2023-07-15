@@ -73,7 +73,7 @@ export default function Form({ buttonName }: Props) {
     setLoading(true);
     
     const res = await axios
-      .post("./api/data/Chairman/createdOfficer", {
+      .post("/api/data/Chairman/createdOfficer", {
         name: name,
         email: email,
         org_name: org_name,
@@ -84,7 +84,7 @@ export default function Form({ buttonName }: Props) {
         toast.success("Officer Added Successfully");
       })
       .catch((err) => {
-        toast.error(err.response.data);
+        console.log(err.response.data);
       });
 
     setSelectedRecord(null);

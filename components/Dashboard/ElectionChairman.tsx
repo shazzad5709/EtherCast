@@ -42,8 +42,9 @@ const ElectionChairman = () => {
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
         { id: 2, label: 'Create Election', icon: MdOutlineHowToVote , href: '/chairman/create-election' },
-        { id: 3, label: 'Add Election Officer', icon: FiUserPlus, href: '/chairman/addEC' },
-        { id: 4, label: 'Result', icon: FaCheckCircle , href: '/result' },
+        { id: 3, label: 'Create Poll', icon: MdOutlineHowToVote , href: '/chairman/create-poll' },
+        { id: 4, label: 'Add Election Officer', icon: FiUserPlus, href: '/chairman/addEC' },
+        { id: 5, label: 'Result', icon: FaCheckCircle , href: '/result' },
        ];
 
   return (

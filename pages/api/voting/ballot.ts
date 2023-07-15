@@ -19,7 +19,8 @@ export default async function handler(
       const candidates = await prisma.candidate.findMany({
         where: {
           voter: {
-            walletStatus: true
+            walletStatus: true,
+            electionId: voter!.electionId
           }
         },
         include: {

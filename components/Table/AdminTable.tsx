@@ -4,6 +4,7 @@ import { BiEdit, BiTrashAlt } from 'react-icons/bi';
 import user from '../../model/user';
 import Form from '../UpdatedForm/AdminUpdate';
 import {InfinitySpin} from "react-loader-spinner";
+import FormA from "../Utilities/Form/AdminForm";
 
 interface Chairman {
   id: string;
@@ -89,6 +90,7 @@ const AdminTable = () => {
   return (
     <>
     <div>
+    <FormA buttonName="Add Chairman" />
     {showForm && (
         <Form
           buttonName="Update User"

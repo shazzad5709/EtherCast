@@ -12,8 +12,8 @@ const ElectionOfficers = () => {
     const [isOpen, setIsOpen] = useState(false);
     const navbarItems = [
         { id: 1, label: 'Profile', icon: FaUserCircle , href: '/profile' },
-        {id: 2, label: 'Manage Election', icon: MdViewInAr , href: '/manageElection' },
-        {id: 3, label: 'Add Voter Info', icon: FiUserPlus , href: './MainWork/ElectionOfficer' },
+        // {id: 2, label: 'Manage Election', icon: MdViewInAr , href: '/' },
+        {id: 2, label: 'Add Voter Info', icon: FiUserPlus , href: './MainWork/ElectionOfficer' },
         {id: 4, label: 'View Voter List', icon: FaListAlt , href: '/officer/voterList' },
         { id: 5, label: 'Result', icon: FaCheckCircle , href: '/result' },
     ];
