@@ -37,11 +37,11 @@ const AdminTable = () => {
 
   useEffect(() => {
     fetchChairmen();
-    const interval = setInterval(fetchChairmen, 50);
+    const interval = setInterval(fetchChairmen, 5000);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
-  }, []);
+  }, [chairmen, setChairmen]);
 
   const handleEdit = (id: string) => {
     const chairman = chairmen.find((chairman) => chairman.id === id);
