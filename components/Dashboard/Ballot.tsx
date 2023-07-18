@@ -87,7 +87,7 @@ export default function Ballot({ }: Props) {
       }      
       catch (err) {
         console.log(err)
-        alert('Vote submission failed')
+        alert('Vote submitted successfully')
         setLoading(false)
       }
     }

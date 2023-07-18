@@ -51,7 +51,7 @@ const PollForm = () => {
       <label className="block font-medium">Poll Options:</label>
       <button
         id="dropdownRadioHelperButton"
-        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm md:text-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm md:text-md bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         type="button"
         onClick={toggleDropdown}
       >
@@ -172,7 +172,7 @@ const PollForm = () => {
         <button
           type="button"
           onClick={handleAddOption}
-          className="text-indigo-500 hover:text-indigo-700"
+          className="bg-green text-white mt-2 py-2 px-5 rounded-md hover:bg-green-dark"
         >
           Add Option
         </button>
