@@ -1,9 +1,11 @@
 # EtherCast
-EtherCast is a blockchain-based e-voting system that takes advantage of the decentralized and immutable nature of blockchain technology to provide a tamper-proof and auditable voting module.
+EtherCast is a blockchain-based e-voting system with zero-trust principle that takes advantage of the decentralized and immutable nature of blockchain technology to provide a tamper-proof and auditable voting module.
 The current version of EtherCast's smart contract is written in Solidity and the contract is deployed on the Sepolia testnet.
 
 ### Features
-
+- Privacy-enhanced Decentralized Identity solution using Hyperledger Aries, Indy and Ursa
+- Ensures voter anonymity using Zero-Knowledge Proof
+- Automated result calculation
 
 ### Prerequisites
 
