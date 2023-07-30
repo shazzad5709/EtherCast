@@ -20,7 +20,7 @@ git clone https://github.com/shazzad5709/chirp-up.git
 ### Install packages
 
 ```shell
-npm i
+npm install
 ```
 
 ### Setup .env file
