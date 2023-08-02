@@ -2,10 +2,26 @@
 pragma solidity ^0.8.19;
 
 contract VotingContract {
+
+    constructor(uint256 _N, uint256 _g)  {
+            N = _N;
+            g = _g;
+            accumulator = 1; // Initialize accumulator to 1
+    }
+
     struct Voter {
         address voterAddress;
         bool hasVoted;
     }
+
+    uint256 public N;
+    uint256 public g;
+
+    // Accumulator state
+    uint256 public accumulator;
+
+    // Set to store elements that are members of the set
+    mapping(uint256 => bool) public set; // hash of PII + salt
 
     struct Candidate {
         address candidateAddress;
@@ -32,6 +48,8 @@ contract VotingContract {
     }
 
     Election[] public elections;
+
+    
 
     function createElection(
         uint256 _electionCode,
@@ -321,5 +339,35 @@ contract VotingContract {
             }
         }
         return sortedCandidates;
+    }
+
+    function addToSet(uint256 element) public {
+        require(!set[element], "Element is already in the set");
+        set[element] = true;
+        accumulator = (accumulator * g**element) % N;
+    }
+
+    // Function to generate a set membership proof
+    function generateProof(uint256 element) public view returns (uint256, uint256) { // Todo: reaquire to call only by who called teh addToSet function
+        require(set[element], "Element is not in the set");
+
+        // Generate a random value for the witness (private key)
+        uint256 witness = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty))) % N;
+
+        // Calculate the proof components
+        uint256 proofAccumulator = (accumulator * g**witness) % N;
+
+        return (proofAccumulator, witness);
+    }
+
+    // Function to verify the set membership proof
+    function verifyProof(uint256 proofAccumulator, uint256 witness) public view returns (bool) {
+        // Check if the proofAccumulator matches the expected value
+        if (proofAccumulator != (accumulator * g**witness) % N) {
+            return false;
+        }
+
+        // Proof is valid
+        return true;
     }
 }
