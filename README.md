@@ -1,5 +1,5 @@
 # EtherCast - A Web-3 Based E-Voting Project
-
+      
 ## Overview
 
 EtherCast is an innovative Web-3-based e-voting project designed to enable organizations to conduct secure elections using distributed ledger technology. The primary objective of this project is to create a voting system that is secure, transparent, immutable, and reliable, bridging the gap between the fairness and privacy offered by traditional voting schemes and the transparency and flexibility of electronic systems.
